@@ -1,0 +1,246 @@
+Good questions. Let’s clean this up clearly.
+
+---
+
+# 📄 Documents Created in This Conversation
+
+## 1. ❌ *“YouTube Optimization System – Current State & Direction”*
+
+* Type: exploratory / transitional
+* Nature: additive thinking, evolving ideas
+* Status: **NOT final**
+
+👉 This is basically:
+
+* a thinking dump
+* useful for context
+* not suitable as a core repo doc
+
+You already correctly identified the problem:
+
+> it became stale as the model evolved
+
+---
+
+## 2. ✅ *“System Architecture Spec v1”*
+
+* Type: foundational system document
+* Nature: structured, layered, intentional
+* Status: **READY (v1)**
+
+👉 This is:
+
+* your **first real canonical document**
+* safe to store in a repo
+* expected to evolve → versioned
+
+---
+
+# 🧠 So your assumption is correct
+
+> “I’m assuming it’s just this last one”
+
+✔️ Yes.
+
+Only:
+
+> **System Architecture Spec v1**
+> should go into your documentation repo right now.
+
+---
+
+# 📚 What Documents Come Next?
+
+You asked if the recommended steps become similar documents.
+
+👉 Yes — you are building a **documentation system**, not just code.
+
+Here’s the clean structure:
+
+---
+
+# 🧱 Core Documentation Stack (Going Forward)
+
+## 1. ✅ Architecture Spec (DONE)
+
+**You have this**
+
+Defines:
+
+* layers
+* entities
+* flows (high level)
+
+---
+
+## 2. 🟡 Workflow + State Spec v1 (NEXT)
+
+Defines:
+
+* what users actually do
+* step-by-step flows
+* decisions
+* states (draft, generated, selected, etc.)
+
+👉 This bridges:
+**architecture → real usage**
+
+---
+
+## 3. 🟡 Semantic Model v1
+
+Defines:
+
+* entities in structured form (JSON-ready)
+* attributes
+* relationships
+* states
+* events
+
+👉 This bridges:
+**concepts → implementation**
+
+Also powers:
+
+* diagrams
+* UI generation
+* agent reasoning
+
+---
+
+## 4. 🟡 Requirements Spec v1
+
+This is where your question matters.
+
+You’re right—it wasn’t listed explicitly.
+
+### Why?
+
+Because requirements depend on:
+
+* workflows
+* semantic model
+
+---
+
+## 📌 Where Requirements Fit
+
+Correct order is actually:
+
+1. Architecture Spec ✅
+2. Workflow + State Spec
+3. Semantic Model
+4. **Requirements Spec**
+5. UI Planning
+6. Mock UI (external)
+
+---
+
+## 🧾 What the Requirements Spec Actually Does
+
+This is NOT:
+
+* brainstorming
+* architecture
+* UX
+
+This is:
+
+> “What must be built”
+
+Structured like:
+
+* features
+* capabilities
+* constraints
+* acceptance criteria
+
+---
+
+### Example
+
+Instead of:
+
+> “We should have related videos”
+
+It becomes:
+
+* System must:
+
+  * identify related videos based on transcript similarity
+  * allow manual override
+  * support use in:
+
+    * descriptions
+    * playlists
+    * end cards
+
+---
+
+# ⚠️ Important Distinction
+
+You’ve already been *thinking in requirements*…
+
+But not writing them in a **buildable format**.
+
+That’s the gap this document fills.
+
+---
+
+# 🧭 Why Requirements Come AFTER Semantic Model
+
+Because otherwise:
+
+* you define features without structure
+* you miss edge cases
+* you redesign later
+
+---
+
+# 🧨 Simple Mental Model
+
+Think of your docs like this:
+
+| Layer          | Purpose             |
+| -------------- | ------------------- |
+| Architecture   | What exists         |
+| Workflow       | How it’s used       |
+| Semantic Model | How it’s structured |
+| Requirements   | What must be built  |
+| UI Spec        | How it looks/feels  |
+
+---
+
+# 🎯 What You Should Do Next
+
+Don’t jump ahead.
+
+## Do this next:
+
+👉 **Workflow + State Spec v1**
+
+Because:
+
+* it will expose missing pieces
+* it will clarify decisions
+* it will make requirements much easier
+
+---
+
+# 🧠 Final Clarity
+
+You are not writing random docs.
+
+You are building:
+
+> **A layered system definition that mirrors the product itself**
+
+And if you follow this order:
+
+* you won’t get lost
+* you won’t overbuild
+* your UI work will actually make sense
+
+---
+
+If you want, I’ll write **Workflow + State Spec v1** next in the same clean style as the architecture doc.

@@ -1,0 +1,181 @@
+So does this current spec tell us how the workflows are meant to work, or is that what the semantic model is meant to do? 
+Do we have the information in place right now or through other documents that would allow us to start planning the user interface for this? 
+Thought for a couple of seconds
+
+Mostly no.
+
+The current System Architecture Spec v1 tells you:
+
+what the major layers are
+what the core entities are
+how they relate
+what the important flows are at a high level
+
+It does not yet tell you the workflows in enough detail to cleanly design the UI.
+
+The split is:
+Architecture spec
+
+Answers:
+
+what exists
+what kind of system this is
+what the major moving parts are
+what depends on what
+Semantic model
+
+Answers:
+
+what objects exist in a machine-friendly way
+what attributes they have
+what states they move through
+what relationships and events exist
+what can be rendered into diagrams, flows, and later UI structures
+Workflow spec
+
+Answers:
+
+what a user actually does
+in what order
+with what decisions
+what inputs are required at each step
+what outputs appear
+what can be skipped, revised, branched, or reused
+UI spec
+
+Answers:
+
+what screens/pages/views are needed
+what components appear
+what actions are available
+what context has to be visible
+how power users move fast
+
+So the architecture spec is necessary, but it is not enough on its own.
+
+Do we have enough right now to start planning the UI?
+
+Yes, but only at the concept level.
+Not at the fidelity where you should commit to actual page structures.
+
+You have enough to plan:
+
+the major product areas
+the likely navigation model
+the major objects the UI must expose
+the cross-cutting systems, like prompts and documents
+
+You do not yet have enough to confidently design:
+
+exact page layouts
+exact per-screen controls
+exact step transitions
+exact editing/review states
+exact data panels and comparison views
+What you can already plan
+
+You can already infer likely UI zones such as:
+
+Workspace / Brand switcher
+Video workspace
+Prompt manager
+Document library
+Cross-video intelligence / insights
+North Star / strategy area
+Backfill / ingestion area
+
+That part is already visible from the architecture.
+
+What is still missing before proper UI planning
+
+You still need at least three things:
+
+1. Workflow definitions
+
+For example:
+
+creating a new video from transcript
+reviewing analysis
+selecting title candidates
+generating thumbnail concepts
+attaching brand docs
+using related videos in description
+reviewing North Star alignment
+revising a prompt from inside a workflow
+
+Until those are defined, UI planning will be hand-wavy.
+
+2. State model
+
+For example:
+
+draft
+generated
+reviewed
+selected
+approved
+published
+stale
+needs re-run
+
+Without state, UI gets muddy fast.
+
+3. Role of each object in each workflow
+
+For example:
+
+when does a Brand doc appear automatically?
+when does a Prompt get overridden?
+when does Cross-video intelligence inject suggestions?
+when is Related Videos a panel vs a separate tool?
+when is North Star visible vs background influence?
+
+That’s what turns architecture into interface.
+
+The blunt answer
+
+Right now, you have:
+
+enough to define the shape of the product
+not enough to define the interaction design properly
+
+So if you jump into UI mockups now, you’ll probably produce attractive but structurally confused screens.
+
+The right next artifact
+
+You need a Workflow + State Spec v1.
+
+That document should define, for each major workflow:
+
+trigger
+required inputs
+optional inputs
+stages
+decisions
+outputs
+revision loops
+states
+dependencies on prompts, docs, and history
+
+Once that exists, then the Semantic Model v1 can formalize:
+
+entities
+attributes
+states
+relationships
+events
+
+And then UI planning becomes much cleaner.
+
+Recommended order
+Workflow + State Spec v1
+Semantic Model v1
+UI Planning Spec v1
+Mock HTML / visual exploration
+
+That order will save you a lot of wasted redesign.
+
+If you want, I’ll draft the Workflow + State Spec v1 next.
+
+Okay, really long answer you gave me. Next one, but just to be sure. In this conversation, what documents have we created? Of them, which ones are considered final and ready for putting into a repository where we're building up our documentation? I'm assuming it's just this last one we did. As for recommended order one, two, and three do they then end up being other documents similar? I'm going to do the mock designs in another system anyway. Where does the requirements document fit in, because you never listed that in the recommended order either?
+

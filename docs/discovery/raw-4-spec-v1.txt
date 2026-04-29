@@ -1,0 +1,740 @@
+# System Architecture Spec v1
+
+## Purpose
+
+This document replaces the earlier additive notes canvas.
+It is intended to describe the system at an architectural level, not as a brainstorm dump and not as a final UX design.
+
+The goal is to define:
+
+* the major layers in the system
+* the main entities and relationships
+* the important flows
+* what is stable vs what is evolving
+* where prompts, documents, strategy, and history fit
+
+This is a **working architecture spec**, not a locked requirements document.
+It should remain flexible until real backfill data has been processed.
+
+---
+
+## 1. System Intent
+
+The system is evolving from a per-video launch optimizer into a broader content operating system.
+
+It is intended to:
+
+* process individual videos well
+* accumulate reusable intelligence across videos
+* support multiple brands and users
+* improve content packaging over time
+* provide strategic consistency through brand-level guidance
+* eventually support richer planning, recommendation, and visualization workflows
+
+---
+
+## 2. Architecture Principles
+
+### 2.1 Separate levels cleanly
+
+The system should separate:
+
+* per-video workflow
+* cross-video memory
+* brand strategy
+* reusable documents
+* prompt infrastructure
+* operational infrastructure
+
+These should not be mixed into a single linear pipeline model.
+
+### 2.2 Capture broadly, structure narrowly
+
+The system may ingest a broad set of historical data.
+But it should only formalize and promote concepts that compound over time.
+
+### 2.3 Human-directed, AI-assisted
+
+The system should suggest, infer, classify, and recommend.
+The human should remain responsible for final positioning and editorial judgment.
+
+### 2.4 Flexible before backfill
+
+The architecture should not be treated as fully finalized until the historical backfill tool has run and the real data shape is understood.
+
+### 2.5 Semantic structure before UX structure
+
+The semantic model of entities, relationships, and flows should exist before final UX/UI design.
+UX may change significantly without invalidating the core system model.
+
+---
+
+## 3. Major System Layers
+
+### 3.1 Video Workflow Layer
+
+The per-video processing layer.
+
+Primary concerns:
+
+* ingest transcript and supporting assets
+* analyze video meaning and packaging opportunities
+* generate titles, thumbnail concepts, chapters, descriptions, and publish outputs
+
+This layer is important, but it is no longer the whole system.
+It is a consumer of intelligence from other layers.
+
+---
+
+### 3.2 Cross-Video Intelligence Layer
+
+The persistent channel-memory layer.
+
+Primary concerns:
+
+* store reusable concepts across videos
+* detect recurring patterns
+* surface suggestions based on history
+* power related-video logic
+* support compounding packaging intelligence
+
+This is where the “Channel Brain” lives.
+
+---
+
+### 3.3 Strategy Layer
+
+The brand-level strategic layer.
+
+Primary concerns:
+
+* North Star definitions and versions
+* content pillars
+* audience definitions
+* positioning guidance
+* long-term alignment analysis
+
+This layer influences decisions made in both workflow and cross-video logic.
+
+---
+
+### 3.4 Documentation Layer
+
+The reusable knowledge layer.
+
+Primary concerns:
+
+* focused documents that can be used as prompt context
+* style guides
+* branding rules
+* thumbnail guidance
+* description structures
+* legal/affiliate policies
+
+These documents function as compact second brains for specific concepts.
+
+---
+
+### 3.5 Prompt Management Layer
+
+The prompt infrastructure layer.
+
+Primary concerns:
+
+* prompt templates
+* variable placeholders
+* output schema expectations
+* versioning
+* editing and inspection
+* distinguishing prompt-only changes from structural changes
+
+This is a horizontal layer used across the system.
+
+---
+
+### 3.6 Operational Infrastructure Layer
+
+The system support layer.
+
+Primary concerns:
+
+* multi-tenant support
+* multi-brand support
+* historical backfill ingestion
+* storage of assets and metadata
+* integration surfaces for future tooling
+
+---
+
+## 4. Core Entities
+
+### 4.1 Video
+
+Represents one piece of content.
+
+Possible attributes:
+
+* video id / external url
+* brand / channel association
+* title
+* transcript
+* transcript timings / SRT
+* description
+* chapters
+* thumbnail assets
+* selected thumbnail
+* alternate thumbnails
+* publish date
+* playlist placement
+* tags / keywords / metadata
+* derived analysis outputs
+
+---
+
+### 4.2 Brand
+
+Represents a channel or publishing identity.
+
+Examples:
+
+* AppyDave
+* AI TLDR
+* Clauding Lab
+
+Possible attributes:
+
+* active North Star
+* North Star history
+* audience definitions
+* content pillars
+* prompt defaults
+* thumbnail style guide
+* description conventions
+* related-video conventions
+
+---
+
+### 4.3 Tenant / Workspace
+
+Represents the top-level owner context.
+
+Possible attributes:
+
+* users
+* brands
+* shared documents
+* shared prompt systems
+* permissions and operational settings
+
+---
+
+### 4.4 User
+
+Represents a person working inside the system.
+
+Examples:
+
+* AppyDave
+* Mary
+* Jan
+
+Possible attributes:
+
+* roles
+* brand access
+* review responsibilities
+* prompt editing permissions
+
+---
+
+### 4.5 Prompt
+
+Represents a system prompt artifact.
+
+Possible attributes:
+
+* prompt name
+* purpose
+* template body
+* variables
+* output schema
+* examples
+* version history
+* owner / scope
+* prompt-only revision notes
+* structural revision notes
+
+---
+
+### 4.6 Document
+
+Represents a focused reusable context document.
+
+Examples:
+
+* brand North Star doc
+* thumbnail style guide
+* audience profile
+* affiliate/legal block
+* content pillar definitions
+
+Possible attributes:
+
+* document type
+* scope (tenant / brand / global)
+* content
+* version
+* allowed prompt use
+* freshness / review status
+
+---
+
+### 4.7 Concept
+
+Represents an extracted reusable idea class.
+
+Examples:
+
+* audience signal
+* recurring theme
+* tool/framework mention
+* hook type
+* packaging motif
+* keyword class
+
+Possible attributes:
+
+* concept class
+* concept label
+* confidence
+* source video(s)
+* frequency
+* compounding value
+* current usefulness
+
+---
+
+### 4.8 Audience Signal
+
+A specialized concept indicating who a video may resonate with.
+
+Examples:
+
+* BMAD
+* founders
+* AI builders
+* automation engineers
+
+Possible attributes:
+
+* signal label
+* primary / secondary / hidden strength per video
+* identity type
+* brand association
+* historical frequency
+
+---
+
+### 4.9 North Star
+
+Represents a versioned strategic object.
+
+Possible attributes:
+
+* brand scope
+* version
+* major/minor classification
+* active period
+* summary statement
+* supporting bullets
+* review notes
+* compliance windows
+
+Important rule:
+Major version shifts represent new strategic direction.
+Minor version shifts represent wording or refinement changes.
+
+Alignment should be primarily measured against major versions.
+
+---
+
+### 4.10 Related Video Link
+
+Represents a meaningful connection between one video and another.
+
+Possible attributes:
+
+* source video
+* target video
+* relationship type
+* confidence
+* use cases (description, playlist, end card, intro, outro, planning)
+* rationale
+
+---
+
+## 5. Core Relationships
+
+### 5.1 Brand owns many Videos
+
+A brand contains a history of videos.
+
+### 5.2 Tenant owns many Brands and Users
+
+A workspace may contain multiple brands and collaborators.
+
+### 5.3 Brand owns many Documents
+
+Each brand may have reusable focused documents.
+
+### 5.4 Brand owns North Star history
+
+Each brand should maintain strategic versions over time.
+
+### 5.5 Video references many Concepts
+
+Each video may produce many reusable extracted concepts.
+
+### 5.6 Video references many Audience Signals
+
+Signals may be classified by strength per video.
+
+### 5.7 Video relates to many other Videos
+
+Related-video logic is graph-like, not one-to-one.
+
+### 5.8 Prompts are used across multiple stages
+
+A prompt may be used in one or many parts of the app.
+
+### 5.9 Documents may be passed into Prompts
+
+Focused docs become reusable prompt context.
+
+### 5.10 Strategy influences Workflow
+
+North Stars, audiences, and pillars should influence generation and recommendation.
+
+---
+
+## 6. Main Flows
+
+### 6.1 Historical Backfill Flow
+
+Purpose: seed the cross-video intelligence layer.
+
+Flow:
+
+1. ingest channel history
+2. capture minimum viable metadata
+3. store source assets and transcript data
+4. run extraction jobs for reusable concepts
+5. populate cross-video memory structures
+6. refine schemas after observing real data
+
+Minimum useful data:
+
+* url
+* brand/channel
+* title
+* transcript
+
+High-value optional data:
+
+* timings
+* thumbnails
+* description
+* playlist
+* chapters
+* tags/keywords
+* publish date
+
+---
+
+### 6.2 Per-Video Workflow Flow
+
+Purpose: support packaging and publishing of one video.
+
+Flow:
+
+1. ingest transcript and assets
+2. derive Content DNA
+3. classify concepts and audience signals
+4. generate or refine title angles
+5. generate titles
+6. generate thumbnail concepts
+7. generate chapters
+8. generate description structure
+9. assemble publish-ready outputs
+
+This flow may later be represented in many UX forms and does not need to remain page-per-step.
+
+---
+
+### 6.3 Prompt Execution Flow
+
+Purpose: manage prompt-driven behavior consistently.
+
+Flow:
+
+1. select prompt template
+2. inject variables and optional documents
+3. run prompt
+4. validate output against expected structure
+5. store result and revision context
+6. allow inspection and refinement
+
+Prompt revisions must support two classes:
+
+* prompt-only revisions
+* structural revisions requiring application/schema changes
+
+---
+
+### 6.4 Cross-Video Suggestion Flow
+
+Purpose: bring history into current decisions.
+
+Flow:
+
+1. current video produces transcript-derived concepts
+2. system compares these against historical patterns
+3. system checks brand docs and strategy docs
+4. system surfaces relevant signals and recommendations
+5. human decides what to include
+
+Examples:
+
+* suggest BMAD as a secondary badge
+* suggest related videos
+* suggest recurring keyword opportunities
+* suggest underused audience targeting
+
+---
+
+### 6.5 North Star Compliance Flow
+
+Purpose: assess how aligned content is to brand strategy.
+
+Flow:
+
+1. select brand and North Star version window
+2. analyze videos against active strategic framing
+3. summarize alignment over time windows
+4. detect drift or inconsistency
+5. surface strategic recommendations
+
+Useful windows:
+
+* all history
+* 12 months
+* 90 days
+* 30 days
+* optional 3-month historical slices
+
+---
+
+### 6.6 Related-Video Graph Flow
+
+Purpose: create useful content relationships.
+
+Flow:
+
+1. analyze current video concepts
+2. compare against historical video corpus
+3. score possible related videos by relationship type
+4. expose recommendations for:
+
+   * description links
+   * playlists
+   * end cards
+   * intro/outro references
+   * series planning
+   * future relay planning
+
+This should be treated as a reusable subsystem, not a one-off description helper.
+
+---
+
+## 7. Concept Taxonomy (Initial)
+
+This taxonomy is provisional and should be refined after backfill.
+
+### 7.1 Audience Concepts
+
+* audience signals
+* identity tags
+* tribe/community signals
+
+### 7.2 Brand Concepts
+
+* brand terms
+* brand promises
+* signature narrative frames
+
+### 7.3 Strategy Concepts
+
+* North Star alignment
+* content pillar mapping
+* campaign or time-window relevance
+
+### 7.4 Content Concepts
+
+* topics
+* themes
+* tools/frameworks
+* methods
+* recurring entities
+
+### 7.5 Packaging Concepts
+
+* hook type
+* title framing
+* thumbnail motif
+* text/no-text patterns
+* badge opportunities
+
+### 7.6 Description Concepts
+
+* synopsis structure
+* related-video placement
+* CTA type
+* link blocks
+* legal patterns
+
+### 7.7 Discovery Concepts
+
+* keyword classes
+* search support terms
+* identity keywords
+* recommendation graph relationships
+
+---
+
+## 8. Keyword Model (Initial)
+
+Keywords should not be handled as one flat concept.
+
+### 8.1 Audience Keywords
+
+Who the content is for.
+
+### 8.2 Brand Keywords
+
+Terms strongly associated with a brand or channel.
+
+### 8.3 Topic Keywords
+
+Directly related to the specific video subject.
+
+### 8.4 Identity / Tribal Keywords
+
+Signals that help the right viewer self-identify.
+Example: BMAD.
+
+### 8.5 Description / SEO Support Keywords
+
+Terms useful in descriptions, metadata, and search support.
+
+### 8.6 Related-Video Discovery Keywords
+
+Terms useful for connecting videos to each other.
+
+---
+
+## 9. Description System (Initial Structure)
+
+The description system should be treated as structured composition.
+
+### Likely parts
+
+* above-the-fold synopsis
+* chapter timestamps
+* related videos
+* affiliate/resource links
+* legal/disclaimer block
+* brand block
+* optional CTA
+
+This area should later be informed by:
+
+* cross-video history
+* related-video graph
+* brand documents
+* prompt templates
+
+---
+
+## 10. Stable vs Evolving Areas
+
+### Relatively stable
+
+* multi-layer architecture idea
+* need for prompt management
+* need for cross-video intelligence
+* need for reusable documents
+* need for brand strategy support
+* need for historical backfill
+
+### Still evolving
+
+* exact schemas
+* exact prompt interfaces
+* exact concept taxonomy
+* exact keyword taxonomy
+* exact UX/page model
+* exact North Star version windows
+* exact related-video scoring logic
+
+---
+
+## 11. Near-Term Priorities
+
+### Priority 1: Backfill readiness
+
+Prepare to ingest real historical data from the external tool.
+
+### Priority 2: Concept and schema flexibility
+
+Keep definitions provisional until that data is observed.
+
+### Priority 3: Prompt management definition
+
+Define prompt objects, scopes, variables, schemas, and revision modes.
+
+### Priority 4: Documentation model
+
+Define focused reusable documents for brands and strategy.
+
+### Priority 5: Cross-video intelligence foundation
+
+Store enough structured history to begin audience, keyword, and related-video suggestions.
+
+---
+
+## 12. What This Document Is Not
+
+This is not:
+
+* a final UX spec
+* a final database schema
+* a final requirements freeze
+* a final prompt library
+
+It is a durable architectural framing document that should guide the next phase of design.
+
+---
+
+## 13. Working Summary
+
+The system should now be understood as a layered content operating system with these major concerns:
+
+* per-video workflow
+* cross-video intelligence
+* brand strategy
+* reusable documentation
+* prompt infrastructure
+* multi-brand operational support
+
+The earlier linear pipeline is no longer sufficient as the primary model.
+The correct model is layered, relational, and historically aware.

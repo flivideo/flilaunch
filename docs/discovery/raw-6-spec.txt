@@ -1,0 +1,370 @@
+# YouTube Launch Optimizer Spec v1
+
+## Purpose
+
+This document defines the lean v1 scope for the application.
+
+The application is a **YouTube Launch Optimizer**.
+It is not a full insights platform, not a full channel intelligence system, and not a general content operating system.
+
+Its purpose is to help the user go from **transcript to launch-ready packaging** quickly and consistently.
+
+---
+
+## 1. Product Definition
+
+### Working definition
+
+A lightweight internal tool that takes a video transcript and helps generate the core packaging needed to launch the video.
+
+### Core outputs
+
+* title options
+* thumbnail concepts
+* thumbnail text options
+* description draft
+* chapter suggestions
+* simple related-video suggestions
+
+### Primary value
+
+Reduce friction, reduce forgetting, and improve launch decisions.
+
+---
+
+## 2. Scope of v1
+
+### In scope
+
+* transcript input
+* structured transcript analysis
+* title generation
+* title selection
+* thumbnail concept generation
+* thumbnail text generation
+* description generation
+* chapter generation
+* lightweight related-video suggestion support
+* lightweight audience signal suggestions
+
+### Out of scope
+
+* full backfill system
+* deep cross-video intelligence
+* North Star strategy system
+* prompt management UI
+* multi-tenant support
+* multi-brand support
+* analytics dashboards
+* advanced historical pattern tracking
+* full workflow orchestration engine
+
+---
+
+## 3. Core User Problem
+
+The user currently struggles with:
+
+* forgetting the essence of the video after recording
+* losing useful context when creating thumbnails later
+* generating titles and thumbnail ideas inconsistently
+* missing useful audience signals like BMAD-style identity cues
+* assembling descriptions and related links from memory
+
+The tool should solve these problems at launch time.
+
+---
+
+## 4. Core Input
+
+### Required input
+
+* transcript
+
+### Optional inputs
+
+* focal point or angle note
+* known audience keyword list
+* related video list provided manually
+
+The transcript is the only required input for v1.
+
+---
+
+## 5. Core Workflow
+
+### Step 1: Input
+
+User pastes or uploads transcript.
+
+### Step 2: Analysis
+
+System extracts a compact structured summary of the transcript.
+
+### Step 3: Titles
+
+System generates title candidates.
+User reviews and selects the strongest options.
+
+### Step 4: Thumbnails
+
+System generates thumbnail concepts for selected titles.
+System may also generate thumbnail text suggestions.
+
+### Step 5: Description
+
+System generates a structured description draft, including chapters and simple related-video suggestions.
+
+### Step 6: Review
+
+User reviews outputs and copies or exports what they need.
+
+---
+
+## 6. Analysis Stage
+
+The analysis stage exists to preserve the essence of the video before packaging work begins.
+
+### Required analysis outputs
+
+* core idea summary
+* key value or promise
+* 3 to 5 hook angles
+* optional audience hints
+* optional identity/tribal keyword hints
+
+### Design rule
+
+The analysis should be compact and useful.
+It should not become a bloated insights report.
+
+---
+
+## 7. Titles Stage
+
+### Goal
+
+Generate multiple title options from the transcript analysis.
+
+### v1 behavior
+
+* generate 10 title options
+* allow user to review and select preferred options
+* focus on clarity, curiosity, and packaging strength
+
+### Output
+
+* list of title candidates
+* user-selected shortlist
+
+---
+
+## 8. Thumbnails Stage
+
+### Goal
+
+Generate practical thumbnail directions from selected titles and analysis.
+
+### v1 behavior
+
+For each selected title, generate:
+
+* 1 to 2 thumbnail concepts
+* optional thumbnail text suggestions
+
+### Thumbnail text rules
+
+* short
+* complementary to the title
+* not just title repetition
+* optional, not mandatory
+
+### Audience-signal rule
+
+If a known audience keyword appears relevant but secondary, the system may suggest a small badge or subtle inclusion.
+
+Example:
+
+* BMAD as a small badge
+
+This should remain lightweight and optional.
+
+---
+
+## 9. Description Stage
+
+### Goal
+
+Generate a usable launch description draft.
+
+### v1 description structure
+
+* short above-the-fold synopsis
+* chapter list
+* simple related-video suggestions
+* optional placeholders for links or CTAs
+
+### Design rule
+
+Keep the description structured and editable.
+Do not overbuild the logic in v1.
+
+---
+
+## 10. Related Video Support
+
+### v1 goal
+
+Help the user stop relying entirely on memory.
+
+### v1 behavior
+
+Related-video suggestions may come from:
+
+* a user-provided list
+* simple manual context
+* simple future extension hooks
+
+### v1 note
+
+This is not yet a full recommendation engine.
+It is lightweight support only.
+
+---
+
+## 11. Audience Signal Support
+
+### v1 goal
+
+Surface useful targeting cues without turning the app into a strategy platform.
+
+### v1 behavior
+
+Support a simple list of known audience or identity terms.
+If one appears relevant in the transcript or context, the system may suggest it as:
+
+* thumbnail badge
+* supporting keyword
+* secondary signal
+
+### Design rule
+
+This should improve packaging decisions, not dominate them.
+
+---
+
+## 12. User Interface Direction
+
+### v1 UI principle
+
+The UI should be simple and focused on getting from transcript to launch assets fast.
+
+### Likely areas
+
+* Input
+* Analysis
+* Titles
+* Thumbnails
+* Description
+* Final review
+
+### Important note
+
+These do not need to map one-to-one to separate pages.
+The workflow is important, but the final UX can be tabbed, panel-based, or otherwise optimized.
+
+---
+
+## 13. Prompt Usage
+
+Prompting is important to the system, but v1 does not require a full prompt management product area.
+
+### v1 rule
+
+Prompts may exist internally and evolve during development, but prompt management UI is out of scope.
+
+This can be added later.
+
+---
+
+## 14. Data and Memory
+
+### v1 approach
+
+Use only lightweight memory where it directly improves launch outcomes.
+
+### Allowed lightweight memory examples
+
+* small list of known audience terms
+* small list of related videos
+* reusable prompt inputs if needed during implementation
+
+### Not allowed in v1
+
+* large backfill schemas
+* full channel history analysis
+* advanced concept tracking
+* persistent strategic intelligence systems
+
+---
+
+## 15. Success Criteria
+
+The application is successful if it helps the user:
+
+* move faster from transcript to publish-ready packaging
+* stop forgetting key video angles
+* generate better titles more consistently
+* create better thumbnail directions with less friction
+* produce usable descriptions faster
+
+---
+
+## 16. Constraints
+
+### Constraint 1
+
+Do not let the product expand into a full insights platform in v1.
+
+### Constraint 2
+
+Do not build infrastructure that is not directly needed for transcript-to-launch workflow.
+
+### Constraint 3
+
+Do not overcomplicate audience signals, related videos, or memory.
+
+### Constraint 4
+
+Keep the transcript as the primary source of truth.
+
+---
+
+## 17. Future Extensions (Not v1)
+
+These may matter later, but they are explicitly outside the current build scope:
+
+* historical backfill
+* prompt management UI
+* multi-brand support
+* North Star alignment
+* deeper related-video graphing
+* cross-video pattern tracking
+* strategic analytics
+* document system
+
+---
+
+## 18. Working Summary
+
+This application is a lean internal **YouTube Launch Optimizer**.
+
+It should:
+
+* accept a transcript
+* preserve the essence of the video
+* generate titles, thumbnail concepts, thumbnail text, chapters, and description drafts
+* lightly support audience cues and related-video suggestions
+* help the user package and launch faster
+
+It should not become a broad intelligence or analytics platform in v1.

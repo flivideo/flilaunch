@@ -1,0 +1,355 @@
+{
+  "meta": {
+    "project": "FliLaunch",
+    "version": "v1",
+    "generated_from": "docs/youtube-launch-optimizer-spec-v1.md + docs/workflows/launch-workflow.md",
+    "last_updated": "2026-04-23",
+    "purpose": "Machine-readable semantic model for FliLaunch v1. Feeds mockup generation (Claude Design, mockaccino) and eventual schema/code reference. Not a database schema — an abstract entity model.",
+    "stability": "Stable shape; details may refine as Claude Design surfaces UX needs and as the backfill tool reveals real data patterns.",
+    "naming_conventions": "PascalCase for entities, snake_case for attributes and enum values."
+  },
+
+  "entities": {
+    "LaunchRecord": {
+      "description": "The top-level record for a single launch session. Transcript in, packaging out, persisted record kept.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "brand_id": { "type": "string", "required": true, "note": "v1: single-brand, field exists for forward compatibility" },
+        "internal_label": { "type": "string", "required": false, "note": "Short human-readable name for this launch, set at project inception (often BEFORE recording). Best-guess of project content, used as seed context for prompts. Distinct from the published YouTube title (which comes later, driven by hooks + transcript). Format is creator-defined — some users have kebab-case conventions tied to folder names (e.g. 'opus-4.6-appystack'); others may use free prose. FliLaunch does not enforce a format." },
+        "project_code": { "type": "string", "required": false, "note": "Optional short code for cross-referencing. Some users have a structured code system (e.g. AppyDave uses 3-char alphanumeric like 'c15' that rolls A00→A99→B00). FliLaunch does not enforce one — it's free-form and creator-defined. Typically locked at project inception and rarely changes." },
+        "state": { "type": "enum", "values": ["draft", "generated", "reviewed", "finalized"], "required": true },
+        "flags": { "type": "array", "items_enum": ["stale", "needs_re_run"], "required": false, "note": "Orthogonal to state" },
+        "created_at": { "type": "datetime", "required": true },
+        "updated_at": { "type": "datetime", "required": true },
+        "session_id": { "type": "string", "required": true }
+      },
+      "relationships": {
+        "transcript": { "cardinality": "has_one", "target": "Transcript" },
+        "analysis": { "cardinality": "has_one", "target": "Analysis" },
+        "hooks": { "cardinality": "has_many", "target": "HookAngle" },
+        "titles": { "cardinality": "has_many", "target": "Title" },
+        "thumbnails": { "cardinality": "has_many", "target": "ThumbnailConcept" },
+        "description": { "cardinality": "has_one", "target": "Description" },
+        "audience_classifications": { "cardinality": "has_many", "target": "AudienceSignalClassification" },
+        "keyword_tags": { "cardinality": "has_many", "target": "KeywordTag" },
+        "prompt_runs": { "cardinality": "has_many", "target": "PromptRun" }
+      },
+      "actions": [
+        "create_from_transcript",
+        "regenerate_stage",
+        "edit_stage",
+        "finalize",
+        "unfinalize",
+        "mark_stale",
+        "mark_needs_re_run",
+        "clear_flag"
+      ]
+    },
+
+    "Transcript": {
+      "description": "Raw transcript; the only required input.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "text": { "type": "string", "required": true },
+        "source": { "type": "enum", "values": ["pasted", "uploaded"], "required": true },
+        "timings": { "type": "array", "item_shape": { "timestamp": "string", "text": "string" }, "required": false, "note": "Optional time-coded segments; used for chapter generation" },
+        "focal_point_note": { "type": "string", "required": false, "note": "Optional angle hint from user" }
+      },
+      "actions": ["submit", "replace"]
+    },
+
+    "Analysis": {
+      "description": "Compact structured summary derived from transcript.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "core_idea": { "type": "string", "required": true },
+        "key_value_or_promise": { "type": "string", "required": true },
+        "audience_hints": { "type": "array", "item_type": "string", "required": false },
+        "identity_keyword_hints": { "type": "array", "item_type": "string", "required": false }
+      },
+      "actions": ["generate", "regenerate", "edit"]
+    },
+
+    "HookAngle": {
+      "description": "A hook angle. Ancestor of both titles and thumbnails. Multiple generated per analysis. User selects which hooks drive downstream generation.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "text": { "type": "string", "required": true },
+        "hook_type": {
+          "type": "enum",
+          "values": ["x_vs_y", "only_one_worked", "i_tried_x", "this_changed_everything", "problem_solution", "contrarian_take", "other"],
+          "required": false,
+          "note": "Taxonomy provisional; evolves in hooks prompt over time"
+        },
+        "selected": { "type": "boolean", "default": false, "required": true }
+      },
+      "relationships": {
+        "derived_titles": { "cardinality": "has_many", "target": "Title" },
+        "derived_thumbnails": { "cardinality": "has_many", "target": "ThumbnailConcept" }
+      },
+      "actions": ["generate", "regenerate", "select", "deselect", "edit"]
+    },
+
+    "Title": {
+      "description": "A title candidate. Generated from a hook angle (not independently).",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "text": { "type": "string", "required": true },
+        "selected": { "type": "boolean", "default": false, "required": true }
+      },
+      "relationships": {
+        "hook": { "cardinality": "belongs_to", "target": "HookAngle" }
+      },
+      "actions": ["generate", "regenerate", "select", "deselect", "edit"]
+    },
+
+    "ThumbnailConcept": {
+      "description": "A thumbnail direction (visual concept description). 1–2 per selected hook. Derives from hook, not from title.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "concept_description": { "type": "string", "required": true, "note": "Short visual direction in prose" },
+        "selected": { "type": "boolean", "default": false, "required": true }
+      },
+      "relationships": {
+        "hook": { "cardinality": "belongs_to", "target": "HookAngle" },
+        "texts": { "cardinality": "has_many", "target": "ThumbnailText" }
+      },
+      "actions": ["generate", "regenerate", "select", "deselect", "edit"]
+    },
+
+    "ThumbnailText": {
+      "description": "Optional short text overlay for a thumbnail. Complements title, does not repeat it.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "text": { "type": "string", "required": true },
+        "selected": { "type": "boolean", "default": false, "required": true }
+      },
+      "relationships": {
+        "thumbnail": { "cardinality": "belongs_to", "target": "ThumbnailConcept" }
+      },
+      "actions": ["generate", "select", "deselect", "edit"]
+    },
+
+    "Description": {
+      "description": "Composite description output. Made of distinct slots, chapters, related videos, and keyword tags.",
+      "attributes": {
+        "id": { "type": "string", "required": true }
+      },
+      "relationships": {
+        "slots": { "cardinality": "has_many", "target": "DescriptionSlot" },
+        "chapters": { "cardinality": "has_many", "target": "ChapterEntry" },
+        "related_videos": { "cardinality": "has_many", "target": "RelatedVideoLink" }
+      },
+      "actions": ["generate", "regenerate", "edit_slot", "add_chapter", "remove_chapter", "reorder_chapters"]
+    },
+
+    "DescriptionSlot": {
+      "description": "A distinct slot in the description. Each slot is independently editable.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "slot_type": {
+          "type": "enum",
+          "values": ["synopsis_above_fold", "affiliate_links", "legal_disclosure", "cta", "brand_block", "custom"],
+          "required": true
+        },
+        "content": { "type": "string", "required": true },
+        "is_placeholder": { "type": "boolean", "default": false, "note": "true if the slot is reserved but not filled (e.g. user pastes affiliate links themselves)" }
+      },
+      "actions": ["edit", "reset_to_default"]
+    },
+
+    "ChapterEntry": {
+      "description": "A single chapter marker in the description.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "timestamp": { "type": "string", "required": true, "format": "HH:MM or MM:SS" },
+        "label": { "type": "string", "required": true },
+        "order": { "type": "integer", "required": true }
+      },
+      "actions": ["generate", "edit", "reorder", "add", "remove"]
+    },
+
+    "RelatedVideoLink": {
+      "description": "A related-video reference in the description. v1: user-provided; v2+: graph-driven (see requirements/related-videos-subsystem.md).",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "title": { "type": "string", "required": true },
+        "url": { "type": "string", "required": false },
+        "synopsis": { "type": "string", "required": false }
+      },
+      "actions": ["add", "remove", "edit"]
+    },
+
+    "AudienceSignalClassification": {
+      "description": "Per-record classification of a known audience/identity term at Primary / Secondary / Hidden intensity.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "audience_term": { "type": "string", "required": true, "examples": ["BMAD", "founders", "AI builders", "automation engineers"] },
+        "strength": { "type": "enum", "values": ["primary", "secondary", "hidden"], "required": true },
+        "placement": {
+          "type": "enum",
+          "values": ["title", "thumbnail_badge", "description_keyword", "ignored"],
+          "required": false,
+          "note": "Suggested placement based on strength; user can override"
+        },
+        "user_override": { "type": "boolean", "default": false, "note": "true if user manually adjusted strength or placement" }
+      },
+      "actions": ["classify", "reclassify", "override_placement"]
+    },
+
+    "KeywordTag": {
+      "description": "A YouTube keyword tag for the YouTube keywords field. Distinct from identity signals (those have their own entity). Distinct from description body text.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "tag": { "type": "string", "required": true },
+        "selected": { "type": "boolean", "default": true, "required": true }
+      },
+      "actions": ["generate", "select", "deselect", "edit"]
+    },
+
+    "PromptRun": {
+      "description": "Metadata about a prompt that ran during this launch. Enables future prompt inspection and structural-vs-content change analysis.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "prompt_name": { "type": "string", "required": true },
+        "prompt_version": { "type": "string", "required": false },
+        "variables": { "type": "object", "required": true, "note": "Key-value pairs passed to the prompt" },
+        "output_reference": { "type": "string", "required": true, "note": "Reference to the entity/field this prompt produced" },
+        "ran_at": { "type": "datetime", "required": true }
+      },
+      "actions": ["inspect"]
+    },
+
+    "AudienceConfig": {
+      "description": "Static brand-scoped config: the hardcoded list of known audience/identity terms. Not per-record; config file in v1.",
+      "attributes": {
+        "audiences": { "type": "array", "item_type": "string", "required": true, "example": ["BMAD", "AI Agents", "Automation", "Founders"] }
+      },
+      "scope": "project (v1: single static file)",
+      "actions": ["load", "edit"]
+    },
+
+    "ConceptDoc": {
+      "description": "A focused reusable concept document loadable as prompt input. v1: files in docs/concepts/. v2+: database with UI.",
+      "attributes": {
+        "id": { "type": "string", "required": true },
+        "doc_type": {
+          "type": "enum",
+          "values": ["style_guide", "content_pillars", "audience_definition", "voice_tone", "legal_block", "thumbnail_style_guide", "custom"],
+          "required": true
+        },
+        "path": { "type": "string", "required": true, "note": "Filesystem path relative to docs/concepts/" },
+        "content": { "type": "string", "required": true }
+      },
+      "scope": "project (v1: filesystem files)",
+      "actions": ["load_into_prompt", "edit"]
+    }
+  },
+
+  "state_machines": {
+    "LaunchRecord": {
+      "primary_states": ["draft", "generated", "reviewed", "finalized"],
+      "transitions": [
+        { "from": "draft", "to": "generated", "trigger": "generation_run_completes" },
+        { "from": "generated", "to": "reviewed", "trigger": "first_user_interaction_post_generation" },
+        { "from": "reviewed", "to": "finalized", "trigger": "user_finalize_action" },
+        { "from": "finalized", "to": "reviewed", "trigger": "user_edit_action" }
+      ],
+      "orthogonal_flags": {
+        "stale": "Transcript or upstream prompt changed; re-run advisable",
+        "needs_re_run": "User explicitly marked a stage for regeneration"
+      }
+    }
+  },
+
+  "events": [
+    { "name": "transcript_submitted", "payload": { "record_id": "string", "transcript_length": "integer" } },
+    { "name": "analysis_generated", "payload": { "record_id": "string" } },
+    { "name": "hooks_generated", "payload": { "record_id": "string", "count": "integer" } },
+    { "name": "hook_selected", "payload": { "record_id": "string", "hook_id": "string" } },
+    { "name": "titles_generated", "payload": { "record_id": "string", "count": "integer" } },
+    { "name": "title_selected", "payload": { "record_id": "string", "title_id": "string" } },
+    { "name": "thumbnails_generated", "payload": { "record_id": "string", "count": "integer" } },
+    { "name": "thumbnail_selected", "payload": { "record_id": "string", "thumbnail_id": "string" } },
+    { "name": "description_generated", "payload": { "record_id": "string" } },
+    { "name": "description_slot_edited", "payload": { "record_id": "string", "slot_type": "string" } },
+    { "name": "keyword_tags_generated", "payload": { "record_id": "string", "count": "integer" } },
+    { "name": "audience_classified", "payload": { "record_id": "string", "audience_term": "string", "strength": "string" } },
+    { "name": "record_finalized", "payload": { "record_id": "string" } },
+    { "name": "record_unfinalized", "payload": { "record_id": "string" } },
+    { "name": "record_marked_stale", "payload": { "record_id": "string" } },
+    { "name": "stage_marked_for_rerun", "payload": { "record_id": "string", "stage": "string" } }
+  ],
+
+  "workflow": {
+    "linear_path": [
+      "transcript_submitted",
+      "analysis_generated",
+      "hooks_generated",
+      "hook_selected",
+      "titles_generated",
+      "title_selected",
+      "thumbnails_generated",
+      "thumbnail_selected",
+      "description_generated",
+      "keyword_tags_generated",
+      "record_finalized"
+    ],
+    "revision_loops": [
+      {
+        "name": "regenerate_stage",
+        "applicable_to": "any stage",
+        "effect": "stage re-runs; downstream may become stale"
+      },
+      {
+        "name": "edit_after_finalize",
+        "applicable_to": "finalized record",
+        "effect": "state transitions finalized -> reviewed"
+      },
+      {
+        "name": "return_to_earlier_stage",
+        "applicable_to": "any stage",
+        "effect": "user can navigate back and re-run forward"
+      }
+    ]
+  },
+
+  "scope_boundaries": {
+    "in_v1": [
+      "LaunchRecord",
+      "Transcript",
+      "Analysis",
+      "HookAngle",
+      "Title",
+      "ThumbnailConcept",
+      "ThumbnailText",
+      "Description",
+      "DescriptionSlot",
+      "ChapterEntry",
+      "RelatedVideoLink",
+      "AudienceSignalClassification",
+      "KeywordTag",
+      "PromptRun",
+      "AudienceConfig",
+      "ConceptDoc"
+    ],
+    "v2_plus_only": [
+      "Tenant",
+      "Brand (as a first-class entity — v1 uses brand_id only)",
+      "User (as a first-class entity — v1 is single-user)",
+      "Prompt (as a managed object — v1 has PromptRun telemetry only)",
+      "Document (as a managed object — v1 uses ConceptDoc as filesystem files)",
+      "Concept (the extracted-concept taxonomy)",
+      "NorthStar (as a versioned entity — v1 has a single North Star doc)",
+      "RelatedVideoGraphEdge (v1 has only manual RelatedVideoLink)"
+    ],
+    "v2_plus_references": [
+      "docs/requirements/tenant-brand-user-model.md",
+      "docs/requirements/document-concept-library.md",
+      "docs/requirements/concept-taxonomy.md",
+      "docs/requirements/north-star-versioning.md",
+      "docs/requirements/related-videos-subsystem.md",
+      "docs/future/architecture-spec-v2.md"
+    ]
+  }
+}

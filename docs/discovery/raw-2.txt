@@ -1,0 +1,216 @@
+When I say the dev's founders be mad, yes, as I feel like there are two different ways you get this. You've either got them out of the transcript itself. Or you've got them from historical context. In other words, you've done videos for those people in the past. And if so, there should be a backlog of historical content. Context: Keys. I guess it can be automatically included, or they're available or something. I don't know. 
+
+It also gets me thinking that, if you've got audience hooks, is this something that repeats a lot over many videos? In fact, anything that we're talking about here, is there a way to identify patterns over multiple videos or have themes or stuff like that? 
+
+I just want to give a little bit more clarity on the BMAD. I'm going to use that example you get there. BMAD's set up that runs five AI agents automatically. What I was demonstrating was not be mad; it happened through example. Meaning that the video was meant to be on agent teams, a new concept in Claude concept that used tmux and stuff like that it just happened to be, though, that my team was made up of agents that I'd used for BMAD, and the demonstration was using BMAD agents. 
+
+And so it wasn't the primary thing; it was secondary from that point of view, but it would have been lovely to have a little BMAD logo somewhere. 
+
+Now we’re getting to the real system design question—and this is where your app can actually become powerful instead of just another generator.
+
+You’ve identified something most people miss:
+
+There are two sources of audience signals
+
+Local (from transcript)
+Global (from your history / channel identity)
+
+And right now, you’re only using #1 inconsistently and not using #2 at all.
+
+🧠 The Mental Model You Need
+
+Think of your system as having two brains:
+
+1. Video Brain (what this video is about)
+Extracted from transcript
+Dynamic
+Changes every upload
+2. Channel Brain (who you serve repeatedly)
+Built over time
+Persistent
+This is where BMAD lives
+⚠️ Why You Missed BMAD
+
+Because BMAD is:
+
+Not the subject of the video
+It’s an audience affinity layer
+
+That’s a completely different dimension.
+
+🔁 Yes — Patterns SHOULD Repeat
+
+And not just “should”—they must if you want growth.
+
+What you’re describing is essentially:
+
+Audience Pattern Recognition Across Videos
+
+Examples for your channel might become:
+
+BMAD
+AI Agents
+Automation workflows
+Dev productivity
+Claude ecosystem
+
+These are not one-off keywords.
+
+They are:
+
+Recurring identity anchors
+
+🧩 What Your App Should Actually Store (This is key)
+
+You need a lightweight memory layer.
+
+Call it: AudienceContext
+
+Structure it like:
+
+Known audiences:
+BMAD
+AI builders
+founders
+Tools/frameworks:
+tmux
+Claude
+Recurring concepts:
+agent teams
+orchestration
+Past video tags (optional)
+⚙️ How It Actually Works in Flow
+Step 1 — Transcript Analysis (Video Brain)
+
+Extract:
+
+core idea
+hooks
+concepts
+Step 2 — Merge With Channel Brain
+
+Now you do:
+
+“Which known audience patterns are present here, even if secondary?”
+
+This is the missing step.
+
+Example (your case):
+
+Transcript says:
+
+tmux
+orchestrator
+agents
+
+Channel Brain knows:
+
+BMAD agents exist
+
+System connects:
+→ “This is indirectly BMAD-relevant”
+
+Step 3 — Tag Strength
+
+This is important so you don’t force things.
+
+Each audience tag gets:
+
+Primary (core topic)
+Secondary (present but not main)
+Hidden (barely relevant)
+
+BMAD in your case:
+→ Secondary
+
+🎯 Then You Make a Smart Decision
+Rule:
+Primary → can drive title
+Secondary → use badge / subtle signal
+Hidden → ignore
+🧠 This Solves Your Exact Problem
+
+You said:
+
+“It would have been lovely to have a little BMAD logo somewhere”
+
+That is exactly what a secondary audience tag should trigger automatically
+
+🔧 Build This (Simple Version)
+
+Don’t overengineer.
+
+Add a static config:
+{
+  "audiences": [
+    "BMAD",
+    "AI Agents",
+    "Automation",
+    "Founders"
+  ]
+}
+Then prompt:
+
+Given this transcript and these known audience groups, identify which audiences are:
+
+primary
+secondary
+not relevant
+Then rule engine:
+If secondary:
+→ suggest “badge placement”
+If primary:
+→ inject into title or thumbnail text
+🔁 Over Time (This is where it gets powerful)
+
+You can evolve this into:
+
+Frequency tracking:
+→ “BMAD appears in 40% of videos”
+Performance tracking:
+→ “BMAD-tagged videos have higher retention”
+Pattern suggestions:
+→ “You haven’t used BMAD in 5 videos”
+🧨 Big Insight You Just Touched
+
+You said:
+
+“Is this something that repeats across many videos?”
+
+Yes—and more than that:
+
+Your channel is defined by repeated patterns, not individual videos
+
+🧭 Final Correction (Important)
+
+Don’t try to:
+
+“fit keywords into content”
+
+Instead:
+
+Detect when identity signals exist, then surface them at the right intensity
+
+If I Were You (tonight build plan)
+
+Don’t build everything.
+
+Just build:
+
+Transcript → Content DNA
+Add manual AudienceContext (hardcoded)
+Classify audience relevance (primary/secondary)
+Output:
+Titles
+Thumbnail ideas
+AND:
+“Audience signal suggestions” (badge, text, etc.)
+
+That alone will fix 80% of what you're struggling with.
+
+If you want next, I can:
+
+Write the exact prompts for audience classification
+Or design the JSON output so your app stays clean and scalable
+
+You’re very close to something genuinely powerful here.
