@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALS Operator Runbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Roboto+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand-brown: #342d2d;
+  --brand-gold: #ccba9d;
+  --brand-yellow: #ffde59;
+  --brand-amber: #c8841a;
+  --brand-muted: #7a6e5e;
+  --brand-near-white: #faf5ec;
+  --brand-surface: #f0ebe4;
+  --brand-linen: #e8e0d4;
+  --brand-border: #d4cdc4;
+  --brand-chrome: #1a1515;
+  --brand-dark-surface: #25201e;
+  --brand-blue: #2E91FC;
+  --success: #166534;
+  --success-bg: #dcfce7;
+  --warn: #9a3412;
+  --warn-bg: #ffedd5;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; }
+
+.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-gold); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+
+header { background: var(--brand-brown); padding: 40px 48px 32px; }
+header h1 { font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 600; color: var(--brand-yellow); text-transform: uppercase; letter-spacing: 0.04em; }
+header p { color: var(--brand-gold); margin-top: 8px; font-size: 15px; }
+
+.pipeline { max-width: 860px; margin: 48px auto; padding: 0 32px 48px; display: flex; flex-direction: column; gap: 0; }
+
+.phase-connector { display: flex; justify-content: center; padding: 4px 0; }
+.phase-connector svg { color: var(--brand-border); }
+
+.phase { border: 1px solid var(--brand-border); border-radius: 10px; background: var(--brand-surface); overflow: hidden; }
+.phase.warn-phase { border-color: #f97316; }
+
+.phase-header { display: flex; align-items: center; gap: 16px; padding: 18px 24px; background: var(--brand-linen); border-bottom: 1px solid var(--brand-border); }
+.phase.warn-phase .phase-header { background: #fff7ed; border-bottom-color: #fed7aa; }
+
+.phase-num { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--brand-near-white); background: var(--brand-amber); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.phase.warn-phase .phase-num { background: #f97316; }
+
+.phase-title { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--brand-brown); }
+.phase-subtitle { font-size: 12px; color: var(--brand-muted); margin-top: 2px; }
+
+.warn-badge { font-family: 'Roboto Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; background: var(--warn-bg); color: var(--warn); padding: 4px 10px; border-radius: 4px; margin-left: auto; }
+
+.phase-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+
+.section-label { font-family: 'Oswald', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-muted); margin-bottom: 6px; }
+
+.cmd-block { background: var(--brand-chrome); border-radius: 6px; padding: 12px 16px; font-family: 'Roboto Mono', monospace; font-size: 12px; color: #c8c0b8; line-height: 1.6; overflow-x: auto; }
+.cmd-block .cmd-line { color: var(--brand-yellow); }
+
+.produces { background: var(--brand-linen); border-radius: 4px; padding: 10px 14px; font-size: 13px; color: var(--brand-brown); line-height: 1.5; }
+
+.gotchas { display: flex; flex-direction: column; gap: 6px; }
+.gotcha { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--warn); background: var(--warn-bg); border-radius: 4px; padding: 8px 12px; line-height: 1.4; }
+.gotcha::before { content: "⚠"; flex-shrink: 0; }
+
+footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: center; color: var(--brand-muted); font-size: 12px; margin-top: 20px; }
+</style>
+</head>
+<body>
+<!-- Mochaccino citation — data: data/als-runbook.json — source: docs/als-learnings/als-operator-runbook.md — rendered: 2026-04-30 -->
+
+<div class="mocha-banner">
+  <span>Mocha — ALS Operator Runbook — 2026-04-30</span>
+  <span>6 phases · layer-stack · AppyDave brand</span>
+</div>
+
+<header>
+  <h1>ALS Operator Runbook</h1>
+  <p>From scaffold to running Delamain — the complete 6-phase path</p>
+</header>
+
+<div class="pipeline">
+
+  <!-- Phase 1 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">1</div>
+      <div>
+        <div class="phase-title">Author</div>
+        <div class="phase-subtitle">Write .als/ files — delamain.ts, module.ts, agents, skills</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div>
+        <div class="section-label">Validate command</div>
+        <div class="cmd-block"><span class="cmd-line">bun /Users/davidcruwys/.claude/plugins/cache/als-marketplace/als/0.1.0-beta.28/alsc/compiler/src/cli.ts validate .</span></div>
+      </div>
+      <div>
+        <div class="section-label">Produces</div>
+        <div class="produces">.als/ directory — authoring.ts, system.ts, module.ts, delamain.ts, agent .md files, skill SKILL.md files. Must return "status": "pass" before proceeding.</div>
+      </div>
+      <div class="gotchas">
+        <div class="gotcha">authoring.ts must use absolute installed path — not monorepo-relative</div>
+        <div class="gotcha">Nullable fields in title template → PAL-CV-SHAPE-001 compiler error</div>
+        <div class="gotcha">All agent states need provider: anthropic</div>
+        <div class="gotcha">Resumable states need session-field declared</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="#d4cdc4" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
+
+  <!-- Phase 2 — WARNING -->
+  <div class="phase warn-phase">
+    <div class="phase-header">
+      <div class="phase-num">2</div>
+      <div>
+        <div class="phase-title">Deploy</div>
+        <div class="phase-subtitle">Project .als/ to .claude/ — skills, delamain, dispatcher</div>
+      </div>
+      <span class="warn-badge">No skill yet — manual</span>
+    </div>
+    <div class="phase-body">
+      <div>
+        <div class="section-label">Command (run manually)</div>
+        <div class="cmd-block"><span class="cmd-line">bun /Users/davidcruwys/.claude/plugins/cache/als-marketplace/als/0.1.0-beta.28/alsc/compiler/src/cli.ts deploy claude .</span></div>
+      </div>
+      <div>
+        <div class="section-label">Produces</div>
+        <div class="produces">.claude/skills/&lt;id&gt;/SKILL.md · .claude/delamains/&lt;name&gt;/delamain.yaml · .claude/delamains/&lt;name&gt;/dispatcher/ · .claude/delamains/&lt;name&gt;/runtime-manifest.json · .als/CLAUDE.md</div>
+      </div>
+      <div class="gotchas">
+        <div class="gotcha">No /als:deploy skill exists — filed as nfrith/als#2. Run manually every time .als/ changes.</div>
+        <div class="gotcha">Pass . as system root, not .als — otherwise double-path error</div>
+        <div class="gotcha">Claude Code Desktop requires session restart to discover newly deployed skills</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="#d4cdc4" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
+
+  <!-- Phase 3 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">3</div>
+      <div>
+        <div class="phase-title">Install Dispatcher Deps</div>
+        <div class="phase-subtitle">One-time per first deploy — node_modules preserved after that</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div>
+        <div class="section-label">Command</div>
+        <div class="cmd-block"><span class="cmd-line">cd .claude/delamains/launch/dispatcher && bun install</span></div>
+      </div>
+      <div>
+        <div class="section-label">Produces</div>
+        <div class="produces">.claude/delamains/launch/dispatcher/node_modules/ — 101 packages. Takes ~64 seconds on first run. Preserved on subsequent deploys.</div>
+      </div>
+      <div class="gotchas">
+        <div class="gotcha">Must run before bootup — dispatcher won't start without dependencies</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="#d4cdc4" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
+
+  <!-- Phase 4 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">4</div>
+      <div>
+        <div class="phase-title">Bootup</div>
+        <div class="phase-subtitle">Start dispatcher(s) — repeat at start of every Claude Code session</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div>
+        <div class="section-label">Command</div>
+        <div class="cmd-block"><span class="cmd-line">/als:bootup</span></div>
+      </div>
+      <div>
+        <div class="section-label">Produces</div>
+        <div class="produces">Running dispatcher processes polling git HEAD every 30s. Delamain dashboard at http://127.0.0.1:4646. Agent states run automatically from this point.</div>
+      </div>
+      <div class="gotchas">
+        <div class="gotcha">Dispatchers die when the Claude Code session ends — re-run /als:bootup each new session</div>
+        <div class="gotcha">Use /als:reboot to restart only crashed dispatchers without killing running ones</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="#d4cdc4" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
+
+  <!-- Phase 5 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">5</div>
+      <div>
+        <div class="phase-title">Create Session</div>
+        <div class="phase-subtitle">Provision a new entity record — the unit of work the Delamain operates on</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div>
+        <div class="section-label">Command</div>
+        <div class="cmd-block"><span class="cmd-line">/fli-launch-manage</span><br>→ Select "Create" → provide project_code</div>
+      </div>
+      <div>
+        <div class="section-label">Produces</div>
+        <div class="produces">fli-launch/sessions/&lt;id&gt;.md — entity record with status: awaiting-input. Dispatcher is aware but will not act — awaiting-input is operator-owned.</div>
+      </div>
+      <div class="gotchas">
+        <div class="gotcha">Entity file must be committed to git — dispatcher only reads committed HEAD</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-connector"><svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="32" stroke="#d4cdc4" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
+
+  <!-- Phase 6 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">6</div>
+      <div>
+        <div class="phase-title">Operate</div>
+        <div class="phase-subtitle">Act at human gates — dispatcher handles agent states automatically between them</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div>
+        <div class="section-label">Command</div>
+        <div class="cmd-block"><span class="cmd-line">/fli-launch-pipeline</span></div>
+      </div>
+      <div>
+        <div class="section-label">4 Operator Gates</div>
+        <div class="produces" style="display:grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size:12px;">
+          <strong>Gate 1</strong><span>awaiting-input — provide project_code, optional focal point</span>
+          <strong>Gate 2</strong><span>awaiting-hook-selection — select 1–3 hook angles (drives titles + thumbnails)</span>
+          <strong>Gate 3</strong><span>awaiting-chapter-review — review/refine chapter labels, external fine-tune here</span>
+          <strong>Gate 4</strong><span>awaiting-review — final selections: titles, thumbnail, description, tags</span>
+        </div>
+      </div>
+      <div class="gotchas">
+        <div class="gotcha">Dispatcher must be running (bootup) for agent states to execute automatically</div>
+        <div class="gotcha">Can rework: hook-selection → regenerate-hooks · review → hook-selection</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>ALS Operator Runbook · fli-launch · 2026-04-30 · AppyDave</footer>
+</body>
+</html>

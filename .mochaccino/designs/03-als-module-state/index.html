@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fli-launch Module State</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Roboto+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand-brown: #342d2d;
+  --brand-gold: #ccba9d;
+  --brand-yellow: #ffde59;
+  --brand-amber: #c8841a;
+  --brand-muted: #7a6e5e;
+  --brand-near-white: #faf5ec;
+  --brand-surface: #f0ebe4;
+  --brand-linen: #e8e0d4;
+  --brand-border: #d4cdc4;
+  --brand-chrome: #1a1515;
+  --brand-dark-surface: #25201e;
+  --brand-blue: #2E91FC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; }
+
+.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-gold); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+
+header { background: var(--brand-brown); padding: 32px 48px; }
+header h1 { font-family: 'Oswald', sans-serif; font-size: 32px; font-weight: 600; color: var(--brand-yellow); text-transform: uppercase; letter-spacing: 0.04em; }
+header p { color: var(--brand-gold); margin-top: 6px; font-size: 14px; }
+
+.stats-bar { background: var(--brand-dark-surface); padding: 16px 48px; display: flex; gap: 40px; flex-wrap: wrap; }
+.stat { display: flex; align-items: center; gap: 10px; }
+.stat-icon { font-size: 18px; }
+.stat-content { }
+.stat-val { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; color: var(--brand-yellow); }
+.stat-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-gold); }
+.stat-pass { background: #166534; color: #dcfce7; font-family: 'Roboto Mono', monospace; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 32px 48px; align-items: start; }
+
+.column { }
+.col-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 8px 8px 0 0; margin-bottom: 12px; }
+.col-header-done { background: #166534; }
+.col-header-open { background: #92400e; }
+.col-header-deferred { background: #374151; }
+.col-title { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #fff; }
+.col-count { font-family: 'Roboto Mono', monospace; font-size: 11px; background: rgba(255,255,255,0.2); color: #fff; padding: 2px 8px; border-radius: 10px; margin-left: auto; }
+
+.cards { display: flex; flex-direction: column; gap: 10px; }
+
+.card { background: var(--brand-surface); border: 1px solid var(--brand-border); border-radius: 6px; padding: 14px 16px; }
+.card-done { border-left: 3px solid #16a34a; }
+.card-open { border-left: 3px solid #d97706; }
+.card-deferred { border-left: 3px solid #6b7280; }
+
+.card-label { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; color: var(--brand-brown); line-height: 1.3; margin-bottom: 6px; }
+.card-notes { font-size: 11px; color: var(--brand-muted); line-height: 1.5; margin-bottom: 8px; }
+
+.cat-badge { font-family: 'Roboto Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 3px; }
+.cat-compiler { background: #dbeafe; color: #1e40af; }
+.cat-runtime { background: #ede9fe; color: #5b21b6; }
+.cat-integration { background: #ffedd5; color: #9a3412; }
+.cat-design { background: #fef9c3; color: #854d0e; }
+.cat-documentation { background: #f0fdf4; color: #166534; }
+
+footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: center; color: var(--brand-muted); font-size: 12px; margin-top: 20px; }
+
+@media (max-width: 900px) { .board { grid-template-columns: 1fr; padding: 20px; } .stats-bar { padding: 16px 20px; gap: 20px; } }
+</style>
+</head>
+<body>
+<!-- Mochaccino citation — data: data/als-module-state.json — source: docs/als-learnings/als-fli-launch-state.md — rendered: 2026-04-30 -->
+
+<div class="mocha-banner">
+  <span>Mocha — fli-launch Module State — 2026-04-30</span>
+  <span>kanban · AppyDave brand</span>
+</div>
+
+<header>
+  <h1>fli-launch Module State</h1>
+  <p>Snapshot: 2026-04-30 — after two implementation sessions</p>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><span class="stat-icon">🔀</span><div class="stat-content"><div class="stat-val">4</div><div class="stat-lbl">Operator Gates</div></div></div>
+  <div class="stat"><span class="stat-icon">🤖</span><div class="stat-content"><div class="stat-val">7</div><div class="stat-lbl">Agent States</div></div></div>
+  <div class="stat"><span class="stat-icon">⚙️</span><div class="stat-content"><div class="stat-val">15</div><div class="stat-lbl">Transitions</div></div></div>
+  <div class="stat"><span class="stat-icon">✅</span><div class="stat-content"><span class="stat-pass">Compiler Pass</span></div></div>
+  <div class="stat"><span class="stat-icon">🚀</span><div class="stat-content"><span class="stat-pass">Deployed</span></div></div>
+</div>
+
+<div class="board">
+
+  <div class="column">
+    <div class="col-header col-header-done">
+      <span class="col-title">Done</span>
+      <span class="col-count">10</span>
+    </div>
+    <div class="cards">
+      <div class="card card-done">
+        <div class="card-label">Module authored + compiling clean</div>
+        <div class="card-notes">1 module, 0 errors, 0 warnings. ALS v1, compiler 0.1.0-beta.28.</div>
+        <span class="cat-badge cat-compiler">Compiler</span>
+      </div>
+      <div class="card card-done">
+        <div class="card-label">Hook-centric fan-out validated with Nick</div>
+        <div class="card-notes">Hook is ancestor of both title AND thumbnail. Nick's title-centric model rejected.</div>
+        <span class="cat-badge cat-design">Design</span>
+      </div>
+      <div class="card card-done">
+        <div class="card-label">Sub-Delamain corrected to inlined states</div>
+        <div class="card-notes">chapters/ Delamain deleted. 3 states inlined into launch.</div>
+        <span class="cat-badge cat-design">Design</span>
+      </div>
+      <div class="card card-done">
+        <div class="card-label">All 7 agent stubs written</div>
+        <div class="card-notes">fetching-transcript, running-analysis, generating-hooks, generating-content, generating-chapters, refining-chapters, assembling-output.</div>
+        <span class="cat-badge cat-design">Design</span>
+      </div>
+      <div class="card card-done">
+        <div class="card-label">Skills scaffolded</div>
+        <div class="card-notes">fli-launch-manage (CRUD) and fli-launch-pipeline (operator console).</div>
+        <span class="cat-badge cat-design">Design</span>
+      </div>
+      <div class="card card-done">
+        <div class="card-label">Deploy complete</div>
+        <div class="card-notes">.claude/skills/ and .claude/delamains/launch/ populated.</div>
+        <span class="cat-badge cat-runtime">Runtime</span>
+      </div>
+      <div class="card card-done">
+        <div class="card-label">Dispatcher dependencies installed</div>
+        <div class="card-notes">bun install complete. 101 packages.</div>
+        <span class="cat-badge cat-runtime">Runtime</span>
+      </div>
+      <div class="card card-done">
+        <div class="card-label">b65 data fetched from FliHub</div>
+        <div class="card-notes">b65-guy-monroe-marketing-plan: 26 recordings, 9 chapters, 100% transcribed, no SRT.</div>
+        <span class="cat-badge cat-integration">Integration</span>
+      </div>
+      <div class="card card-done">
+        <div class="card-label">Missing /als:deploy skill filed</div>
+        <div class="card-notes">GitHub issue nfrith/als#2 filed via /ghost-line.</div>
+        <span class="cat-badge cat-documentation">Docs</span>
+      </div>
+      <div class="card card-done">
+        <div class="card-label">ALS learnings documented</div>
+        <div class="card-notes">5 docs in docs/als-learnings/: concepts, runbook, decisions, gaps, module state.</div>
+        <span class="cat-badge cat-documentation">Docs</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="col-header col-header-open">
+      <span class="col-title">Open</span>
+      <span class="col-count">4</span>
+    </div>
+    <div class="cards">
+      <div class="card card-open">
+        <div class="card-label">Start dispatcher</div>
+        <div class="card-notes">/als:bootup not yet run. Must do at start of each session.</div>
+        <span class="cat-badge cat-runtime">Runtime</span>
+      </div>
+      <div class="card card-open">
+        <div class="card-label">Create first session record</div>
+        <div class="card-notes">/fli-launch-manage → Create → project_code = b65-guy-monroe-marketing-plan.</div>
+        <span class="cat-badge cat-runtime">Runtime</span>
+      </div>
+      <div class="card card-open">
+        <div class="card-label">Confirm FliHub transcript endpoint</div>
+        <div class="card-notes">fetching-transcript references FliHub API but endpoint + auth not tested.</div>
+        <span class="cat-badge cat-integration">Integration</span>
+      </div>
+      <div class="card card-open">
+        <div class="card-label">Run first end-to-end session</div>
+        <div class="card-notes">Blocked on: dispatcher running, session created, FliHub endpoint confirmed.</div>
+        <span class="cat-badge cat-runtime">Runtime</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="col-header col-header-deferred">
+      <span class="col-title">Deferred</span>
+      <span class="col-count">5</span>
+    </div>
+    <div class="cards">
+      <div class="card card-deferred">
+        <div class="card-label">/als:init comparison</div>
+        <div class="card-notes">Nick suggested comparing hand-scaffold to /als:init output. Compiler passes — de-risked. Post-MVP.</div>
+        <span class="cat-badge cat-compiler">Compiler</span>
+      </div>
+      <div class="card card-deferred">
+        <div class="card-label">Chapter 03 unnamed in b65</div>
+        <div class="card-notes">03-1.mov has no label suffix. Agent must infer label from transcript. Will surface at first run.</div>
+        <span class="cat-badge cat-integration">Integration</span>
+      </div>
+      <div class="card card-deferred">
+        <div class="card-label">FliHub auto-start on M4</div>
+        <div class="card-notes">tmux session started manually each time. No auto-start configured.</div>
+        <span class="cat-badge cat-integration">Integration</span>
+      </div>
+      <div class="card card-deferred">
+        <div class="card-label">Session record shape validation</div>
+        <div class="card-notes">No sample record created — frontmatter/body shape not validated against module definition.</div>
+        <span class="cat-badge cat-compiler">Compiler</span>
+      </div>
+      <div class="card card-deferred">
+        <div class="card-label">b65 has no SRT — degraded timestamps</div>
+        <div class="card-notes">Chapter timestamps will be missing. Better test case = project with SRT file.</div>
+        <span class="cat-badge cat-integration">Integration</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>fli-launch Module State · 2026-04-30 · AppyDave</footer>
+</body>
+</html>

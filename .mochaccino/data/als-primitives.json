@@ -1,0 +1,220 @@
+{
+  "meta": {
+    "id": "als-primitives",
+    "version": "1.0.0",
+    "extracted": "2026-04-30",
+    "last_updated": "2026-04-30",
+    "source": "docs/als-learnings/als-concepts-from-experience.md + session knowledge",
+    "prompt": "ALS building blocks in compositional hierarchy with AWB mental model mapping"
+  },
+  "title": "ALS Primitives Reference",
+  "subtitle": "What you can build and how the pieces fit together",
+  "layers": [
+    {
+      "id": "system",
+      "label": "System",
+      "level": 1,
+      "what_it_is": "The top-level container — one per project, declared in .als/system.ts.",
+      "what_you_can_do": [
+        "Declare a system_id that namespaces all modules",
+        "Register one or more modules",
+        "Point to the ALS compiler via authoring.ts"
+      ],
+      "key_constraints": [
+        "One system per project (.als/ directory)",
+        "authoring.ts must use absolute path to installed compiler in standalone projects",
+        "system_id is used as the namespace for all downstream skill and delamain IDs"
+      ],
+      "awb_equivalent": "The AWB project/workspace — the root container that holds all workflows",
+      "depends_on": null
+    },
+    {
+      "id": "module",
+      "label": "Module",
+      "level": 2,
+      "what_it_is": "A versioned bundle of one entity + one or more Delamains + skills, declared in module.ts.",
+      "what_you_can_do": [
+        "Define the entity type that the module operates on",
+        "Register Delamains (state machines) for that entity",
+        "Register skills (operator-facing Claude Code commands)",
+        "Version the whole bundle (v1, v2, etc.) for controlled migration"
+      ],
+      "key_constraints": [
+        "A module has exactly one primary entity (though the entity can have multiple Delamain fields)",
+        "Module path is the mount directory where entity records (markdown files) live",
+        "Version is immutable — changes require a new version bundle"
+      ],
+      "awb_equivalent": "An AWB workflow group or pipeline family — a cohesive set of workflows around one data concept",
+      "depends_on": "system"
+    },
+    {
+      "id": "entity",
+      "label": "Entity",
+      "level": 3,
+      "what_it_is": "The data record — a markdown file with YAML frontmatter that the Delamain state machine operates on.",
+      "what_you_can_do": [
+        "Define typed fields (id, string, date, delamain)",
+        "Define the document body with named sections (INPUTS, ANALYSIS, HOOKS, etc.)",
+        "Store all workflow state and generated content in one readable file",
+        "Use delamain-typed fields to attach state machines to the record"
+      ],
+      "key_constraints": [
+        "Title source fields must be allow_null: false",
+        "A delamain-typed field is the ONLY way to trigger a Delamain on this entity",
+        "One delamain-typed field = one active state machine on the record",
+        "Two delamain-typed fields = two independent parallel state machines",
+        "session-field values (from resumable states) are implicitly added to frontmatter at runtime"
+      ],
+      "awb_equivalent": "The AWB work item / job record — the thing flowing through the pipeline",
+      "depends_on": "module"
+    },
+    {
+      "id": "delamain",
+      "label": "Delamain",
+      "level": 4,
+      "what_it_is": "A state machine that operates on an entity, triggered by a delamain-typed field — the core runtime concept in ALS.",
+      "what_you_can_do": [
+        "Define phases (logical groupings of states)",
+        "Define states — each owned by either an agent or an operator",
+        "Define transitions between states (advance, rework, exit)",
+        "Mark states as resumable for crash recovery",
+        "Declare agent bindings (provider, path to agent .md file)"
+      ],
+      "key_constraints": [
+        "No sub-Delamains — Delamains cannot call each other",
+        "A Delamain is triggered by a delamain-typed field on an entity — not by another Delamain",
+        "Two Delamains on the same entity require two separate delamain-typed fields",
+        "Must declare provider (anthropic or openai) on every agent state",
+        "Resumable states must declare session-field"
+      ],
+      "awb_equivalent": "An AWB pipeline/workflow — but commit-driven (not CLI-triggered) and always attached to a specific entity field",
+      "depends_on": "entity"
+    },
+    {
+      "id": "state",
+      "label": "State",
+      "level": 5,
+      "what_it_is": "A single node in the Delamain state machine — owned by either an agent (auto-runs) or an operator (human gate).",
+      "what_you_can_do": [
+        "Make a state agent-owned: it runs automatically when the dispatcher finds the entity in that state",
+        "Make a state operator-owned: it waits for a human decision via the pipeline skill",
+        "Make a state terminal: workflow ends here (completed, cancelled)",
+        "Mark a state resumable: dispatcher can recover a crashed agent session",
+        "Mark a state initial: starting state for new entity records"
+      ],
+      "key_constraints": [
+        "Agent states must declare provider",
+        "Agent states must declare path to the agent .md file",
+        "Resumable agent states must declare session-field",
+        "Only one initial state per Delamain",
+        "Terminal states have no outgoing transitions"
+      ],
+      "awb_equivalent": "An AWB step/node — but split cleanly into human (operator) and machine (agent) types with no ambiguity",
+      "depends_on": "delamain"
+    },
+    {
+      "id": "transition",
+      "label": "Transition",
+      "level": 5,
+      "what_it_is": "A declared edge between states — classes: advance (forward progress), rework (go back), exit (cancel or complete).",
+      "what_you_can_do": [
+        "advance: move from one state to the next in the happy path",
+        "rework: send the entity back to a previous state for another pass",
+        "exit: move directly to a terminal state (cancel from anywhere, or complete at end)",
+        "Declare multi-from transitions: same transition class from multiple source states to one target"
+      ],
+      "key_constraints": [
+        "Transitions must reference states that exist in the same Delamain",
+        "The dispatcher commits the transition — not the operator directly",
+        "The agent selects the outgoing transition from the legal options in runtime-manifest"
+      ],
+      "awb_equivalent": "AWB step connections/edges — but explicitly typed (advance/rework/exit) rather than generic arrows",
+      "depends_on": "state"
+    },
+    {
+      "id": "agent",
+      "label": "Agent",
+      "level": 6,
+      "what_it_is": "A Claude (or OpenAI) model invocation bound to a state — given the entity record and a markdown instruction file, it does work and chooses the next transition.",
+      "what_you_can_do": [
+        "Read and write the entity record (YAML frontmatter + markdown sections)",
+        "Call external tools and APIs (e.g. FliHub for transcript fetch)",
+        "Run parallel sub-agents for tasks like analysis",
+        "Choose from the legal outgoing transitions declared in runtime-manifest",
+        "Resume from a stored session ID if the dispatcher crashed mid-run"
+      ],
+      "key_constraints": [
+        "Agent receives the entity record + agent .md instructions as context",
+        "Agent must select a valid outgoing transition — it cannot create new ones",
+        "Agent output is committed to git by the dispatcher, then merged to integration",
+        "Agent runs in an isolated git worktree per dispatch"
+      ],
+      "awb_equivalent": "An AWB agent step — but with formal state-machine bindings and git-commit-driven lifecycle",
+      "depends_on": "state"
+    },
+    {
+      "id": "operator",
+      "label": "Operator",
+      "level": 6,
+      "what_it_is": "A human gate — the dispatcher pauses at operator-owned states and waits for a human to act via the pipeline skill.",
+      "what_you_can_do": [
+        "Review agent-generated content in the entity record",
+        "Make selections, provide input, or edit sections",
+        "Advance to the next state (progress)",
+        "Rework back to a previous state (reject/refine)",
+        "Exit to cancelled (abort)"
+      ],
+      "key_constraints": [
+        "Operator states require no path or provider declaration",
+        "The pipeline skill is the interface — operators don't edit entity files directly in normal flow",
+        "The dispatcher will not advance an operator-owned state automatically"
+      ],
+      "awb_equivalent": "An AWB human-in-the-loop approval step — but with formal transition choices (advance/rework/exit) rather than free-form approval",
+      "depends_on": "state"
+    },
+    {
+      "id": "skill",
+      "label": "Skill",
+      "level": 7,
+      "what_it_is": "A Claude Code slash command — a markdown instruction file deployed to .claude/skills/ and invokable as /skill-id.",
+      "what_you_can_do": [
+        "Create operator-facing commands (e.g. /fli-launch-pipeline, /fli-launch-manage)",
+        "Surface entity records needing attention at operator gates",
+        "Provide CRUD for entity records (create, list, inspect, cancel)",
+        "Run ALS system operations (deploy, validate, bootup, etc.)",
+        "File issues to external systems (e.g. /als:ghost-line)"
+      ],
+      "key_constraints": [
+        "Skills are markdown files — Claude reads and follows them as instructions",
+        "Skills are deployed from .als/modules/<id>/v1/skills/ to .claude/skills/ via alsc deploy",
+        "Skills are not visible in the current Claude Desktop session after deploy — requires session restart",
+        "Skills do not replace the dispatcher — they handle operator-owned states only"
+      ],
+      "awb_equivalent": "AWB operator console / UI commands — but implemented as Claude Code slash commands rather than a web interface",
+      "depends_on": "module"
+    },
+    {
+      "id": "dispatcher",
+      "label": "Dispatcher",
+      "level": 7,
+      "what_it_is": "A background Bun process that watches git HEAD for entity files in agent-owned states and invokes agents automatically.",
+      "what_you_can_do": [
+        "Poll git HEAD every 30 seconds for agent-owned state changes",
+        "Create isolated git worktrees per dispatch",
+        "Invoke agents via Claude Agent SDK",
+        "Auto-commit agent output and chosen transition",
+        "Merge worktrees back to integration checkout",
+        "Resume crashed agent sessions using stored session-field values"
+      ],
+      "key_constraints": [
+        "Dispatcher requires deployed .claude/delamains/<name>/ — alsc deploy must run first",
+        "Dispatcher requires bun install in dispatcher/ directory before first run",
+        "Dispatcher dies when the Claude Code session ends — re-run /als:bootup each session",
+        "Dispatcher only reads committed git HEAD — uncommitted changes are invisible to it",
+        "No skill exists to deploy (filed: nfrith/als#2) — deploy must be run manually"
+      ],
+      "awb_equivalent": "The AWB execution engine / task runner — but commit-driven and file-system based rather than API/event driven",
+      "depends_on": "delamain"
+    }
+  ]
+}

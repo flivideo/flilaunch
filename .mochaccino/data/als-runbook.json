@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "id": "als-runbook",
+    "version": "1.0.0",
+    "extracted": "2026-04-30",
+    "last_updated": "2026-04-30",
+    "source": "docs/als-learnings/als-operator-runbook.md",
+    "prompt": "Initial extraction of 6-phase ALS operator runbook"
+  },
+  "title": "ALS Operator Runbook",
+  "subtitle": "From scaffold to running Delamain",
+  "layers": [
+    {
+      "id": "phase-1",
+      "label": "Author",
+      "level": 1,
+      "commands": [
+        "bun /Users/davidcruwys/.claude/plugins/cache/als-marketplace/als/0.1.0-beta.28/alsc/compiler/src/cli.ts validate ."
+      ],
+      "produces": ".als/ directory — authoring.ts, system.ts, module.ts, delamain.ts, agent .md files, skill SKILL.md files",
+      "depends_on": null,
+      "notes": "authoring.ts must use absolute path to installed compiler, not monorepo-relative path. Validate frequently during authoring.",
+      "key_files": [
+        ".als/authoring.ts",
+        ".als/system.ts",
+        ".als/modules/<id>/v1/module.ts",
+        ".als/modules/<id>/v1/delamains/<name>/delamain.ts",
+        ".als/modules/<id>/v1/delamains/<name>/agents/*.md",
+        ".als/modules/<id>/v1/skills/<id>/SKILL.md"
+      ],
+      "gotchas": [
+        "Relative path in authoring.ts causes PAL-CV-SYS-001",
+        "Nullable fields in title template cause PAL-CV-SHAPE-001",
+        "All agent states need provider: anthropic",
+        "Resumable states need session-field name"
+      ]
+    },
+    {
+      "id": "phase-2",
+      "label": "Deploy",
+      "level": 2,
+      "commands": [
+        "bun /Users/davidcruwys/.claude/plugins/cache/als-marketplace/als/0.1.0-beta.28/alsc/compiler/src/cli.ts deploy claude ."
+      ],
+      "produces": ".claude/skills/<id>/SKILL.md, .claude/delamains/<name>/delamain.yaml, .claude/delamains/<name>/agents/, .claude/delamains/<name>/dispatcher/, .claude/delamains/<name>/runtime-manifest.json, .als/CLAUDE.md",
+      "depends_on": "phase-1",
+      "notes": "No skill exists for this step (filed: nfrith/als#2). Must run manually. Re-run after any .als/ changes.",
+      "key_files": [
+        ".claude/skills/",
+        ".claude/delamains/<name>/delamain.yaml",
+        ".claude/delamains/<name>/runtime-manifest.json",
+        ".claude/delamains/<name>/dispatcher/"
+      ],
+      "gotchas": [
+        "Pass . as system root, not .als — otherwise double-path error",
+        "Skills not visible in current Claude Desktop session after deploy — requires session restart"
+      ]
+    },
+    {
+      "id": "phase-3",
+      "label": "Install Deps",
+      "level": 3,
+      "commands": [
+        "cd .claude/delamains/<name>/dispatcher && bun install"
+      ],
+      "produces": ".claude/delamains/<name>/dispatcher/node_modules/ — dispatcher runtime dependencies",
+      "depends_on": "phase-2",
+      "notes": "One-time per first deploy. node_modules is preserved on subsequent deploys. 101 packages, ~64 seconds.",
+      "key_files": [
+        ".claude/delamains/<name>/dispatcher/node_modules/"
+      ],
+      "gotchas": [
+        "Must run before bootup — dispatcher won't start without dependencies"
+      ]
+    },
+    {
+      "id": "phase-4",
+      "label": "Bootup",
+      "level": 4,
+      "commands": [
+        "/als:bootup"
+      ],
+      "produces": "Running dispatcher processes + Delamain dashboard at http://127.0.0.1:4646",
+      "depends_on": "phase-3",
+      "notes": "Dispatchers are tied to the Claude Code session — die when session ends. Re-run /als:bootup at start of each new session. Polls git HEAD every 30 seconds.",
+      "key_files": [
+        ".claude/delamains/<name>/status.json"
+      ],
+      "gotchas": [
+        "Dispatchers die when Claude Code session ends",
+        "Use /als:reboot to restart only crashed dispatchers",
+        "Dashboard available at http://127.0.0.1:4646"
+      ]
+    },
+    {
+      "id": "phase-5",
+      "label": "Create Session",
+      "level": 5,
+      "commands": [
+        "/fli-launch-manage"
+      ],
+      "produces": "fli-launch/sessions/<id>.md — entity record with status: awaiting-input",
+      "depends_on": "phase-4",
+      "notes": "Select Create → provide project_code (e.g. b65-guy-monroe-marketing-plan). Dispatcher is now aware but won't act — awaiting-input is operator-owned.",
+      "key_files": [
+        "fli-launch/sessions/<id>.md"
+      ],
+      "gotchas": [
+        "Entity file must be committed to git — dispatcher only reads committed HEAD"
+      ]
+    },
+    {
+      "id": "phase-6",
+      "label": "Operate",
+      "level": 6,
+      "commands": [
+        "/fli-launch-pipeline"
+      ],
+      "produces": "Session advances through 4 operator gates. Agent states run automatically between gates.",
+      "depends_on": "phase-5",
+      "notes": "Pipeline skill surfaces sessions needing attention. Advance at each gate — dispatcher auto-runs agent states between. Gates: awaiting-input, awaiting-hook-selection, awaiting-chapter-review, awaiting-review.",
+      "key_files": [
+        "fli-launch/sessions/<id>.md"
+      ],
+      "gotchas": [
+        "Dispatcher must be running (bootup) for agent states to execute",
+        "At chapter review: external timing tool runs out-of-band, then advance",
+        "Can rework: hook-selection can go back to regenerate-hooks, review can go back to hook-selection"
+      ]
+    }
+  ]
+}

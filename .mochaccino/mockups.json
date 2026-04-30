@@ -1,0 +1,46 @@
+{
+  "workspace": "als-implementation-learnings",
+  "created": "2026-04-30",
+  "designs": [
+    {
+      "id": "01-als-learnings",
+      "title": "ALS Learnings Catalog",
+      "slug": "als-learnings",
+      "shape": "card-grid",
+      "data": "data/als-learnings.json",
+      "views": ["designs/01-als-learnings/index.html"],
+      "status": "active",
+      "description": "25 items: 10 conceptual corrections, 9 design decisions, 6 tooling gaps. Filterable by type."
+    },
+    {
+      "id": "02-als-runbook",
+      "title": "ALS Operator Runbook",
+      "slug": "als-runbook",
+      "shape": "layer-stack",
+      "data": "data/als-runbook.json",
+      "views": ["designs/02-als-runbook/index.html"],
+      "status": "active",
+      "description": "6-phase operator flow from scaffold to running Delamain."
+    },
+    {
+      "id": "03-als-module-state",
+      "title": "fli-launch Module State",
+      "slug": "als-module-state",
+      "shape": "kanban",
+      "data": "data/als-module-state.json",
+      "views": ["designs/03-als-module-state/index.html"],
+      "status": "active",
+      "description": "Current state of the fli-launch module — done, open, deferred."
+    },
+    {
+      "id": "04-als-primitives",
+      "title": "ALS Primitives Reference",
+      "slug": "als-primitives",
+      "shape": "layer-stack",
+      "data": "data/als-primitives.json",
+      "views": ["designs/04-als-primitives/index.html"],
+      "status": "active",
+      "description": "ALS building blocks in compositional hierarchy with AWB mental model mapping."
+    }
+  ]
+}

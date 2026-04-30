@@ -1,0 +1,238 @@
+{
+  "meta": {
+    "id": "als-learnings",
+    "version": "1.0.0",
+    "extracted": "2026-04-30",
+    "last_updated": "2026-04-30",
+    "source": "docs/als-learnings/",
+    "prompt": "Initial extraction from als-concepts-from-experience.md, als-design-decisions.md, als-tooling-gaps.md"
+  },
+  "title": "ALS Implementation Learnings",
+  "items": [
+    {
+      "id": "c01",
+      "title": "Sub-Delamains do not exist",
+      "type": "concept",
+      "summary": "Scaffolded a 'chapters' Delamain as a sub-flow of the main 'launch' Delamain — ALS has no such concept.",
+      "rule": "A Delamain is triggered by a delamain-typed field on an entity. No parent-child relationships. One entity + one concern = one Delamain with inlined states.",
+      "status": "corrected",
+      "tags": ["delamain", "architecture", "entity"]
+    },
+    {
+      "id": "c02",
+      "title": "Spec HITL gates ≠ Delamain operator gates",
+      "type": "concept",
+      "summary": "Translated all 7 spec UI touchpoints into Delamain operator gates — only genuine human decisions need gates.",
+      "rule": "Ask: 'Can an agent make this decision reliably?' If yes, no gate needed. Agent-to-agent handoffs require no operator state.",
+      "status": "corrected",
+      "tags": ["gates", "operator", "agent", "design"]
+    },
+    {
+      "id": "c03",
+      "title": "authoring.ts path must be absolute in standalone projects",
+      "type": "concept",
+      "summary": "Copied a relative path from the ALS reference system that only works inside the ALS monorepo — fails in standalone projects.",
+      "rule": "Standalone projects must use the absolute installed path: /Users/<user>/.claude/plugins/cache/als-marketplace/als/<version>/alsc/compiler/src/authoring/index.ts",
+      "status": "corrected",
+      "tags": ["compiler", "setup", "authoring.ts"]
+    },
+    {
+      "id": "c04",
+      "title": "Title source fields must be non-null",
+      "type": "concept",
+      "summary": "Used a nullable field (internal_label) in the entity title template — compiler error PAL-CV-SHAPE-001.",
+      "rule": "Any field referenced in a document title source must have allow_null: false. Put optional fields in the body, not the title.",
+      "status": "corrected",
+      "tags": ["compiler", "entity", "fields"]
+    },
+    {
+      "id": "c05",
+      "title": "provider is required on all agent states",
+      "type": "concept",
+      "summary": "Left out 'provider: anthropic' on every agent state — compiler caught all of them.",
+      "rule": "Every state with actor: agent must declare provider. Valid values: 'anthropic', 'openai'. There is no default.",
+      "status": "corrected",
+      "tags": ["compiler", "delamain", "agent-states"]
+    },
+    {
+      "id": "c06",
+      "title": "session-field is required on resumable states",
+      "type": "concept",
+      "summary": "Marked states resumable: true without providing the session-field name for recovery.",
+      "rule": "resumable: true requires session-field: '<name>'. This field is implicitly added to entity frontmatter at runtime — does not need to be in the entity fields block.",
+      "status": "corrected",
+      "tags": ["compiler", "delamain", "resumable"]
+    },
+    {
+      "id": "c07",
+      "title": "System root for alsc is the project root, not .als",
+      "type": "concept",
+      "summary": "Passed .als as the system root argument — compiler looked for .als/.als/system.ts (double path).",
+      "rule": "The system-root argument is . (project root). The compiler appends .als/system.ts itself.",
+      "status": "corrected",
+      "tags": ["compiler", "cli", "invocation"]
+    },
+    {
+      "id": "c08",
+      "title": "The compiler is the source of truth, not the skills",
+      "type": "concept",
+      "summary": "/als:init and the compiler are known to be unaligned in 0.1.0-beta.28.",
+      "rule": "If alsc validate passes, the scaffold is correct regardless of what /als:init would generate. Use the compiler as the arbiter.",
+      "status": "known",
+      "tags": ["compiler", "skills", "authoring"]
+    },
+    {
+      "id": "c09",
+      "title": "The dispatcher is commit-driven, not CLI-driven",
+      "type": "concept",
+      "summary": "Expected a command to advance a Delamain step-by-step — the dispatcher polls git HEAD for committed state changes.",
+      "rule": "Commit a state change → dispatcher sees it on next poll (30s) → invokes the agent → auto-commits result. No manual trigger.",
+      "status": "corrected",
+      "tags": ["dispatcher", "runtime", "git"]
+    },
+    {
+      "id": "c10",
+      "title": "Deploy and bootup are separate operations",
+      "type": "concept",
+      "summary": "Assumed running bootup would also compile and deploy the module — they are two distinct steps.",
+      "rule": "alsc deploy claude . projects .als/ to .claude/. /als:bootup starts dispatchers. Neither does both. No skill exists for deploy (filed: nfrith/als#2).",
+      "status": "corrected",
+      "tags": ["deploy", "bootup", "runtime"]
+    },
+    {
+      "id": "d01",
+      "title": "Hook-centric fan-out",
+      "type": "decision",
+      "summary": "Nick's diagram had thumbnail deriving from title — we made both title and thumbnail derive from hook.",
+      "rule": "Hook is the framing angle. Both title (text) and thumbnail (visual) express the same hook independently. Deriving thumbnail from title creates redundancy and weaker CTR.",
+      "status": "accepted",
+      "tags": ["architecture", "design", "hooks"]
+    },
+    {
+      "id": "d02",
+      "title": "4 operator gates (not 7 from spec, not 3 from first design)",
+      "type": "decision",
+      "summary": "Iterated from 7 spec gates → 3 (too few, missed chapters) → 4 (correct).",
+      "rule": "Gates are: awaiting-input, awaiting-hook-selection, awaiting-chapter-review, awaiting-review. All other transitions are agent-to-agent.",
+      "status": "accepted",
+      "tags": ["gates", "operator", "design"]
+    },
+    {
+      "id": "d03",
+      "title": "Chapters inlined into launch Delamain",
+      "type": "decision",
+      "summary": "Originally a separate chapters Delamain — dropped and inlined as 3 states after Nick pointed out it was orphaned.",
+      "rule": "One entity + chapter processing as part of main flow = inline. Use a second Delamain field only if the concern is genuinely parallel and independent.",
+      "status": "accepted",
+      "tags": ["delamain", "chapters", "architecture"]
+    },
+    {
+      "id": "d04",
+      "title": "Analysis = 12 parallel agent prompts, no gate",
+      "type": "decision",
+      "summary": "Ran 12 parallel sub-agent prompts for analysis — purely extractive, no human judgment needed.",
+      "rule": "Analysis feeds hook generation. All 12 results land in ANALYSIS section. Made resumable because 12 parallel agents is long-running.",
+      "status": "accepted",
+      "tags": ["agent", "analysis", "parallel"]
+    },
+    {
+      "id": "d05",
+      "title": "Chapter timing = tool call, not workflow state",
+      "type": "decision",
+      "summary": "Timing adjustment is mechanical (index + arithmetic) — doesn't need AI reasoning or a Delamain state.",
+      "rule": "The Delamain models decisions, not tools. External fine-tuning tool runs out-of-band during awaiting-chapter-review gate.",
+      "status": "accepted",
+      "tags": ["chapters", "timing", "tools"]
+    },
+    {
+      "id": "d06",
+      "title": "internal_label nullable, excluded from title template",
+      "type": "decision",
+      "summary": "internal_label is optional annotation — excluded from title template because compiler requires non-null title sources.",
+      "rule": "Title source = project_code only. Always non-null, always unique. internal_label stays in entity body as optional metadata.",
+      "status": "accepted",
+      "tags": ["entity", "compiler", "fields"]
+    },
+    {
+      "id": "d07",
+      "title": "Module named fli-launch (not youtube-launch-optimizer)",
+      "type": "decision",
+      "summary": "AWB already has a module called youtube-launch-optimizer — used fli-launch to namespace to FliLaunch.",
+      "rule": "Namespace modules to the product they belong to. Avoids collision and makes skill IDs (fli-launch-manage, fli-launch-pipeline) unambiguous.",
+      "status": "accepted",
+      "tags": ["module", "naming", "conventions"]
+    },
+    {
+      "id": "d08",
+      "title": "Two skills: manage + pipeline",
+      "type": "decision",
+      "summary": "Split into fli-launch-manage (CRUD) and fli-launch-pipeline (operator console) — separate administration from operation.",
+      "rule": "Manage = session lifecycle (create, list, inspect, cancel). Pipeline = workflow operation (advance, rework at human gates). Follows ALS reference system conventions.",
+      "status": "accepted",
+      "tags": ["skills", "design", "conventions"]
+    },
+    {
+      "id": "d09",
+      "title": "FliHub as transcript source (not direct file reference)",
+      "type": "decision",
+      "summary": "Agent calls FliHub API with project_code rather than reading filesystem paths directly.",
+      "rule": "FliHub is the canonical video project management system. It normalizes data and provides a consistent API. Agents shouldn't need filesystem knowledge.",
+      "status": "accepted",
+      "tags": ["flihub", "integration", "agent"]
+    },
+    {
+      "id": "g01",
+      "title": "No /als:deploy skill",
+      "type": "gap",
+      "summary": "After authoring a module, there is no skill to project .als/ to .claude/ — must run the compiler command manually.",
+      "rule": "Filed as nfrith/als#2. Workaround: bun /path/alsc/compiler/src/cli.ts deploy claude .",
+      "status": "filed",
+      "tags": ["tooling", "deploy", "skills"]
+    },
+    {
+      "id": "g02",
+      "title": "/als:init and compiler not aligned",
+      "type": "gap",
+      "summary": "/als:init generates a different scaffold shape than what the compiler validates as correct.",
+      "rule": "Known pre-release gap, confirmed by Nick. Use compiler as source of truth. Scaffold manually if /als:init output fails validation.",
+      "status": "known",
+      "tags": ["tooling", "authoring", "compiler"]
+    },
+    {
+      "id": "g03",
+      "title": "No sub-Delamain concept — underdocumented constraint",
+      "type": "gap",
+      "summary": "Operators from nested workflow systems expect child workflows — ALS has no such concept, and it's not prominently documented.",
+      "rule": "Should add to ALS docs: 'No sub-Delamain concept. Inline states or add a second delamain-typed field on the entity.'",
+      "status": "known",
+      "tags": ["documentation", "delamain", "architecture"]
+    },
+    {
+      "id": "g04",
+      "title": "Compiler error output is JSON, not human-readable",
+      "type": "gap",
+      "summary": "Running alsc validate directly produces structured JSON with error codes — requires parsing to understand.",
+      "rule": "Use /als:validate skill which interprets errors in readable form, or pipe to jq.",
+      "status": "known",
+      "tags": ["compiler", "dx", "tooling"]
+    },
+    {
+      "id": "g05",
+      "title": "No session seeding skill or template",
+      "type": "gap",
+      "summary": "Creating the first entity record requires the module's manage skill — no generic scaffold or template generator.",
+      "rule": "Use /fli-launch-manage → Create. The manage skill handles record creation with correct frontmatter.",
+      "status": "known",
+      "tags": ["skills", "entity", "sessions"]
+    },
+    {
+      "id": "g06",
+      "title": "authoring.ts absolute path not documented for standalone projects",
+      "type": "gap",
+      "summary": "Reference system examples use a monorepo-relative path that fails in standalone projects — not documented anywhere.",
+      "rule": "ALS install docs should explicitly note standalone projects need the absolute installed path in authoring.ts.",
+      "status": "known",
+      "tags": ["documentation", "setup", "authoring.ts"]
+    }
+  ]
+}

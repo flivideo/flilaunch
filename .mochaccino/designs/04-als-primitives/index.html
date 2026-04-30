@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALS Primitives Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Roboto+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand-brown: #342d2d;
+  --brand-gold: #ccba9d;
+  --brand-yellow: #ffde59;
+  --brand-amber: #c8841a;
+  --brand-muted: #7a6e5e;
+  --brand-near-white: #faf5ec;
+  --brand-surface: #f0ebe4;
+  --brand-linen: #e8e0d4;
+  --brand-border: #d4cdc4;
+  --brand-chrome: #1a1515;
+  --brand-dark-surface: #25201e;
+  --brand-blue: #2E91FC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; }
+
+.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-gold); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+
+header { background: var(--brand-brown); padding: 40px 48px 32px; }
+header h1 { font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 600; color: var(--brand-yellow); text-transform: uppercase; letter-spacing: 0.04em; }
+header p { color: var(--brand-gold); margin-top: 8px; font-size: 15px; }
+
+/* Hierarchy diagram */
+.hierarchy { padding: 32px 48px 0; }
+.hierarchy-title { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-muted); margin-bottom: 16px; }
+.h-diagram { display: flex; align-items: center; gap: 0; flex-wrap: wrap; background: var(--brand-dark-surface); border-radius: 8px; padding: 20px 24px; overflow-x: auto; }
+.h-node { display: flex; align-items: center; gap: 0; }
+.h-pill { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 7px 14px; border-radius: 4px; white-space: nowrap; cursor: pointer; transition: all 0.15s; }
+.h-pill:hover { transform: translateY(-1px); }
+.h-arrow { color: var(--brand-gold); font-size: 18px; padding: 0 8px; opacity: 0.5; }
+.h-group { display: flex; flex-direction: column; gap: 6px; }
+.h-group-label { font-family: 'Roboto Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-muted); text-align: center; }
+
+.hl-1 { background: #c8841a; color: #fff; }
+.hl-2 { background: #7c3aed; color: #fff; }
+.hl-3 { background: #0369a1; color: #fff; }
+.hl-4 { background: #047857; color: #fff; }
+.hl-5 { background: #b45309; color: #fff; }
+.hl-6 { background: #be123c; color: #fff; }
+.hl-7 { background: #1e40af; color: #fff; }
+
+/* Primitives list */
+.primitives { max-width: 900px; margin: 0 auto; padding: 32px 48px 48px; display: flex; flex-direction: column; gap: 16px; }
+
+.primitive { border: 1px solid var(--brand-border); border-radius: 8px; overflow: hidden; }
+.primitive-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; background: var(--brand-surface); transition: background 0.15s; }
+.primitive-header:hover { background: var(--brand-linen); }
+.prim-badge { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 12px; border-radius: 4px; white-space: nowrap; }
+.prim-title { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--brand-brown); }
+.prim-what { font-size: 13px; color: var(--brand-muted); margin-top: 2px; flex: 1; }
+.expand-icon { margin-left: auto; font-size: 18px; color: var(--brand-muted); transition: transform 0.2s; }
+.primitive.open .expand-icon { transform: rotate(180deg); }
+
+.primitive-body { display: none; padding: 20px 24px; border-top: 1px solid var(--brand-border); background: var(--brand-near-white); }
+.primitive.open .primitive-body { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.prim-section-title { font-family: 'Oswald', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-muted); margin-bottom: 8px; }
+
+.prim-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.prim-list li { font-size: 12px; color: var(--brand-brown); line-height: 1.4; padding-left: 14px; position: relative; }
+.prim-list li::before { content: "→"; position: absolute; left: 0; color: var(--brand-amber); font-size: 11px; }
+
+.prim-constraints li::before { content: "!"; color: #b45309; font-weight: 700; }
+.prim-constraints li { color: #7c2d12; background: #ffedd5; border-radius: 3px; padding: 4px 8px 4px 22px; }
+
+.awb-box { grid-column: 1 / -1; background: var(--brand-linen); border-left: 3px solid var(--brand-blue); border-radius: 0 4px 4px 0; padding: 10px 14px; font-size: 12px; color: var(--brand-brown); }
+.awb-label { font-family: 'Oswald', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-blue); margin-bottom: 4px; }
+
+footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: center; color: var(--brand-muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<!-- Mochaccino citation — data: data/als-primitives.json — source: docs/als-learnings/als-concepts-from-experience.md + session knowledge — rendered: 2026-04-30 -->
+
+<div class="mocha-banner">
+  <span>Mocha — ALS Primitives Reference — 2026-04-30</span>
+  <span>10 primitives · layer-stack · AppyDave brand</span>
+</div>
+
+<header>
+  <h1>ALS Primitives Reference</h1>
+  <p>What you can build and how the pieces fit together — with AWB mental model mapping</p>
+</header>
+
+<div class="hierarchy">
+  <div class="hierarchy-title">Compositional Hierarchy</div>
+  <div class="h-diagram">
+    <div class="h-node"><span class="h-pill hl-1">System</span><span class="h-arrow">›</span></div>
+    <div class="h-node"><span class="h-pill hl-2">Module</span><span class="h-arrow">›</span></div>
+    <div class="h-node"><span class="h-pill hl-3">Entity</span><span class="h-arrow">›</span></div>
+    <div class="h-node"><span class="h-pill hl-4">Delamain</span><span class="h-arrow">›</span></div>
+    <div class="h-node">
+      <div class="h-group">
+        <div class="h-group-label">parallel</div>
+        <div style="display:flex;gap:6px;">
+          <span class="h-pill hl-5">State</span>
+          <span class="h-pill hl-5">Transition</span>
+        </div>
+      </div>
+      <span class="h-arrow">›</span>
+    </div>
+    <div class="h-node">
+      <div class="h-group">
+        <div class="h-group-label">state types</div>
+        <div style="display:flex;gap:6px;">
+          <span class="h-pill hl-6">Agent</span>
+          <span class="h-pill hl-6">Operator</span>
+        </div>
+      </div>
+      <span class="h-arrow">›</span>
+    </div>
+    <div class="h-node">
+      <div class="h-group">
+        <div class="h-group-label">runtime</div>
+        <div style="display:flex;gap:6px;">
+          <span class="h-pill hl-7">Skill</span>
+          <span class="h-pill hl-7">Dispatcher</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="primitives">
+
+  <div class="primitive open" id="p-system">
+    <div class="primitive-header" onclick="toggle('p-system')">
+      <span class="prim-badge" style="background:#c8841a;color:#fff;">Level 1</span>
+      <div><div class="prim-title">System</div><div class="prim-what">Top-level container — one per project, declared in .als/system.ts</div></div>
+      <span class="expand-icon">▾</span>
+    </div>
+    <div class="primitive-body">
+      <div>
+        <div class="prim-section-title">What you can do</div>
+        <ul class="prim-list">
+          <li>Declare a system_id that namespaces all modules</li>
+          <li>Register one or more modules</li>
+          <li>Point to the ALS compiler via authoring.ts</li>
+        </ul>
+      </div>
+      <div>
+        <div class="prim-section-title">Key constraints</div>
+        <ul class="prim-list prim-constraints">
+          <li>One system per project (.als/ directory)</li>
+          <li>Standalone projects: authoring.ts must use absolute compiler path</li>
+          <li>system_id namespaces all downstream skill and delamain IDs</li>
+        </ul>
+      </div>
+      <div class="awb-box"><div class="awb-label">AWB equivalent</div>The AWB project/workspace — the root container that holds all workflows</div>
+    </div>
+  </div>
+
+  <div class="primitive" id="p-module">
+    <div class="primitive-header" onclick="toggle('p-module')">
+      <span class="prim-badge" style="background:#7c3aed;color:#fff;">Level 2</span>
+      <div><div class="prim-title">Module</div><div class="prim-what">Versioned bundle of entity + Delamains + skills, declared in module.ts</div></div>
+      <span class="expand-icon">▾</span>
+    </div>
+    <div class="primitive-body">
+      <div>
+        <div class="prim-section-title">What you can do</div>
+        <ul class="prim-list">
+          <li>Define the entity type the module operates on</li>
+          <li>Register one or more Delamains for that entity</li>
+          <li>Register operator-facing skills</li>
+          <li>Version the bundle (v1, v2) for controlled migration</li>
+        </ul>
+      </div>
+      <div>
+        <div class="prim-section-title">Key constraints</div>
+        <ul class="prim-list prim-constraints">
+          <li>One primary entity per module</li>
+          <li>Module path = mount directory where entity records live</li>
+          <li>Version is immutable — changes require a new version bundle</li>
+        </ul>
+      </div>
+      <div class="awb-box"><div class="awb-label">AWB equivalent</div>An AWB workflow group — a cohesive set of workflows around one data concept</div>
+    </div>
+  </div>
+
+  <div class="primitive" id="p-entity">
+    <div class="primitive-header" onclick="toggle('p-entity')">
+      <span class="prim-badge" style="background:#0369a1;color:#fff;">Level 3</span>
+      <div><div class="prim-title">Entity</div><div class="prim-what">The data record — a markdown file with YAML frontmatter that Delamains operate on</div></div>
+      <span class="expand-icon">▾</span>
+    </div>
+    <div class="primitive-body">
+      <div>
+        <div class="prim-section-title">What you can do</div>
+        <ul class="prim-list">
+          <li>Define typed fields: id, string, date, delamain</li>
+          <li>Define named document sections (INPUTS, ANALYSIS, HOOKS, etc.)</li>
+          <li>Store all workflow state and generated content in one file</li>
+          <li>Attach state machines via delamain-typed fields</li>
+        </ul>
+      </div>
+      <div>
+        <div class="prim-section-title">Key constraints</div>
+        <ul class="prim-list prim-constraints">
+          <li>Title source fields must be allow_null: false</li>
+          <li>delamain-typed field is the ONLY way to trigger a Delamain</li>
+          <li>Two delamain-typed fields = two independent parallel state machines</li>
+          <li>session-field values implicitly added to frontmatter at runtime</li>
+        </ul>
+      </div>
+      <div class="awb-box"><div class="awb-label">AWB equivalent</div>The AWB work item / job record — the thing flowing through the pipeline</div>
+    </div>
+  </div>
+
+  <div class="primitive" id="p-delamain">
+    <div class="primitive-header" onclick="toggle('p-delamain')">
+      <span class="prim-badge" style="background:#047857;color:#fff;">Level 4</span>
+      <div><div class="prim-title">Delamain</div><div class="prim-what">A state machine triggered by a delamain-typed entity field — the core runtime concept</div></div>
+      <span class="expand-icon">▾</span>
+    </div>
+    <div class="primitive-body">
+      <div>
+        <div class="prim-section-title">What you can do</div>
+        <ul class="prim-list">
+          <li>Define phases (logical groupings of states)</li>
+          <li>Define agent-owned and operator-owned states</li>
+          <li>Define transitions: advance, rework, exit</li>
+          <li>Mark states resumable for crash recovery</li>
+          <li>Bind agents to states (provider + agent .md path)</li>
+        </ul>
+      </div>
+      <div>
+        <div class="prim-section-title">Key constraints</div>
+        <ul class="prim-list prim-constraints">
+          <li>NO sub-Delamains — Delamains cannot call each other</li>
+          <li>Triggered only by a delamain-typed field on an entity</li>
+          <li>Two Delamains on same entity = two separate delamain-typed fields</li>
+          <li>provider required on every agent state</li>
+          <li>Resumable states must declare session-field</li>
+        </ul>
+      </div>
+      <div class="awb-box"><div class="awb-label">AWB equivalent</div>An AWB pipeline/workflow — but commit-driven (not CLI-triggered) and always attached to a specific entity field</div>
+    </div>
+  </div>
+
+  <div class="primitive" id="p-state">
+    <div class="primitive-header" onclick="toggle('p-state')">
+      <span class="prim-badge" style="background:#b45309;color:#fff;">Level 5</span>
+      <div><div class="prim-title">State</div><div class="prim-what">A single node in the Delamain — owned by agent (auto-runs) or operator (human gate)</div></div>
+      <span class="expand-icon">▾</span>
+    </div>
+    <div class="primitive-body">
+      <div>
+        <div class="prim-section-title">What you can do</div>
+        <ul class="prim-list">
+          <li>Make agent-owned: auto-runs when dispatcher finds entity here</li>
+          <li>Make operator-owned: waits for human action via pipeline skill</li>
+          <li>Make terminal: workflow ends here (completed, cancelled)</li>
+          <li>Mark initial: starting state for new entity records</li>
+          <li>Mark resumable: dispatcher can recover crashed agent sessions</li>
+        </ul>
+      </div>
+      <div>
+        <div class="prim-section-title">Key constraints</div>
+        <ul class="prim-list prim-constraints">
+          <li>Agent states must declare provider</li>
+          <li>Agent states must declare path to agent .md file</li>
+          <li>Resumable states must declare session-field</li>
+          <li>Only one initial state per Delamain</li>
+          <li>Terminal states have no outgoing transitions</li>
+        </ul>
+      </div>
+      <div class="awb-box"><div class="awb-label">AWB equivalent</div>An AWB step/node — but split cleanly into human (operator) and machine (agent) types</div>
+    </div>
+  </div>
+
+  <div class="primitive" id="p-transition">
+    <div class="primitive-header" onclick="toggle('p-transition')">
+      <span class="prim-badge" style="background:#b45309;color:#fff;">Level 5</span>
+      <div><div class="prim-title">Transition</div><div class="prim-what">A declared edge between states — advance, rework, or exit</div></div>
+      <span class="expand-icon">▾</span>
+    </div>
+    <div class="primitive-body">
+      <div>
+        <div class="prim-section-title">Transition classes</div>
+        <ul class="prim-list">
+          <li><strong>advance</strong> — forward progress along the happy path</li>
+          <li><strong>rework</strong> — send entity back to a previous state for another pass</li>
+          <li><strong>exit</strong> — move to a terminal state (cancel or complete)</li>
+          <li>Multi-from: same class from multiple sources to one target</li>
+        </ul>
+      </div>
+      <div>
+        <div class="prim-section-title">Key constraints</div>
+        <ul class="prim-list prim-constraints">
+          <li>Must reference states within the same Delamain</li>
+          <li>Dispatcher commits the transition — not the operator directly</li>
+          <li>Agent selects outgoing transition from legal options in runtime-manifest</li>
+        </ul>
+      </div>
+      <div class="awb-box"><div class="awb-label">AWB equivalent</div>AWB step connections/edges — but explicitly typed (advance/rework/exit) not generic arrows</div>
+    </div>
+  </div>
+
+  <div class="primitive" id="p-agent">
+    <div class="primitive-header" onclick="toggle('p-agent')">
+      <span class="prim-badge" style="background:#be123c;color:#fff;">Level 6</span>
+      <div><div class="prim-title">Agent</div><div class="prim-what">A Claude/OpenAI invocation bound to a state — does work and chooses the next transition</div></div>
+      <span class="expand-icon">▾</span>
+    </div>
+    <div class="primitive-body">
+      <div>
+        <div class="prim-section-title">What you can do</div>
+        <ul class="prim-list">
+          <li>Read and write the entity record (frontmatter + sections)</li>
+          <li>Call external tools and APIs (e.g. FliHub for transcript)</li>
+          <li>Run parallel sub-agents (e.g. 12 analysis prompts)</li>
+          <li>Choose from legal outgoing transitions in runtime-manifest</li>
+          <li>Resume from stored session ID if dispatcher crashed</li>
+        </ul>
+      </div>
+      <div>
+        <div class="prim-section-title">Key constraints</div>
+        <ul class="prim-list prim-constraints">
+          <li>Must select a valid outgoing transition — cannot create new ones</li>
+          <li>Output committed to git by dispatcher, then merged to integration</li>
+          <li>Runs in an isolated git worktree per dispatch</li>
+        </ul>
+      </div>
+      <div class="awb-box"><div class="awb-label">AWB equivalent</div>An AWB agent step — but with formal state-machine bindings and git-commit-driven lifecycle</div>
+    </div>
+  </div>
+
+  <div class="primitive" id="p-operator">
+    <div class="primitive-header" onclick="toggle('p-operator')">
+      <span class="prim-badge" style="background:#be123c;color:#fff;">Level 6</span>
+      <div><div class="prim-title">Operator</div><div class="prim-what">A human gate — dispatcher pauses here, waits for human action via the pipeline skill</div></div>
+      <span class="expand-icon">▾</span>
+    </div>
+    <div class="primitive-body">
+      <div>
+        <div class="prim-section-title">What you can do</div>
+        <ul class="prim-list">
+          <li>Review agent-generated content in the entity record</li>
+          <li>Make selections, provide input, or edit sections</li>
+          <li>Advance to the next state (progress)</li>
+          <li>Rework back to a previous state (reject/refine)</li>
+          <li>Exit to cancelled (abort)</li>
+        </ul>
+      </div>
+      <div>
+        <div class="prim-section-title">Key constraints</div>
+        <ul class="prim-list prim-constraints">
+          <li>No path or provider declaration needed</li>
+          <li>Pipeline skill is the interface — not direct file editing</li>
+          <li>Dispatcher will NOT advance operator-owned states automatically</li>
+        </ul>
+      </div>
+      <div class="awb-box"><div class="awb-label">AWB equivalent</div>An AWB human-in-the-loop approval step — but with formal transition choices (advance/rework/exit)</div>
+    </div>
+  </div>
+
+  <div class="primitive" id="p-skill">
+    <div class="primitive-header" onclick="toggle('p-skill')">
+      <span class="prim-badge" style="background:#1e40af;color:#fff;">Level 7</span>
+      <div><div class="prim-title">Skill</div><div class="prim-what">A Claude Code slash command — markdown instruction deployed to .claude/skills/ and invokable as /skill-id</div></div>
+      <span class="expand-icon">▾</span>
+    </div>
+    <div class="primitive-body">
+      <div>
+        <div class="prim-section-title">What you can do</div>
+        <ul class="prim-list">
+          <li>Create operator-facing commands (/fli-launch-pipeline, /fli-launch-manage)</li>
+          <li>Surface entity records needing attention at operator gates</li>
+          <li>Provide CRUD for entity records (create, list, inspect, cancel)</li>
+          <li>Run ALS system operations (deploy, validate, bootup)</li>
+          <li>File issues to external systems (/als:ghost-line)</li>
+        </ul>
+      </div>
+      <div>
+        <div class="prim-section-title">Key constraints</div>
+        <ul class="prim-list prim-constraints">
+          <li>Skills are markdown files — Claude reads and follows them as instructions</li>
+          <li>Deployed from .als/ to .claude/skills/ via alsc deploy</li>
+          <li>Claude Code Desktop: requires session restart after deploy to discover</li>
+          <li>Skills handle operator-owned states only — dispatcher handles agents</li>
+        </ul>
+      </div>
+      <div class="awb-box"><div class="awb-label">AWB equivalent</div>AWB operator console / UI commands — but implemented as Claude Code slash commands</div>
+    </div>
+  </div>
+
+  <div class="primitive" id="p-dispatcher">
+    <div class="primitive-header" onclick="toggle('p-dispatcher')">
+      <span class="prim-badge" style="background:#1e40af;color:#fff;">Level 7</span>
+      <div><div class="prim-title">Dispatcher</div><div class="prim-what">Background Bun process that watches git HEAD for agent-owned states and invokes agents automatically</div></div>
+      <span class="expand-icon">▾</span>
+    </div>
+    <div class="primitive-body">
+      <div>
+        <div class="prim-section-title">What you can do</div>
+        <ul class="prim-list">
+          <li>Poll git HEAD every 30s for agent-owned state changes</li>
+          <li>Create isolated git worktrees per dispatch</li>
+          <li>Invoke agents via Claude Agent SDK</li>
+          <li>Auto-commit agent output and chosen transition</li>
+          <li>Merge worktrees back to integration checkout</li>
+          <li>Resume crashed agent sessions using session-field values</li>
+        </ul>
+      </div>
+      <div>
+        <div class="prim-section-title">Key constraints</div>
+        <ul class="prim-list prim-constraints">
+          <li>Requires deployed .claude/delamains/ — alsc deploy must run first</li>
+          <li>Requires bun install in dispatcher/ before first run</li>
+          <li>Dies when Claude Code session ends — re-run /als:bootup each session</li>
+          <li>Only reads committed git HEAD — uncommitted changes invisible</li>
+          <li>No skill to deploy exists yet (filed: nfrith/als#2)</li>
+        </ul>
+      </div>
+      <div class="awb-box"><div class="awb-label">AWB equivalent</div>The AWB execution engine — but commit-driven and file-system based rather than API/event driven</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>ALS Primitives Reference · fli-launch · 2026-04-30 · AppyDave</footer>
+
+<script>
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+</script>
+</body>
+</html>

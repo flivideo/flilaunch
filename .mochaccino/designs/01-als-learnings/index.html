@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALS Learnings Catalog</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Roboto+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand-brown: #342d2d;
+  --brand-gold: #ccba9d;
+  --brand-yellow: #ffde59;
+  --brand-amber: #c8841a;
+  --brand-muted: #7a6e5e;
+  --brand-near-white: #faf5ec;
+  --brand-surface: #f0ebe4;
+  --brand-linen: #e8e0d4;
+  --brand-border: #d4cdc4;
+  --brand-chrome: #1a1515;
+  --brand-dark-surface: #25201e;
+  --brand-blue: #2E91FC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; }
+
+.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-gold); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+
+header { background: var(--brand-brown); padding: 40px 48px 32px; }
+header h1 { font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 600; color: var(--brand-yellow); text-transform: uppercase; letter-spacing: 0.04em; }
+header p { font-family: 'Roboto', sans-serif; color: var(--brand-gold); margin-top: 8px; font-size: 15px; }
+.header-stats { display: flex; gap: 32px; margin-top: 20px; }
+.stat { text-align: center; }
+.stat-num { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--brand-yellow); }
+.stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-gold); margin-top: 2px; }
+
+.filter-bar { background: var(--brand-surface); border-bottom: 1px solid var(--brand-border); padding: 16px 48px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.filter-label { font-family: 'Oswald', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-muted); margin-right: 8px; }
+.filter-btn { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 16px; border-radius: 4px; border: 1px solid var(--brand-border); background: var(--brand-near-white); color: var(--brand-brown); cursor: pointer; transition: all 0.15s; }
+.filter-btn:hover { border-color: var(--brand-amber); color: var(--brand-amber); }
+.filter-btn.active { background: var(--brand-brown); color: var(--brand-yellow); border-color: var(--brand-brown); }
+.count-chip { background: var(--brand-linen); border-radius: 10px; padding: 2px 8px; font-size: 11px; margin-left: 4px; color: var(--brand-muted); }
+
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 32px 48px; }
+
+.card { background: var(--brand-surface); border: 1px solid var(--brand-border); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 12px; transition: box-shadow 0.15s; }
+.card:hover { box-shadow: 0 4px 16px rgba(52,45,45,0.12); }
+.card.hidden { display: none; }
+
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.card-title { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--brand-brown); line-height: 1.3; flex: 1; }
+
+.badge { font-family: 'Roboto Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px; white-space: nowrap; }
+.badge-concept { background: #dbeafe; color: #1e40af; }
+.badge-decision { background: #ede9fe; color: #5b21b6; }
+.badge-gap { background: #ffedd5; color: #9a3412; }
+.badge-corrected { background: #dcfce7; color: #166534; }
+.badge-accepted { background: #ccfbf1; color: #0f766e; }
+.badge-filed { background: #fef9c3; color: #854d0e; }
+.badge-known { background: #f3f4f6; color: #374151; }
+
+.card-summary { font-size: 13px; color: var(--brand-muted); line-height: 1.5; }
+
+.card-rule { background: var(--brand-linen); border-left: 3px solid var(--brand-amber); border-radius: 0 4px 4px 0; padding: 10px 12px; font-size: 12px; color: var(--brand-brown); line-height: 1.5; }
+.card-rule-label { font-family: 'Oswald', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-amber); margin-bottom: 4px; }
+
+.card-footer { display: flex; justify-content: space-between; align-items: center; }
+
+footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: center; color: var(--brand-muted); font-size: 12px; margin-top: 40px; }
+
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; padding: 20px; } }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; padding: 16px; } header { padding: 24px 20px; } .filter-bar { padding: 12px 20px; } }
+</style>
+</head>
+<body>
+<!-- Mochaccino citation — data: data/als-learnings.json — source: docs/als-learnings/ — rendered: 2026-04-30 -->
+
+<div class="mocha-banner">
+  <span>Mocha — ALS Learnings Catalog — 2026-04-30</span>
+  <span>25 items · card-grid · AppyDave brand</span>
+</div>
+
+<header>
+  <h1>ALS Implementation Learnings</h1>
+  <p>Concepts clarified, decisions made, and gaps discovered across two implementation sessions</p>
+  <div class="header-stats">
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">Concepts</div></div>
+    <div class="stat"><div class="stat-num">9</div><div class="stat-label">Decisions</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Gaps</div></div>
+    <div class="stat"><div class="stat-num">25</div><div class="stat-label">Total</div></div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filter('all', this)">All <span class="count-chip">25</span></button>
+  <button class="filter-btn" onclick="filter('concept', this)">Concepts <span class="count-chip">10</span></button>
+  <button class="filter-btn" onclick="filter('decision', this)">Decisions <span class="count-chip">9</span></button>
+  <button class="filter-btn" onclick="filter('gap', this)">Gaps <span class="count-chip">6</span></button>
+</div>
+
+<div class="grid" id="card-grid">
+
+  <!-- CONCEPTS -->
+  <div class="card" data-type="concept">
+    <div class="card-header">
+      <div class="card-title">Sub-Delamains do not exist</div>
+      <span class="badge badge-concept">Concept</span>
+    </div>
+    <div class="card-summary">Scaffolded a 'chapters' Delamain as a sub-flow of the main 'launch' Delamain — ALS has no such concept.</div>
+    <div class="card-rule"><div class="card-rule-label">Rule</div>A Delamain is triggered by a delamain-typed field on an entity. No parent-child relationships. One entity + one concern = one Delamain with inlined states.</div>
+    <div class="card-footer"><span class="badge badge-corrected">Corrected</span></div>
+  </div>
+
+  <div class="card" data-type="concept">
+    <div class="card-header">
+      <div class="card-title">Spec HITL gates ≠ Delamain operator gates</div>
+      <span class="badge badge-concept">Concept</span>
+    </div>
+    <div class="card-summary">Translated all 7 spec UI touchpoints into Delamain operator gates — only genuine human decisions need gates.</div>
+    <div class="card-rule"><div class="card-rule-label">Rule</div>Ask: "Can an agent make this decision reliably?" If yes, no gate needed. Agent-to-agent handoffs require no operator state.</div>
+    <div class="card-footer"><span class="badge badge-corrected">Corrected</span></div>
+  </div>
+
+  <div class="card" data-type="concept">
+    <div class="card-header">
+      <div class="card-title">authoring.ts path must be absolute</div>
+      <span class="badge badge-concept">Concept</span>
+    </div>
+    <div class="card-summary">Copied a relative path from the ALS reference system that only works inside the ALS monorepo.</div>
+    <div class="card-rule"><div class="card-rule-label">Rule</div>Standalone projects must use the absolute installed path: /Users/&lt;user&gt;/.claude/plugins/cache/als-marketplace/als/&lt;version&gt;/alsc/compiler/src/authoring/index.ts</div>
+    <div class="card-footer"><span class="badge badge-corrected">Corrected</span></div>
+  </div>
+
+  <div class="card" data-type="concept">
+    <div class="card-header">
+      <div class="card-title">Title source fields must be non-null</div>
+      <span class="badge badge-concept">Concept</span>
+    </div>
+    <div class="card-summary">Used a nullable field (internal_label) in the entity title template — compiler error PAL-CV-SHAPE-001.</div>
+    <div class="card-rule"><div class="card-rule-label">Rule</div>Any field in a document title source must have allow_null: false. Put optional fields in the body, not the title.</div>
+    <div class="card-footer"><span class="badge badge-corrected">Corrected</span></div>
+  </div>
+
+  <div class="card" data-type="concept">
+    <div class="card-header">
+      <div class="card-title">provider required on all agent states</div>
+      <span class="badge badge-concept">Concept</span>
+    </div>
+    <div class="card-summary">Left out 'provider: anthropic' on every agent state — compiler caught all of them.</div>
+    <div class="card-rule"><div class="card-rule-label">Rule</div>Every state with actor: agent must declare provider. Valid values: 'anthropic', 'openai'. There is no default.</div>
+    <div class="card-footer"><span class="badge badge-corrected">Corrected</span></div>
+  </div>
+
+  <div class="card" data-type="concept">
+    <div class="card-header">
+      <div class="card-title">session-field required on resumable states</div>
+      <span class="badge badge-concept">Concept</span>
+    </div>
+    <div class="card-summary">Marked states resumable: true without providing the session-field name for recovery.</div>
+    <div class="card-rule"><div class="card-rule-label">Rule</div>resumable: true requires session-field: '&lt;name&gt;'. Implicitly added to entity frontmatter at runtime — no need to declare in entity fields block.</div>
+    <div class="card-footer"><span class="badge badge-corrected">Corrected</span></div>
+  </div>
+
+  <div class="card" data-type="concept">
+    <div class="card-header">
+      <div class="card-title">System root is project root, not .als</div>
+      <span class="badge badge-concept">Concept</span>
+    </div>
+    <div class="card-summary">Passed .als as the system root — compiler looked for .als/.als/system.ts (double path error).</div>
+    <div class="card-rule"><div class="card-rule-label">Rule</div>The system-root argument is . (project root). The compiler appends .als/system.ts itself. Always run from project root.</div>
+    <div class="card-footer"><span class="badge badge-corrected">Corrected</span></div>
+  </div>
+
+  <div class="card" data-type="concept">
+    <div class="card-header">
+      <div class="card-title">Compiler is source of truth, not skills</div>
+      <span class="badge badge-concept">Concept</span>
+    </div>
+    <div class="card-summary">/als:init and the compiler are known to be unaligned in 0.1.0-beta.28.</div>
+    <div class="card-rule"><div class="card-rule-label">Rule</div>If alsc validate passes, the scaffold is correct regardless of what /als:init generates. Use the compiler as the arbiter.</div>
+    <div class="card-footer"><span class="badge badge-known">Known</span></div>
+  </div>
+
+  <div class="card" data-type="concept">
+    <div class="card-header">
+      <div class="card-title">Dispatcher is commit-driven, not CLI-driven</div>
+      <span class="badge badge-concept">Concept</span>
+    </div>
+    <div class="card-summary">Expected a command to advance a Delamain step-by-step — the dispatcher polls git HEAD for committed state changes.</div>
+    <div class="card-rule"><div class="card-rule-label">Rule</div>Commit a state change → dispatcher sees it on next poll (30s) → invokes the agent → auto-commits result. No manual trigger.</div>
+    <div class="card-footer"><span class="badge badge-corrected">Corrected</span></div>
+  </div>
+
+  <div class="card" data-type="concept">
+    <div class="card-header">
+      <div class="card-title">Deploy and bootup are separate operations</div>
+      <span class="badge badge-concept">Concept</span>
+    </div>
+    <div class="card-summary">Assumed running bootup would also compile and deploy the module — they are two distinct steps.</div>
+    <div class="card-rule"><div class="card-rule-label">Rule</div>alsc deploy claude . projects .als/ to .claude/. /als:bootup starts dispatchers. Neither does both. No skill exists for deploy (filed: nfrith/als#2).</div>
+    <div class="card-footer"><span class="badge badge-corrected">Corrected</span></div>
+  </div>
+
+  <!-- DECISIONS -->
+  <div class="card" data-type="decision">
+    <div class="card-header">
+      <div class="card-title">Hook-centric fan-out</div>
+      <span class="badge badge-decision">Decision</span>
+    </div>
+    <div class="card-summary">Nick's diagram had thumbnail deriving from title — we made both title and thumbnail derive from hook.</div>
+    <div class="card-rule"><div class="card-rule-label">Rationale</div>Hook is the framing angle. Both title (text) and thumbnail (visual) express the same hook independently. Deriving thumbnail from title creates redundancy and weaker CTR.</div>
+    <div class="card-footer"><span class="badge badge-accepted">Accepted</span></div>
+  </div>
+
+  <div class="card" data-type="decision">
+    <div class="card-header">
+      <div class="card-title">4 operator gates (not 7, not 3)</div>
+      <span class="badge badge-decision">Decision</span>
+    </div>
+    <div class="card-summary">Iterated from 7 spec gates → 3 (too few, missed chapters) → 4 (correct final count).</div>
+    <div class="card-rule"><div class="card-rule-label">Rationale</div>Gates: awaiting-input, awaiting-hook-selection, awaiting-chapter-review, awaiting-review. All other transitions are agent-to-agent.</div>
+    <div class="card-footer"><span class="badge badge-accepted">Accepted</span></div>
+  </div>
+
+  <div class="card" data-type="decision">
+    <div class="card-header">
+      <div class="card-title">Chapters inlined into launch Delamain</div>
+      <span class="badge badge-decision">Decision</span>
+    </div>
+    <div class="card-summary">Originally a separate chapters Delamain — dropped and inlined as 3 states after Nick pointed out it was orphaned.</div>
+    <div class="card-rule"><div class="card-rule-label">Rationale</div>One entity + chapter processing as part of main flow = inline. Use a second Delamain field only if the concern is genuinely parallel and independent.</div>
+    <div class="card-footer"><span class="badge badge-accepted">Accepted</span></div>
+  </div>
+
+  <div class="card" data-type="decision">
+    <div class="card-header">
+      <div class="card-title">Analysis = 12 parallel prompts, no gate</div>
+      <span class="badge badge-decision">Decision</span>
+    </div>
+    <div class="card-summary">Ran 12 parallel sub-agent prompts for analysis — purely extractive, no human judgment needed.</div>
+    <div class="card-rule"><div class="card-rule-label">Rationale</div>Analysis feeds hook generation. All 12 results land in ANALYSIS section. Made resumable because 12 parallel agents is long-running.</div>
+    <div class="card-footer"><span class="badge badge-accepted">Accepted</span></div>
+  </div>
+
+  <div class="card" data-type="decision">
+    <div class="card-header">
+      <div class="card-title">Chapter timing = tool call, not workflow state</div>
+      <span class="badge badge-decision">Decision</span>
+    </div>
+    <div class="card-summary">Timing adjustment is mechanical (index + arithmetic) — doesn't need AI reasoning or a Delamain state.</div>
+    <div class="card-rule"><div class="card-rule-label">Rationale</div>The Delamain models decisions, not tools. External fine-tuning tool runs out-of-band during awaiting-chapter-review gate.</div>
+    <div class="card-footer"><span class="badge badge-accepted">Accepted</span></div>
+  </div>
+
+  <div class="card" data-type="decision">
+    <div class="card-header">
+      <div class="card-title">internal_label excluded from title template</div>
+      <span class="badge badge-decision">Decision</span>
+    </div>
+    <div class="card-summary">internal_label is optional annotation — excluded from title template because compiler requires non-null title sources.</div>
+    <div class="card-rule"><div class="card-rule-label">Rationale</div>Title source = project_code only. Always non-null, always unique. internal_label stays in entity body as optional metadata.</div>
+    <div class="card-footer"><span class="badge badge-accepted">Accepted</span></div>
+  </div>
+
+  <div class="card" data-type="decision">
+    <div class="card-header">
+      <div class="card-title">Module named fli-launch</div>
+      <span class="badge badge-decision">Decision</span>
+    </div>
+    <div class="card-summary">AWB already has youtube-launch-optimizer — used fli-launch to namespace to FliLaunch and avoid collision.</div>
+    <div class="card-rule"><div class="card-rule-label">Rationale</div>Namespace modules to the product they belong to. Skill IDs become fli-launch-manage and fli-launch-pipeline — unambiguous.</div>
+    <div class="card-footer"><span class="badge badge-accepted">Accepted</span></div>
+  </div>
+
+  <div class="card" data-type="decision">
+    <div class="card-header">
+      <div class="card-title">Two skills: manage + pipeline</div>
+      <span class="badge badge-decision">Decision</span>
+    </div>
+    <div class="card-summary">Split into fli-launch-manage (CRUD) and fli-launch-pipeline (operator console) — separate administration from operation.</div>
+    <div class="card-rule"><div class="card-rule-label">Rationale</div>Manage = session lifecycle. Pipeline = workflow operation. Follows ALS reference system conventions, avoids a bloated skill.</div>
+    <div class="card-footer"><span class="badge badge-accepted">Accepted</span></div>
+  </div>
+
+  <div class="card" data-type="decision">
+    <div class="card-header">
+      <div class="card-title">FliHub as transcript source</div>
+      <span class="badge badge-decision">Decision</span>
+    </div>
+    <div class="card-summary">Agent calls FliHub API with project_code rather than reading filesystem paths directly.</div>
+    <div class="card-rule"><div class="card-rule-label">Rationale</div>FliHub is the canonical video project management system. It normalizes data. Agents shouldn't need filesystem knowledge.</div>
+    <div class="card-footer"><span class="badge badge-accepted">Accepted</span></div>
+  </div>
+
+  <!-- GAPS -->
+  <div class="card" data-type="gap">
+    <div class="card-header">
+      <div class="card-title">No /als:deploy skill</div>
+      <span class="badge badge-gap">Gap</span>
+    </div>
+    <div class="card-summary">After authoring a module, there is no skill to project .als/ to .claude/ — must run the compiler command manually.</div>
+    <div class="card-rule"><div class="card-rule-label">Workaround</div>Filed as nfrith/als#2. Run: bun /path/alsc/compiler/src/cli.ts deploy claude .</div>
+    <div class="card-footer"><span class="badge badge-filed">Filed #2</span></div>
+  </div>
+
+  <div class="card" data-type="gap">
+    <div class="card-header">
+      <div class="card-title">/als:init and compiler not aligned</div>
+      <span class="badge badge-gap">Gap</span>
+    </div>
+    <div class="card-summary">/als:init generates a different scaffold shape than what the compiler validates as correct.</div>
+    <div class="card-rule"><div class="card-rule-label">Workaround</div>Known pre-release gap, confirmed by Nick. Use compiler as source of truth. Scaffold manually if /als:init output fails validation.</div>
+    <div class="card-footer"><span class="badge badge-known">Known</span></div>
+  </div>
+
+  <div class="card" data-type="gap">
+    <div class="card-header">
+      <div class="card-title">Sub-Delamain concept underdocumented</div>
+      <span class="badge badge-gap">Gap</span>
+    </div>
+    <div class="card-summary">Operators from nested workflow systems expect child workflows — ALS has no such concept, but it's not prominently documented.</div>
+    <div class="card-rule"><div class="card-rule-label">Fix needed</div>Should add to ALS docs: "No sub-Delamain concept. Inline states or add a second delamain-typed field on the entity."</div>
+    <div class="card-footer"><span class="badge badge-known">Known</span></div>
+  </div>
+
+  <div class="card" data-type="gap">
+    <div class="card-header">
+      <div class="card-title">Compiler error output is JSON, not human-readable</div>
+      <span class="badge badge-gap">Gap</span>
+    </div>
+    <div class="card-summary">Running alsc validate directly produces structured JSON with error codes — requires parsing to understand.</div>
+    <div class="card-rule"><div class="card-rule-label">Workaround</div>Use /als:validate skill which interprets errors in readable form, or pipe to jq.</div>
+    <div class="card-footer"><span class="badge badge-known">Known</span></div>
+  </div>
+
+  <div class="card" data-type="gap">
+    <div class="card-header">
+      <div class="card-title">No session seeding skill or template</div>
+      <span class="badge badge-gap">Gap</span>
+    </div>
+    <div class="card-summary">Creating the first entity record requires the module's manage skill — no generic scaffold or template generator.</div>
+    <div class="card-rule"><div class="card-rule-label">Workaround</div>Use /fli-launch-manage → Create. The manage skill handles record creation with correct frontmatter.</div>
+    <div class="card-footer"><span class="badge badge-known">Known</span></div>
+  </div>
+
+  <div class="card" data-type="gap">
+    <div class="card-header">
+      <div class="card-title">authoring.ts absolute path not documented</div>
+      <span class="badge badge-gap">Gap</span>
+    </div>
+    <div class="card-summary">Reference system examples use a monorepo-relative path that fails in standalone projects — not documented anywhere.</div>
+    <div class="card-rule"><div class="card-rule-label">Fix needed</div>ALS install docs should note standalone projects need the absolute installed path in authoring.ts.</div>
+    <div class="card-footer"><span class="badge badge-known">Known</span></div>
+  </div>
+
+</div>
+
+<footer>ALS Implementation Learnings · fli-launch · 2026-04-30 · AppyDave</footer>
+
+<script>
+function filter(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    if (type === 'all' || card.dataset.type === type) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "id": "als-module-state",
+    "version": "1.0.0",
+    "extracted": "2026-04-30",
+    "last_updated": "2026-04-30",
+    "source": "docs/als-learnings/als-fli-launch-state.md",
+    "prompt": "Initial extraction of fli-launch module state snapshot"
+  },
+  "title": "fli-launch Module State",
+  "subtitle": "Snapshot: 2026-04-30",
+  "columns": ["done", "open", "deferred"],
+  "items": [
+    {
+      "id": "s01",
+      "label": "Module authored + compiling clean",
+      "status": "done",
+      "category": "compiler",
+      "notes": "1 module, 0 errors, 0 warnings. ALS v1, compiler 0.1.0-beta.28."
+    },
+    {
+      "id": "s02",
+      "label": "Hook-centric fan-out validated with Nick",
+      "status": "done",
+      "category": "design",
+      "notes": "Hook is ancestor of both title AND thumbnail. Nick's title-centric model rejected."
+    },
+    {
+      "id": "s03",
+      "label": "Sub-Delamain corrected to inlined states",
+      "status": "done",
+      "category": "design",
+      "notes": "chapters/ Delamain deleted. generating-chapters, awaiting-chapter-review, refining-chapters inlined into launch."
+    },
+    {
+      "id": "s04",
+      "label": "All agent stubs written",
+      "status": "done",
+      "category": "design",
+      "notes": "7 agent .md files: fetching-transcript, running-analysis, generating-hooks, generating-content, generating-chapters, refining-chapters, assembling-output."
+    },
+    {
+      "id": "s05",
+      "label": "Skills scaffolded",
+      "status": "done",
+      "category": "design",
+      "notes": "fli-launch-manage (CRUD) and fli-launch-pipeline (operator console)."
+    },
+    {
+      "id": "s06",
+      "label": "Deploy complete",
+      "status": "done",
+      "category": "runtime",
+      "notes": ".claude/skills/ and .claude/delamains/launch/ populated."
+    },
+    {
+      "id": "s07",
+      "label": "Dispatcher dependencies installed",
+      "status": "done",
+      "category": "runtime",
+      "notes": "bun install complete. 101 packages."
+    },
+    {
+      "id": "s08",
+      "label": "b65 data fetched from FliHub",
+      "status": "done",
+      "category": "integration",
+      "notes": "b65-guy-monroe-marketing-plan: 26 recordings, 9 chapters, 100% transcribed, no SRT."
+    },
+    {
+      "id": "s09",
+      "label": "Missing /als:deploy skill filed",
+      "status": "done",
+      "category": "documentation",
+      "notes": "GitHub issue nfrith/als#2 filed via /ghost-line."
+    },
+    {
+      "id": "s10",
+      "label": "ALS learnings documented",
+      "status": "done",
+      "category": "documentation",
+      "notes": "5 docs in docs/als-learnings/: concepts, runbook, decisions, gaps, module state."
+    },
+    {
+      "id": "o01",
+      "label": "Start dispatcher",
+      "status": "open",
+      "category": "runtime",
+      "notes": "/als:bootup not yet run. Must do at start of each session."
+    },
+    {
+      "id": "o02",
+      "label": "Create first session record",
+      "status": "open",
+      "category": "runtime",
+      "notes": "/fli-launch-manage → Create → project_code = b65-guy-monroe-marketing-plan."
+    },
+    {
+      "id": "o03",
+      "label": "Confirm FliHub transcript endpoint",
+      "status": "open",
+      "category": "integration",
+      "notes": "fetching-transcript agent references FliHub API but endpoint path + auth headers not tested."
+    },
+    {
+      "id": "o04",
+      "label": "Run first end-to-end session on b65",
+      "status": "open",
+      "category": "runtime",
+      "notes": "Blocked on: dispatcher running, session created, FliHub endpoint confirmed."
+    },
+    {
+      "id": "d01",
+      "label": "/als:init comparison",
+      "status": "deferred",
+      "category": "compiler",
+      "notes": "Nick suggested comparing hand-scaffold to /als:init output. Compiler passes — de-risked. Post-MVP."
+    },
+    {
+      "id": "d02",
+      "label": "Chapter 03 unnamed in b65",
+      "status": "deferred",
+      "category": "integration",
+      "notes": "03-1.mov has no label suffix. Agent must infer label from transcript only. Will surface at first run."
+    },
+    {
+      "id": "d03",
+      "label": "FliHub auto-start on M4",
+      "status": "deferred",
+      "category": "integration",
+      "notes": "tmux session started manually each time. No auto-start configured. Kill: ssh davidcruwys@100.82.235.39 'tmux kill-session -t flihub'"
+    },
+    {
+      "id": "d04",
+      "label": "Session record shape validation",
+      "status": "deferred",
+      "category": "compiler",
+      "notes": "No sample record created — frontmatter/body shape not validated against module definition."
+    },
+    {
+      "id": "d05",
+      "label": "b65 has no SRT — degraded chapter timestamps",
+      "status": "deferred",
+      "category": "integration",
+      "notes": "Chapter timestamps will be missing (??:??). Better test case = project with SRT file."
+    }
+  ]
+}
