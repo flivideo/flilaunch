@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FliLaunch — ALS Delamain Flow</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f1f5f9; margin: 0; padding: 20px; }
+    h1 { color: #1e293b; font-size: 1.2rem; margin-bottom: 2px; }
+    .legend { display: flex; gap: 20px; margin-bottom: 16px; font-size: 0.8rem; }
+    .leg { display: flex; align-items: center; gap: 6px; }
+    .dot { width: 14px; height: 14px; border-radius: 3px; }
+    .agent { background: #bfdbfe; border: 1.5px solid #3b82f6; }
+    .operator { background: #fef9c3; border: 1.5px solid #ca8a04; }
+    .terminal { background: #dcfce7; border: 1.5px solid #16a34a; }
+    .sub { background: #ede9fe; border: 1.5px solid #7c3aed; }
+    .mermaid { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+    .note { font-size: 0.78rem; color: #64748b; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h1>FliLaunch — ALS Delamain: <code>launch</code> + <code>chapters</code> sub-Delamain</h1>
+  <div class="legend">
+    <div class="leg"><div class="dot agent"></div> Agent state (auto-runs)</div>
+    <div class="leg"><div class="dot operator"></div> Operator gate (human decides)</div>
+    <div class="leg"><div class="dot terminal"></div> Terminal</div>
+    <div class="leg"><div class="dot sub"></div> Sub-Delamain</div>
+  </div>
+
+  <div class="mermaid">
+flowchart LR
+
+    %% ── INGEST ──────────────────────────────────────────────
+    START(["🎬 new session"]) --> OP1
+
+    OP1{{"👤 awaiting-input\n─────────────\nproject_code\n+ optional inputs"}}
+    OP1 -->|"advance"| AG1
+
+    AG1["🤖 fetching-transcript\n─────────────\nFliHub API call\nstores transcript"]
+    AG1 -->|"advance"| AG2
+
+    %% ── ANALYSIS ────────────────────────────────────────────
+    AG2["🤖 running-analysis\n─────────────\n12 parallel prompts\ncore idea · hooks · audience\nidentity signals · tone"]
+    AG2 -->|"advance"| AG3
+
+    AG3["🤖 generating-hooks\n─────────────\n10–20 hook angles\neach tagged by type\nx_vs_y · i_tried_x\ncontrarian · etc."]
+    AG3 -->|"advance"| OP2
+
+    %% ── HOOK SELECTION ──────────────────────────────────────
+    OP2{{"👤 awaiting-hook-selection\n─────────────\nSelect 1–3 hooks\nHook = ancestor of\nboth title AND thumbnail"}}
+    OP2 -->|"rework\n(regen hooks)"| AG3
+    OP2 -->|"advance"| AG4
+
+    %% ── GENERATION ──────────────────────────────────────────
+    subgraph GEN ["🤖 generating-content"]
+      direction TB
+      GH1["~10 titles\nper hook"]
+      GH2["1–2 thumbnail concepts\nper hook + text options\n+ badge suggestions"]
+      GH3["synopsis · description slots\n10–15 keyword tags"]
+      SUB[["📋 chapters sub-Delamain\n─────────────\ngenerating → label review\n→ refining-labels → approved"]]
+      GH1 ~~~ GH2
+      GH2 ~~~ GH3
+      GH3 ~~~ SUB
+    end
+
+    AG4["🤖 generating-content"] --> GEN
+    GEN -->|"advance"| OP3
+
+    %% ── REVIEW ──────────────────────────────────────────────
+    OP3{{"👤 awaiting-review\n─────────────\nSelect 3 title A/B candidates\nSelect thumbnail + text\nEdit chapters\nEdit description slots\nSelect keyword tags"}}
+    OP3 -->|"rework\n(back to hooks)"| OP2
+    OP3 -->|"advance"| AG5
+
+    AG5["🤖 assembling-output\n─────────────\nBuilds EXPORT section:\ntitles · thumbnail directions\ndescription · keyword tags\nchapters"]
+    AG5 -->|"exit"| DONE
+
+    DONE(["✅ completed"])
+
+    %% cancel from anywhere
+    OP1 & AG1 & AG2 & AG3 & OP2 & AG4 & OP3 & AG5 -->|"exit\n(cancel)"| CANCEL(["❌ cancelled"])
+
+    %% ── STYLING ─────────────────────────────────────────────
+    classDef agentState  fill:#bfdbfe,stroke:#3b82f6,color:#1e3a5f
+    classDef opGate      fill:#fef9c3,stroke:#ca8a04,color:#713f12
+    classDef terminal    fill:#dcfce7,stroke:#16a34a,color:#14532d,font-weight:bold
+    classDef cancelNode  fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    classDef subDel      fill:#ede9fe,stroke:#7c3aed,color:#3b0764
+
+    class AG1,AG2,AG3,AG4,AG5 agentState
+    class OP1,OP2,OP3 opGate
+    class DONE terminal
+    class CANCEL cancelNode
+    class SUB subDel
+  </div>
+
+  <p class="note">
+    Key difference from Nick's diagram: the fan-out happens at <strong>hook selection</strong> (not title selection).
+    Both titles AND thumbnails derive from the same hook — hook is the common ancestor of both.
+    3 operator gates total vs 7 in the original spec.
+  </p>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { curve: 'basis', padding: 16, nodeSpacing: 30, rankSpacing: 50 } });
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FliLaunch — Launch Workflow Diagram</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 24px;
+    }
+    h1 { color: #1e293b; font-size: 1.4rem; margin-bottom: 4px; }
+    p.sub { color: #64748b; font-size: 0.85rem; margin-top: 0 ; margin-bottom: 24px; }
+    .mermaid { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <h1>FliLaunch — Launch Workflow &amp; HITL Moments</h1>
+  <p class="sub">Yellow = human decision gate · Blue = system AI action · Green = finalized record · Orange = notes</p>
+
+  <div class="mermaid">
+flowchart TD
+
+    START([🎬 New Launch]) --> A1
+
+    A1["📋 Paste transcript\n─────────────────\nOptional:\n• focal point note\n• known audience keywords\n• related video list"]
+    A1 --> DRAFT[("📁 LaunchRecord\nstate: draft")]
+    DRAFT --> HG1{"👤 HITL — Input\n─────────────────\nReady to generate?\nor save and return later?"}
+    HG1 -->|"save draft"| DRAFT
+
+    HG1 -->|"▶ generate"| AN
+
+    AN["🤖 Analysis prompt\n─────────────────\n• core idea\n• key value / promise\n• audience hints\n• identity keyword hints"]
+    AN --> GENERATED[("📁 state: generated")]
+    GENERATED --> HG2{"👤 HITL — Analysis\n─────────────────\nAccept · Edit · Regenerate?"}
+    HG2 -->|"regenerate"| AN
+    HG2 -->|"edit manually"| HG2
+
+    HG2 -->|"✓ accept — state → reviewed"| HK
+
+    HK["🤖 Hooks prompt\n─────────────────\n• 10–20 hook angles\n• each tagged by type:\n  x_vs_y · only_one_worked\n  i_tried_x · problem_solution\n  contrarian_take · etc."]
+    HK --> HG3{"👤 HITL — Hooks\n─────────────────\nSelect hooks to proceed\nmulti-select allowed\n⚠️ Hook = ancestor of\nboth title AND thumbnail"}
+    HG3 -->|"regenerate all"| HK
+    HG3 -->|"edit a hook"| HG3
+    HG3 -->|"⬆ back to Analysis"| HG2
+
+    HG3 -->|"✓ select hooks"| TI
+
+    TI["🤖 Titles prompt\n─────────────────\n• ~10 candidates per selected hook\n• audience signal classification:\n  Primary / Secondary / Hidden\n  per known identity term"]
+    TI --> HG4{"👤 HITL — Titles\n─────────────────\nSelect shortlist\nOverride audience placement?\ne.g. promote BMAD to title\nor demote to badge"}
+    HG4 -->|"regenerate"| TI
+    HG4 -->|"edit titles"| HG4
+    HG4 -->|"⬆ back to Hooks"| HG3
+
+    HG4 -->|"✓ select shortlist"| TH
+
+    TH["🤖 Thumbnail prompt\n─────────────────\n• 1–2 concepts per selected hook\n  NOT derived from title\n• thumbnail text options\n• badge suggestions for\n  Secondary audience signals"]
+    TH --> HG5{"👤 HITL — Thumbnails\n─────────────────\nSelect concept + text\nAccept / reject badge\nsuggestions"}
+    HG5 -->|"regenerate"| TH
+    HG5 -->|"edit concept description"| HG5
+    HG5 -->|"⬆ back to Hooks"| HG3
+
+    HG5 -->|"✓ select"| DE
+
+    DE["🤖 Description prompt\n─────────────────\n• synopsis above-fold\n• chapters\n• related-video suggestions\n• placeholders:\n  affiliate · legal · CTA · brand\n• 10–15 YouTube keyword tags\n  SEO support — not identity signals"]
+    DE --> HG6{"👤 HITL — Description\n─────────────────\nEdit slots · add/remove chapters\nadd/remove related videos\nselect / deselect keyword tags"}
+    HG6 -->|"regenerate whole"| DE
+    HG6 -->|"regenerate single slot"| HG6
+    HG6 -->|"edit inline"| HG6
+
+    HG6 -->|"✓ proceed"| RE
+
+    RE["Validate minimum completeness\n─────────────────\ntitle + thumbnail + description"]
+    RE --> HG7{"👤 HITL — Finalize\n─────────────────\nReady to launch?"}
+    HG7 -->|"⬆ back to any earlier stage"| HG2
+    HG7 -->|"✓ finalize — state → finalized"| DONE
+
+    DONE(["✅ LaunchRecord · finalized\n─────────────────\nCopy / export:\n  title · thumbnail text\n  description · keyword tags\n  chapter list\n─────────────────\nrecord persists regardless"])
+
+    DONE -->|"any edit — state → reviewed"| HG6
+
+    STALE_NOTE["⚠️ stale flag — orthogonal to state\n─────────────────\nSet when a stage regenerates but\ndownstream stages have not re-run.\nUser can re-run downstream or ignore.\n\nneeds_re_run: user explicitly marks\na stage to revisit later."]
+
+    PERSIST_NOTE["💾 Record persists from\nthe moment transcript is submitted.\nPause / resume freely — closing\nthe app loses nothing."]
+
+    classDef sysAction   fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f
+    classDef humanGate   fill:#fef9c3,stroke:#ca8a04,color:#713f12
+    classDef stateNode   fill:#f3f4f6,stroke:#6b7280,color:#374151
+    classDef doneNode    fill:#dcfce7,stroke:#16a34a,color:#14532d,font-weight:bold
+    classDef noteNode    fill:#fff7ed,stroke:#ea580c,color:#7c2d12
+
+    class AN,HK,TI,TH,DE,RE sysAction
+    class HG1,HG2,HG3,HG4,HG5,HG6,HG7 humanGate
+    class DRAFT,GENERATED stateNode
+    class DONE doneNode
+    class STALE_NOTE,PERSIST_NOTE noteNode
+  </div>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { curve: 'basis', padding: 20 } });
+  </script>
+</body>
+</html>

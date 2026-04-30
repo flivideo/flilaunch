@@ -1,0 +1,129 @@
+phases:
+  - ingest
+  - analysis
+  - hook-selection
+  - generation
+  - chapters
+  - review
+  - closed
+states:
+  awaiting-input:
+    initial: true
+    phase: ingest
+    actor: operator
+  fetching-transcript:
+    phase: ingest
+    actor: agent
+    provider: anthropic
+    path: agents/fetching-transcript.md
+    resumable: false
+  running-analysis:
+    phase: analysis
+    actor: agent
+    provider: anthropic
+    path: agents/running-analysis.md
+    resumable: true
+    session-field: analysis_session
+  generating-hooks:
+    phase: analysis
+    actor: agent
+    provider: anthropic
+    path: agents/generating-hooks.md
+    resumable: false
+  awaiting-hook-selection:
+    phase: hook-selection
+    actor: operator
+  generating-content:
+    phase: generation
+    actor: agent
+    provider: anthropic
+    path: agents/generating-content.md
+    resumable: true
+    session-field: content_session
+  generating-chapters:
+    phase: chapters
+    actor: agent
+    provider: anthropic
+    path: agents/generating-chapters.md
+    resumable: false
+  awaiting-chapter-review:
+    phase: chapters
+    actor: operator
+  refining-chapters:
+    phase: chapters
+    actor: agent
+    provider: anthropic
+    path: agents/refining-chapters.md
+    resumable: false
+  awaiting-review:
+    phase: review
+    actor: operator
+  assembling-output:
+    phase: review
+    actor: agent
+    provider: anthropic
+    path: agents/assembling-output.md
+    resumable: false
+  completed:
+    terminal: true
+    phase: closed
+  cancelled:
+    terminal: true
+    phase: closed
+transitions:
+  - class: advance
+    from: awaiting-input
+    to: fetching-transcript
+  - class: advance
+    from: fetching-transcript
+    to: running-analysis
+  - class: advance
+    from: running-analysis
+    to: generating-hooks
+  - class: advance
+    from: generating-hooks
+    to: awaiting-hook-selection
+  - class: advance
+    from: awaiting-hook-selection
+    to: generating-content
+  - class: rework
+    from: awaiting-hook-selection
+    to: generating-hooks
+  - class: advance
+    from: generating-content
+    to: generating-chapters
+  - class: advance
+    from: generating-chapters
+    to: awaiting-chapter-review
+  - class: advance
+    from: awaiting-chapter-review
+    to: awaiting-review
+  - class: rework
+    from: awaiting-chapter-review
+    to: refining-chapters
+  - class: advance
+    from: refining-chapters
+    to: awaiting-chapter-review
+  - class: advance
+    from: awaiting-review
+    to: assembling-output
+  - class: rework
+    from: awaiting-review
+    to: awaiting-hook-selection
+  - class: exit
+    from: assembling-output
+    to: completed
+  - class: exit
+    from:
+      - awaiting-input
+      - fetching-transcript
+      - running-analysis
+      - generating-hooks
+      - awaiting-hook-selection
+      - generating-content
+      - generating-chapters
+      - awaiting-chapter-review
+      - refining-chapters
+      - awaiting-review
+      - assembling-output
+    to: cancelled
