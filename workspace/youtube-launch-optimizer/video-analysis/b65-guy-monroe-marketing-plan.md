@@ -15,7 +15,7 @@ transcript_attached_at: 2026-05-10
 
 ## P01_CORE_IDEA
 
-null
+AppyDave walks through building an automated marketing outreach pipeline — using Claude Code and context engineering — to help charisma coach Guy Monroe research 150 plastic surgeons from public data, generate structured presence reports for each prospect, and iteratively refine the underlying prompts so Guy can efficiently identify and approach high-value coaching leads at scale.
 
 ## P02_KEY_VALUE
 
