@@ -1,14 +1,17 @@
-import { defineSystem } from "./authoring.ts";
+import { defineSystem } from "als:authoring";
 
 export const system = defineSystem({
-  als_version: 1,
+  als_version: 3,
   system_id: "flilaunch",
   modules: {
-    "fli-launch": {
-      path: "fli-launch",
+    "youtube-launch-optimizer": {
+      path: "workspace/youtube-launch-optimizer",
       version: 1,
-      description: "YouTube Launch Optimizer — transcript to launch-ready packaging.",
-      skills: ["fli-launch-manage", "fli-launch-pipeline"],
+      description: "YouTube launch packaging — bulk analysis today, launch + thumbnail later.",
+      skills: [
+        "youtube-launch-optimizer-inspect",
+        "youtube-launch-optimizer-bulk-analysis",
+      ],
     },
   },
 } as const);
