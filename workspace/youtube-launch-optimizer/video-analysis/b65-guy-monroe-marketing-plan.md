@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p04
+state: p05
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -52,7 +52,18 @@ Viewers learn how to build an automated prospect research pipeline using Claude 
 
 ## P04_AUDIENCE_HINTS
 
-null
+**Technical level: intermediate.** The video assumes viewers are comfortable opening a terminal, working with VS Code, handling CSV files, and writing natural-language prompts to Claude Code. No hand-holding on those fundamentals. At the same time, no custom code is written — the entire pipeline is driven through Claude Code prompts and folder conventions — so traditional software development experience is not required.
+
+**Explicit audience:**
+- Expert coaches and consultants who can assess a client in minutes but struggle to scale that expertise to a large prospect list
+- Solopreneurs who already have a curated CSV prospect list and want to automate per-prospect research without hiring a VA
+- People who have dabbled with ChatGPT prompt engineering for outreach but hit a ceiling on automation and repeatability
+
+**Implicit audience:**
+- Claude Code early adopters exploring context engineering for business workflows (not just code)
+- Coaches, trainers, and service professionals in niche B2B markets (e.g., public speaking, charisma, executive performance) who are technically curious but not developers
+- Anyone running manual lead research one-by-one who senses there must be a faster way
+- Viewers already subscribed to AppyDave who follow Claude Code automation tutorials and are interested in real client use-cases rather than toy demos
 
 ## P05_IDENTITY_KEYWORDS
 
