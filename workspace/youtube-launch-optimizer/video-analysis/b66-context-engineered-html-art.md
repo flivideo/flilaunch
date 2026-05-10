@@ -2,7 +2,7 @@
 id: b66-context-engineered-html-art
 project_code: b66-context-engineered-html-art
 title: Context Engineered Html Art
-state: p01
+state: p02
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b66-context-engineered-html-art/export?format=text
@@ -15,7 +15,7 @@ transcript_attached_at: 2026-05-10
 
 ## P01_CORE_IDEA
 
-null
+David demonstrates how to use context engineering with Claude Code — rather than generative AI image tools like Sora or VO3 — to build a structured multi-agent pipeline (style guides, requirements documents, and specialist agents Maya, Kai, and Iris) that produces 15 projection-ready animated HTML/Canvas artworks across five graphic styles, suitable for building projections, shop advertising, and YouTube channel visuals.
 
 ## P02_KEY_VALUE
 
