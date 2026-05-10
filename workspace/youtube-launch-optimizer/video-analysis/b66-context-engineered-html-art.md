@@ -2,7 +2,7 @@
 id: b66-context-engineered-html-art
 project_code: b66-context-engineered-html-art
 title: Context Engineered Html Art
-state: p03
+state: p04
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b66-context-engineered-html-art/export?format=text
@@ -31,7 +31,26 @@ By using context engineering — not generative AI image tools like Sora or VO3 
 
 ## P03_HOOK_ANGLES
 
-null
+| # | Hook | Type |
+|---|------|------|
+| 1 | Create wall projection art without Sora or VO3 | Contrarian take |
+| 2 | Why I refused to let AI choose its own tech stack | Contrarian take |
+| 3 | 15 animated artworks generated while I went for coffee | Outcome promise |
+| 4 | 3 AI agents that design, architect, and code animations automatically | Capability demo |
+| 5 | Skip image generators — program your visuals instead | Pain to solution |
+| 6 | The "no edges" rule that makes projections look real on walls | Curiosity gap |
+| 7 | One requirements doc → unlimited A/B animation variations | Outcome promise |
+| 8 | Want to project animations onto buildings? Here's how | Qualifying question |
+| 9 | Context engineering beats generative AI for repeatable art | Contrarian take |
+| 10 | Same prompt, different LLM, different art style every time | Capability demo |
+| 11 | How a flexible system prompt unlocks better AI creative output | Process reveal |
+| 12 | 5 graphic styles, 15 self-contained HTML animations, zero image tools | Scope statement |
+| 13 | Build an AI art pipeline for shop fronts and building projections | Outcome promise |
+| 14 | Meet Maya, Kai, and Iris — the agent trio that builds your art | Curiosity gap |
+| 15 | Tired of Sora? Use context engineering to control your visuals | Pain to solution |
+| 16 | How to generate programmatic art for YouTube, shops, and buildings | Identity callout |
+| 17 | Why locking in your tech stack early kills AI creative projects | Problem-desire |
+| 18 | From style guide to animated HTML in one Claude Code pipeline | Process reveal |
 
 ## P04_AUDIENCE_HINTS
 
