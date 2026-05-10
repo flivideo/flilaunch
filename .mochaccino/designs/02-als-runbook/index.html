@@ -25,13 +25,15 @@
   --warn-bg: #ffedd5;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; }
+html, body { height: 100%; }
+body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1 0 auto; }
 
-.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-gold); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-near-white); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
 
-header { background: var(--brand-brown); padding: 40px 48px 32px; }
-header h1 { font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 600; color: var(--brand-yellow); text-transform: uppercase; letter-spacing: 0.04em; }
-header p { color: var(--brand-gold); margin-top: 8px; font-size: 15px; }
+header { background: var(--brand-near-white); padding: 48px 48px 28px; border-bottom: 1px solid var(--brand-border); }
+header h1 { font-family: 'Oswald', sans-serif; font-size: 40px; font-weight: 700; color: var(--brand-brown); text-transform: uppercase; letter-spacing: 0.03em; }
+header p { color: var(--brand-muted); margin-top: 10px; font-size: 15px; line-height: 1.55; max-width: 720px; }
 
 .pipeline { max-width: 860px; margin: 48px auto; padding: 0 32px 48px; display: flex; flex-direction: column; gap: 0; }
 
@@ -65,7 +67,12 @@ header p { color: var(--brand-gold); margin-top: 8px; font-size: 15px; }
 .gotcha { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--warn); background: var(--warn-bg); border-radius: 4px; padding: 8px 12px; line-height: 1.4; }
 .gotcha::before { content: "⚠"; flex-shrink: 0; }
 
-footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: center; color: var(--brand-muted); font-size: 12px; margin-top: 20px; }
+footer { flex-shrink: 0; background: var(--brand-dark-surface); padding: 22px 48px; text-align: center; color: var(--brand-near-white); font-size: 12px; margin-top: 20px; }
+
+.orient { background: var(--brand-linen); border-bottom: 1px solid var(--brand-border); padding: 18px 48px; display: grid; grid-template-columns: 110px 1fr; gap: 6px 18px; align-items: baseline; }
+.orient-label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--brand-amber); text-transform: uppercase; }
+.orient-text { font-size: 13.5px; color: var(--brand-brown); line-height: 1.5; }
+@media (max-width: 600px) { .orient { padding: 14px 22px; grid-template-columns: 1fr; gap: 2px 0; } .orient-label { margin-top: 8px; } .orient-label:first-child { margin-top: 0; } }
 </style>
 </head>
 <body>
@@ -76,10 +83,22 @@ footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: 
   <span>6 phases · layer-stack · AppyDave brand</span>
 </div>
 
+<main>
 <header>
   <h1>ALS Operator Runbook</h1>
   <p>From scaffold to running Delamain — the complete 6-phase path</p>
 </header>
+
+<section class="orient">
+  <div class="orient-label">Purpose</div>
+  <div class="orient-text">The ordered path from an empty project to a running ALS Delamain. Six phases, in sequence, each with its checks and the trap waiting for you if you skip ahead.</div>
+  <div class="orient-label">Audience</div>
+  <div class="orient-text"><strong>David</strong> — walk it top to bottom when starting any new module. <strong>Nick</strong> — see which phase loses operators and where the gates need stronger language.</div>
+  <div class="orient-label">How to read</div>
+  <div class="orient-text">Top phase first. Each layer is one phase: what you do, what to check before advancing, and the ⚠ gotchas that bit you the first time around. Don't jump phases.</div>
+  <div class="orient-label">Takeaway</div>
+  <div class="orient-text">Use this as the spine of any new ALS module build — including today's workflow design with Nick.</div>
+</section>
 
 <div class="pipeline">
 
@@ -251,6 +270,8 @@ footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: 
   </div>
 
 </div>
+
+</main>
 
 <footer>ALS Operator Runbook · fli-launch · 2026-04-30 · AppyDave</footer>
 </body>

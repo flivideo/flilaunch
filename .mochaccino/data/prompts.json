@@ -1,0 +1,499 @@
+{
+  "workspace": "fli-launch-prompts",
+  "created": "2026-05-10",
+  "source": "docs/prompts-index.md",
+  "intro": "Don't aim for perfect prompts today. Once workflows run for real, prompts will change in ways we can't predict from the desk. Today's job is knowing where the good material lives so we can assemble per-problem in minutes.",
+  "headline": {
+    "total_assets": "~75",
+    "source_count": 8,
+    "richest_source": "AWB Gen 3 — 31 production .hbs prompts with paired .json schemas",
+    "second_richest": "Baku FliLaunch — 12 analysis + 4 packaging prompts in one TS file",
+    "unique_ip": "Baku FliLaunch p06 audience classification — only prompt that decides badge-vs-title placement of identity terms"
+  },
+  "categories": [
+    {
+      "id": "analysis",
+      "name": "analysis",
+      "count": 24,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "FliLaunch v2 — 12-prompt analysis bank",
+          "description": "p01 core idea, p02 key value, p03 hook angles, p04 audience hints, p05 identity keywords, p06 audience classification, p07 emotional tone, p08 topic keywords, p09 takeaways, p10 questions, p11 unique angle, p12 related signals. Has placeholders + JSON shapes + focal_note + known_audiences footer.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 19–128)",
+          "is_canonical": false
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer — 12 default analysis prompts",
+          "description": "Predecessor of Baku FliLaunch. Worth comparing for prompts the new set dropped — Memorable Quotes, Visual Themes, Controversial Claims, CTA opportunities.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (lines 205–278)",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — 11 content-analysis Handlebars prompts",
+          "description": "analyze-audience-insights, analyze-catchy-phrases, analyze-cta-phrases, analyze-emotional-triggers, analyze-key-takeaways, analyze-keywords, analyze-main-topic, analyze-overall-tone, analyze-questions-posed, analyze-search-terms, analyze-statistics, analyze-usp. Each .hbs paired with .json schema. Most polished analysis set.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/content-analysis/",
+          "is_canonical": true
+        },
+        {
+          "name": "ALS-Workflows phase2 procedure (12-dim grid)",
+          "description": "Procedure doc not extractable templates. Differs from Baku — has p10 = Call to Action (instead of Questions), p12 = Engagement Hooks (instead of Related signals).",
+          "source_path": "/Users/davidcruwys/dev/als-workflows/.claude/skills/flilaunch/references/phase2-analysis.md",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "hooks",
+      "name": "hooks",
+      "count": 4,
+      "canonical_source": "flilaunch-v2-agents",
+      "prompts": [
+        {
+          "name": "FliLaunch v2 — generating-hooks delamain agent",
+          "description": "Generates 10–20 hook angles spanning 7 hook types (x_vs_y, only_one_worked, i_tried_x, problem_solution, contrarian_take, capability_demo, qualifying_question). Ranks top-4, marks AI #1 pick. Effectively a meta-hook prompt.",
+          "source_path": "/Users/davidcruwys/dev/ad/flivideo/flilaunch/.als/modules/fli-launch/v2/delamains/launch/agents/generating-hooks.md",
+          "is_canonical": true
+        },
+        {
+          "name": "AWB Gen 3 — analyze-catchy-phrases",
+          "description": "Pulls quotable hook-able phrases from transcript.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/content-analysis/analyze-catchy-phrases.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "ALS-workflows phase2 — p03 hook angles",
+          "description": "Declares hook angles as gating output; 5 distinct framings.",
+          "source_path": "/Users/davidcruwys/dev/als-workflows/.claude/skills/flilaunch/references/phase2-analysis.md (line 25)",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "titles",
+      "name": "titles",
+      "count": 5,
+      "canonical_source": "baku-flilaunch",
+      "prompts": [
+        {
+          "name": "FliLaunch — TITLES_PER_HOOK_PROMPT",
+          "description": "Generates N titles anchored to a specific hook angle, with audience placement rules and existing-title de-duplication. Strongest title prompt — ties hooks → titles directly.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 138–166)",
+          "is_canonical": true
+        },
+        {
+          "name": "AWB Gen 3 — generate-title.hbs",
+          "description": "Three Emotions Framework (Curiosity / Desire / Fear), character-limit guidance, power words table, anti-clickbait rules.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/title-thumbnail/generate-title.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — select-title-shortlist.hbs",
+          "description": "Interactive curation prompt — present, ask clarifying questions, then shortlist (NOT auto-select).",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/title-thumbnail/select-title-shortlist.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer — titles_generate / titles_refine",
+          "description": "15-title generation with style mix; refine variant takes 'direction' feedback.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (lines 164–171)",
+          "is_canonical": false
+        },
+        {
+          "name": "ALS-Workflows phase3-titles procedure",
+          "description": "5 variants per hook (problem-led, outcome-led, numeric, curiosity-gap, audience-named).",
+          "source_path": "/Users/davidcruwys/dev/als-workflows/.claude/skills/flilaunch/references/phase3-titles.md",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "thumbnails",
+      "name": "thumbnails",
+      "count": 4,
+      "canonical_source": "baku-flilaunch",
+      "prompts": [
+        {
+          "name": "FliLaunch — THUMBNAIL_CONCEPTS_PER_HOOK_PROMPT",
+          "description": "2 concepts per hook, prose visual direction + 2 text overlay options + secondary-audience badge suggestion.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 168–185)",
+          "is_canonical": true
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer — thumbnails_generate",
+          "description": "6 unique concepts. CONCEPT/DESCRIPTION/VISUAL BRIEF format suitable for downstream image gen.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (lines 173–175)",
+          "is_canonical": false
+        },
+        {
+          "name": "ALS-Workflows phase4-thumbnails procedure",
+          "description": "Concept structure: Title/Hook/Text/Visual concept/Design style/Mood per hook.",
+          "source_path": "/Users/davidcruwys/dev/als-workflows/.claude/skills/flilaunch/references/phase4-thumbnails.md",
+          "is_canonical": false
+        },
+        {
+          "name": "AppyDave-thumbnail skill — concept generation (brand baked in)",
+          "description": "AppyDave-brand specific. Typography-first concepts, 5 composition patterns, ghost watermark, hook text composed at gen time.",
+          "source_path": "/Users/davidcruwys/.claude/plugins/cache/appydave-plugins/appydave/3.37.0/skills/appydave-thumbnail/SKILL.md (Phase 1, lines 18–69)",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "thumbnail-text",
+      "name": "thumbnail-text",
+      "count": 2,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "FliThumb — design-conversation system prompt",
+          "description": "Closest thing to an explicit thumbnail-text prompt — but it's conversational, not a one-shot generator. Defines the model: primary text (overlay) vs subliminal text (embedded in scene). Framework you want; prompt itself needs reshaping for batch generation.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-fli-thumb/supabase/functions/design-conversation/index.ts (lines 27–64, SYSTEM_PROMPT constant)",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — generate-thumbnail-text.hbs",
+          "description": "This IS the missing thumbnail-text prompt. Different framing from FliThumb (no primary/subliminal split — just punchy overlay text). Part 1 / Part 2 / Part 3 segments tied to title ideas (table format).",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/title-thumbnail/generate-thumbnail-text.hbs",
+          "is_canonical": true
+        }
+      ]
+    },
+    {
+      "id": "description",
+      "name": "description",
+      "count": 5,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "FliLaunch — DESCRIPTION_PROMPT",
+          "description": "2-3 sentence synopsis + 10–15 SEO keyword tags, hook-aligned.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 187–199)",
+          "is_canonical": false
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer — description_narrative",
+          "description": "Engaging SEO-optimised description from analysis output.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (lines 188–191)",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — yt-write-description.hbs",
+          "description": "Pure assembly prompt — full YouTube formatting rules baked in (*bold*, headings, auto-links). Best for final stage.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/youtube-metadata/yt-write-description.hbs",
+          "is_canonical": true
+        },
+        {
+          "name": "AWB Gen 3 — yt-simple-description.hbs",
+          "description": "Lighter-weight description variant.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/youtube-metadata/yt-simple-description.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "ALS-Workflows phase6-describe procedure",
+          "description": "8-slot composition structure (Synopsis, Chapters, CTA primary, Affiliate, Related, CTA fold, Social, Legal). Procedure not a prompt, but defines the slot model.",
+          "source_path": "/Users/davidcruwys/dev/als-workflows/.claude/skills/flilaunch/references/phase5-describe.md",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "chapters",
+      "name": "chapters",
+      "count": 7,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "FliLaunch — CHAPTERS_PROMPT",
+          "description": "Generates 'M:SS title' markers, anchored to SRT if provided, else inferred at 150 wpm.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 201–216)",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — identify-chapters.hbs",
+          "description": "Extracts chapter-worthy boundaries from transcript.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/chapter-processing/identify-chapters.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — refine-chapters.hbs",
+          "description": "Refines chapter titles for clarity / engagement.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/chapter-processing/refine-chapters.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — create-chapters.hbs",
+          "description": "Semantic-search match of chapter hints to edited SRT timestamps. Handles raw vs edited transcript mismatch. Best chapter-timestamping prompt in the ecosystem.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/chapter-processing/create-chapters.hbs",
+          "is_canonical": true
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer — chapters_generate / chapters_refine / chapter_editor_refine",
+          "description": "Three chapter-related variants in the predecessor optimizer.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (lines 176–186)",
+          "is_canonical": false
+        },
+        {
+          "name": "FliLaunch v2 — generating-chapters agent",
+          "description": "SRT-first extraction with fallback estimation, segment-name dedup, ≤100 char rule.",
+          "source_path": "/Users/davidcruwys/dev/ad/flivideo/flilaunch/.als/modules/fli-launch/v2/delamains/launch/agents/generating-chapters.md",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "audience-signal",
+      "name": "audience-signal",
+      "count": 3,
+      "canonical_source": "baku-flilaunch",
+      "prompts": [
+        {
+          "name": "FliLaunch — p06_audience_classification (unique IP)",
+          "description": "Classify each known audience term as primary/secondary/hidden + placement (title/badge/none). Not present elsewhere in the ecosystem. Drives the badge-vs-title decision.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 66–73)",
+          "is_canonical": true
+        },
+        {
+          "name": "AWB Gen 3 — analyze-audience-insights.hbs",
+          "description": "Extract audience signals from transcript.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/content-analysis/analyze-audience-insights.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "FliLaunch — p05_identity_keywords",
+          "description": "Extracts tribal/identity terms (BMAD, vibe coding, etc.).",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 57–64)",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "keyword-tags",
+      "name": "keyword-tags",
+      "count": 2,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "FliLaunch — DESCRIPTION_PROMPT keyword_tags portion",
+          "description": "10–15 SEO tags, search-intent only (NOT identity signals). Embedded in description prompt; consider extracting standalone.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 189–199)",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — analyze-keywords.hbs / analyze-search-terms.hbs",
+          "description": "Separate keyword and search-intent extraction.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/content-analysis/",
+          "is_canonical": true
+        }
+      ]
+    },
+    {
+      "id": "system-role",
+      "name": "system-role",
+      "count": 3,
+      "canonical_source": "baku-flilaunch",
+      "prompts": [
+        {
+          "name": "SYSTEM_PROMPT_ANALYST + SYSTEM_PROMPT_PACKAGER",
+          "description": "Dual-role system prompts for analysis vs packaging stages.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 130, 132)",
+          "is_canonical": true
+        },
+        {
+          "name": "FliThumb design partner system prompt",
+          "description": "JSON-output design conversation contract.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-fli-thumb/supabase/functions/design-conversation/index.ts (lines 27–64)",
+          "is_canonical": false
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer per-stage system prompts",
+          "description": "System text embedded in each stage_prompt entry.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (DEFAULT_STAGE_PROMPTS, lines 163–192)",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "social-related",
+      "name": "social/related",
+      "count": 3,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "AWB Gen 3 — create-tweet.hbs / create-linkedin-post.hbs / add-to-video-list.hbs",
+          "description": "Social cross-post and related-video registration.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/social-media/",
+          "is_canonical": true
+        },
+        {
+          "name": "FliLaunch — p12_related_signals",
+          "description": "Prior/follow-up/companion topic detection.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 119–127)",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "video-preparation",
+      "name": "video-preparation",
+      "count": 4,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "AWB Gen 3 — video-preparation prompts",
+          "description": "abridge.hbs, abridge-qa.hbs, configure.hbs, summarize-video.hbs. New territory not in FliLaunch — abridging long transcripts before main pipeline.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/video-preparation/",
+          "is_canonical": true
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "awb-gen-3",
+      "name": "AWB Gen 3",
+      "is_canonical": true,
+      "character_description": "AWB Gen 3 is your most polished prompt set — 31 production Handlebars (.hbs) files paired with .json output schemas, organised into six sub-folders covering content-analysis, chapter-processing, title-thumbnail, youtube-metadata, social-media, and video-preparation. Every prompt is template-driven and structured-output ready, with rules baked into the prompt body itself (formatting, character limits, anti-clickbait constraints). It's the closest thing in the ecosystem to a production-ready prompt library — the strongest default starting point for any new workflow.",
+      "categories_covered": ["analysis", "hooks", "titles", "thumbnail-text", "description", "chapters", "audience-signal", "keyword-tags", "social-related", "video-preparation"],
+      "strengths": [
+        "Most polished + most prompts — covers 10 of 12 categories",
+        "Each prompt has paired JSON schema for structured output",
+        "Best chapter-timestamping prompt (create-chapters.hbs) and best description assembler (yt-write-description.hbs)"
+      ],
+      "weaknesses": [
+        "No audience-classification prompt (no badge-vs-title placement logic)",
+        "Heavier templates — more cognitive load to assemble than Baku one-liners"
+      ]
+    },
+    {
+      "id": "baku-flilaunch",
+      "name": "Baku FliLaunch",
+      "is_canonical": false,
+      "character_description": "Baku FliLaunch is the densest single-file prompt source — 12 analysis prompts plus 4 packaging prompts (titles, thumbnails, description, chapters) all living in one TypeScript file with placeholders, JSON shapes, focal_note, and a known_audiences footer. It owns the unique IP of the ecosystem: p06 audience classification — the only prompt that decides whether an identity term goes in the title, on a badge, or stays hidden. Per-hook fan-out is built in: TITLES_PER_HOOK and THUMBNAIL_CONCEPTS_PER_HOOK both anchor outputs to a chosen hook angle.",
+      "categories_covered": ["analysis", "titles", "thumbnails", "description", "chapters", "audience-signal", "keyword-tags", "system-role", "social-related"],
+      "strengths": [
+        "Only home of audience classification (p06) — unique IP",
+        "Hook-anchored title and thumbnail prompts — built for fan-out",
+        "Compact + readable — easy to lift into a new workflow"
+      ],
+      "weaknesses": [
+        "TypeScript-embedded — needs lifting out for non-TS consumers",
+        "Keyword-tags are entangled with the description prompt (no standalone)"
+      ]
+    },
+    {
+      "id": "baku-yt-optimizer",
+      "name": "Baku YT-Optimizer",
+      "is_canonical": false,
+      "character_description": "Baku YT-Optimizer is the predecessor of Baku FliLaunch — 12 default analysis prompts plus per-stage prompt definitions for titles, thumbnails, description, and chapters. Worth keeping around as a comparison artifact: it carries prompts the newer FliLaunch dropped, including Memorable Quotes, Visual Themes, Controversial Claims, and CTA opportunities. If a workflow ever needs one of those dropped dimensions, this is where it still lives.",
+      "categories_covered": ["analysis", "titles", "thumbnails", "description", "chapters", "system-role"],
+      "strengths": [
+        "Carries dropped prompts (quotes, visual themes, controversies, CTA ops)",
+        "Chapter-editor refine variant exists here only"
+      ],
+      "weaknesses": [
+        "Older — superseded for everything FliLaunch covers",
+        "Same TypeScript-embedded constraint as FliLaunch"
+      ]
+    },
+    {
+      "id": "flilaunch-v2-agents",
+      "name": "FliLaunch v2 Agents",
+      "is_canonical": false,
+      "character_description": "FliLaunch v2 agent files live under the .als/modules/fli-launch/v2/delamains/launch/agents/ tree as procedural agent contracts (markdown, not extractable templates). Two stand out: generating-hooks (10–20 hooks across 7 hook types with ranked top-4 and AI #1 pick) and generating-chapters (SRT-first extraction with fallback estimation). These read more like instruction docs than prompts, but the hook-generation logic is the canonical hook source for the ecosystem.",
+      "categories_covered": ["hooks", "chapters"],
+      "strengths": [
+        "Canonical hook generator — 7 hook types, ranked top-4, AI pick marked",
+        "Robust chapter agent with SRT-first + fallback strategy"
+      ],
+      "weaknesses": [
+        "Procedural markdown — not lift-and-shift prompt templates",
+        "Narrow coverage — only hooks and chapters"
+      ]
+    },
+    {
+      "id": "flithumb",
+      "name": "FliThumb",
+      "is_canonical": false,
+      "character_description": "FliThumb owns the thumbnail design conversation — its system prompt defines the conceptual model that nothing else in the ecosystem articulates: primary text (overlay) vs subliminal text (embedded in scene), and four contrast modes (Explain/Intrigue, Abstract/Concrete, Calm/Dramatic, Parallel). The framework is the value, not the prompt itself — the prompt is conversational and would need reshaping for batch one-shot generation.",
+      "categories_covered": ["thumbnail-text", "system-role"],
+      "strengths": [
+        "Owns the primary-vs-subliminal text framework",
+        "Defines the four contrast modes — nothing else does"
+      ],
+      "weaknesses": [
+        "Conversational, not one-shot — needs reshaping for batch",
+        "No prompt picks the right contrast mode for a given title × hook"
+      ]
+    },
+    {
+      "id": "appydave-thumbnail-skill",
+      "name": "AppyDave Thumbnail Skill",
+      "is_canonical": false,
+      "character_description": "The AppyDave Thumbnail Claude Code skill carries the brand-baked variant of thumbnail concept generation — typography-first concepts, 5 composition patterns, ghost watermark rules, and hook text composed at gen time. It's tightly bound to the AppyDave brand, so reuse outside that brand requires un-baking the brand assumptions. Best treated as a finished operator tool rather than a prompt to assemble from.",
+      "categories_covered": ["thumbnails"],
+      "strengths": [
+        "Brand-baked — works out of the box for AppyDave thumbnails",
+        "Composition patterns + ghost watermark rules already encoded"
+      ],
+      "weaknesses": [
+        "Brand-coupled — not portable to non-AppyDave workflows",
+        "Single category coverage"
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "name": "Standalone primary-vs-subliminal thumbnail-text prompt",
+      "description": "FliThumb framework exists (primary overlay vs subliminal embedded) but only inside an interactive system prompt. No one-shot version: given title + contrast mode + secondary audiences, output 3 primary + 3 subliminal text candidates."
+    },
+    {
+      "name": "Cross-video triage / health-check prompt",
+      "description": "Nothing in the ecosystem. The 'is this video missing X' pattern doesn't exist as a cross-video prompt. The whole TRIAGE workflow column has no prompt corpus to draw from."
+    },
+    {
+      "name": "Contrast-mode selector",
+      "description": "FliThumb defines 4 contrast modes (explain_intrigue, abstract_concrete, calm_dramatic, parallel) but no prompt picks the right mode for a given title × hook. Currently manual."
+    },
+    {
+      "name": "Related-video ranker",
+      "description": "Every prompt mentions related videos; none rank/pick from a candidate list."
+    },
+    {
+      "name": "North Star / channel-strategy injection",
+      "description": "Explicitly v2+ in spec; no prompt yet."
+    }
+  ],
+  "adjacent_assets": [
+    {
+      "name": "AWB Gen 1 youtube workflow .rbx files",
+      "description": "Ruby-DSL workflow definitions; prompts likely embedded inline. Worth a one-pass scan if a transcript-analyzer or storyboard need surfaces.",
+      "source_path": "~/dev/ad/agent-workflow-builder/awb-workflows/winningprompts/{transcript_analyzer,youtube_intro_outro_booster,youtube_launch_optimizer,youtube_livestream_podcast_brief,youtube_storyboard_builder,youtube_video_planner}.rbx"
+    },
+    {
+      "name": "AWB Gen 2 youtube prompts mirror",
+      "description": "Same structure as Gen 3, likely earlier versions of the same prompts. Compare for regressions.",
+      "source_path": "~/dev/ad/apps/awb/examples/gen2/youtube/prompts/"
+    },
+    {
+      "name": "AWB Gen 3 incident & supportsignal prompt sets",
+      "description": "Different domain, but same prompt-structure conventions to copy.",
+      "source_path": "~/dev/ad/apps/awb/examples/gen3/incident/prompts/ and ~/dev/ad/apps/awb/examples/supportsignal/prompts/"
+    },
+    {
+      "name": "POEM OS",
+      "description": "Empty. No prompts despite the name.",
+      "source_path": "~/dev/poem-os"
+    },
+    {
+      "name": "brand-aitldr",
+      "description": "Content strategy / philosophy / design docs. Useful as inputs to prompts, not as prompts themselves.",
+      "source_path": "~/dev/ad/brains/brand-aitldr/"
+    },
+    {
+      "name": "FliLaunch v1 vs v2 agent files",
+      "description": "Procedural agent contracts, not extractable prompt templates. v2 is current.",
+      "source_path": ".als/modules/fli-launch/v{1,2}/delamains/launch/agents/*.md"
+    }
+  ]
+}

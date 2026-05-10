@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompts &amp; Techniques</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Roboto+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand-brown: #342d2d;
+  --brand-gold: #ccba9d;
+  --brand-yellow: #ffde59;
+  --brand-amber: #c8841a;
+  --brand-muted: #7a6e5e;
+  --brand-near-white: #faf5ec;
+  --brand-surface: #f0ebe4;
+  --brand-linen: #e8e0d4;
+  --brand-border: #d4cdc4;
+  --brand-chrome: #1a1515;
+  --brand-dark-surface: #25201e;
+  --brand-blue: #2E91FC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1 0 auto; }
+
+.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-near-white); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+
+header { background: var(--brand-near-white); padding: 48px 48px 28px; border-bottom: 1px solid var(--brand-border); }
+header .eyebrow { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brand-amber); margin-bottom: 12px; }
+header h1 { font-family: 'Oswald', sans-serif; font-size: 40px; font-weight: 700; color: var(--brand-brown); text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.05; }
+header h1 .accent { color: var(--brand-amber); }
+header p { font-family: 'Roboto', sans-serif; color: var(--brand-muted); margin-top: 12px; font-size: 15px; line-height: 1.55; max-width: 820px; }
+.header-stats { display: flex; gap: 40px; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--brand-border); }
+.stat-num { font-family: 'Oswald', sans-serif; font-size: 32px; font-weight: 700; color: var(--brand-brown); line-height: 1; }
+.stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--brand-muted); margin-top: 6px; font-weight: 600; }
+
+.layout { display: grid; grid-template-columns: 320px 1fr; min-height: calc(100vh - 280px); }
+
+aside { background: var(--brand-surface); border-right: 1px solid var(--brand-border); padding: 24px 0; overflow-y: auto; }
+.side-section { margin-bottom: 30px; }
+.side-section-label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand-amber); padding: 0 24px 10px; border-bottom: 1px solid var(--brand-border); margin-bottom: 10px; }
+.side-item { display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left; background: none; border: 0; padding: 8px 24px; font-family: 'Roboto', sans-serif; font-size: 13.5px; color: var(--brand-brown); cursor: pointer; border-left: 3px solid transparent; transition: all 0.12s; }
+.side-item:hover { background: var(--brand-linen); color: var(--brand-amber); }
+.side-item.active { background: var(--brand-linen); border-left-color: var(--brand-amber); color: var(--brand-brown); font-weight: 600; }
+.side-item .count { font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--brand-muted); }
+.side-item .star { color: var(--brand-amber); margin-right: 4px; }
+
+.detail { padding: 36px 48px 56px; background: var(--brand-near-white); }
+.detail-eyebrow { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand-amber); margin-bottom: 8px; }
+.detail h2 { font-family: 'Oswald', sans-serif; font-size: 30px; font-weight: 700; color: var(--brand-brown); text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.15; margin-bottom: 12px; }
+.detail-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.pill { font-family: 'Oswald', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 12px; border-radius: 999px; border: 0; cursor: default; }
+.pill-domain { background: var(--brand-dark-surface); color: var(--brand-near-white); }
+.pill-link { background: var(--brand-amber); color: var(--brand-near-white); cursor: pointer; }
+.pill-link:hover { background: var(--brand-brown); }
+.pill-cat { background: var(--brand-chrome); color: var(--brand-yellow); cursor: pointer; }
+.pill-cat:hover { background: var(--brand-brown); }
+
+.intro-block { font-size: 16px; line-height: 1.6; color: var(--brand-brown); padding: 16px 18px; background: var(--brand-linen); border-left: 3px solid var(--brand-amber); border-radius: 0 4px 4px 0; margin-bottom: 28px; max-width: 820px; }
+
+.section-title { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand-brown); margin: 32px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--brand-amber); }
+.section-sub { font-size: 13px; color: var(--brand-muted); margin: -10px 0 16px; }
+
+/* gaps cards (dark accent) */
+.gaps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.gap-card { background: var(--brand-dark-surface); color: var(--brand-near-white); border-radius: 8px; padding: 18px 20px; border: 1px solid var(--brand-chrome); }
+.gap-card .gap-num { font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--brand-yellow); letter-spacing: 0.08em; margin-bottom: 6px; }
+.gap-card .gap-name { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; color: var(--brand-near-white); }
+.gap-card .gap-desc { font-size: 13px; line-height: 1.5; color: var(--brand-near-white); opacity: 0.88; }
+
+/* sources mini-table */
+.sources-table { width: 100%; border-collapse: collapse; background: var(--brand-surface); border: 1px solid var(--brand-border); border-radius: 8px; overflow: hidden; }
+.sources-table th { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand-amber); text-align: left; padding: 12px 16px; background: var(--brand-linen); border-bottom: 1px solid var(--brand-border); }
+.sources-table td { padding: 12px 16px; font-size: 13.5px; color: var(--brand-brown); border-bottom: 1px solid var(--brand-border); vertical-align: top; line-height: 1.45; }
+.sources-table tr:last-child td { border-bottom: 0; }
+.sources-table .source-name { font-weight: 700; cursor: pointer; color: var(--brand-brown); }
+.sources-table .source-name:hover { color: var(--brand-amber); }
+.sources-table .star { color: var(--brand-amber); }
+
+/* canonical callout */
+.canonical-callout { background: var(--brand-linen); border: 1px solid var(--brand-amber); border-left: 4px solid var(--brand-amber); border-radius: 4px; padding: 16px 18px; margin-bottom: 22px; }
+.canonical-callout .label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand-amber); margin-bottom: 4px; }
+.canonical-callout .name { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; color: var(--brand-brown); margin-bottom: 4px; }
+.canonical-callout .why { font-size: 13.5px; color: var(--brand-brown); line-height: 1.5; }
+
+/* prompt rows */
+.prompt-list { background: var(--brand-surface); border: 1px solid var(--brand-border); border-radius: 8px; overflow: hidden; }
+.prompt-row { padding: 14px 18px; border-bottom: 1px solid var(--brand-border); }
+.prompt-row:last-child { border-bottom: 0; }
+.prompt-row.canonical { background: var(--brand-linen); }
+.prompt-name { font-family: 'Roboto', sans-serif; font-size: 14.5px; font-weight: 700; color: var(--brand-brown); margin-bottom: 4px; }
+.prompt-name .star { color: var(--brand-amber); margin-right: 4px; }
+.prompt-desc { font-size: 13px; color: var(--brand-brown); line-height: 1.5; margin-bottom: 6px; }
+.prompt-source { font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--brand-muted); word-break: break-all; }
+
+/* source detail */
+.source-character { font-size: 14.5px; line-height: 1.6; color: var(--brand-brown); margin-bottom: 22px; max-width: 820px; }
+.sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+.sw-card { background: var(--brand-surface); border: 1px solid var(--brand-border); border-radius: 8px; padding: 16px 18px; }
+.sw-card .label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand-amber); margin-bottom: 10px; }
+.sw-card ul { list-style: none; padding: 0; }
+.sw-card li { font-size: 13px; line-height: 1.5; color: var(--brand-brown); padding: 6px 0 6px 16px; position: relative; }
+.sw-card li::before { content: "—"; position: absolute; left: 0; color: var(--brand-amber); font-weight: 700; }
+
+/* footer adjacent assets */
+.adjacent-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 10px; margin-top: 14px; }
+.adjacent-item { background: var(--brand-surface); border: 1px solid var(--brand-border); border-radius: 6px; padding: 12px 14px; font-size: 13px; }
+.adjacent-item .name { font-weight: 700; color: var(--brand-brown); margin-bottom: 3px; }
+.adjacent-item .desc { color: var(--brand-muted); font-size: 12.5px; line-height: 1.45; margin-bottom: 4px; }
+.adjacent-item .path { font-family: 'Roboto Mono', monospace; font-size: 10.5px; color: var(--brand-muted); word-break: break-all; }
+
+footer { flex-shrink: 0; background: var(--brand-dark-surface); padding: 22px 48px; text-align: center; color: var(--brand-near-white); font-size: 12px; }
+footer code { font-family: 'Roboto Mono', monospace; color: var(--brand-yellow); }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  aside { border-right: 0; border-bottom: 1px solid var(--brand-border); }
+  .sw-grid { grid-template-columns: 1fr; }
+  header { padding: 28px 22px; }
+  .detail { padding: 24px 22px; }
+}
+</style>
+</head>
+<body>
+<!-- Mochaccino citation — data: data/prompts.json — source: docs/prompts-index.md — rendered: 2026-05-10 -->
+
+<div class="mocha-banner">
+  <span>Mocha — Prompts &amp; Techniques — 2026-05-10</span>
+  <span>12 categories · 6 sources · 5 gaps · split-pane · AppyDave brand</span>
+</div>
+
+<main>
+<header>
+  <div class="eyebrow">FliLaunch · Prompt Inventory</div>
+  <h1>Prompts &amp; <span class="accent">Techniques</span></h1>
+  <p>A map of where good prompts live across the AppyDave ecosystem, not the prompts themselves. Source-of-truth pointers for the YouTube launch / video packaging surface — assemble per-problem, not per-pipeline.</p>
+  <div class="header-stats">
+    <div><div class="stat-num" id="stat-cats">12</div><div class="stat-label">Categories</div></div>
+    <div><div class="stat-num" id="stat-sources">6</div><div class="stat-label">Sources</div></div>
+    <div><div class="stat-num" id="stat-gaps">5</div><div class="stat-label">Gaps</div></div>
+    <div><div class="stat-num">~75</div><div class="stat-label">Prompt assets</div></div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="side-section">
+      <div class="side-section-label">Categories</div>
+      <div id="cat-nav"></div>
+    </div>
+    <div class="side-section">
+      <div class="side-section-label">Sources</div>
+      <div id="src-nav"></div>
+    </div>
+  </aside>
+
+  <section class="detail" id="detail"></section>
+</div>
+</main>
+
+<footer>
+  Source: <code>docs/prompts-index.md</code> · Data: <code>data/prompts.json</code> · Cross-links into <code>../05-workflows/index.html#workflow-id</code>.
+</footer>
+
+<script>
+const DATA = {
+  "workspace": "fli-launch-prompts",
+  "created": "2026-05-10",
+  "source": "docs/prompts-index.md",
+  "intro": "Don't aim for perfect prompts today. Once workflows run for real, prompts will change in ways we can't predict from the desk. Today's job is knowing where the good material lives so we can assemble per-problem in minutes.",
+  "headline": {
+    "total_assets": "~75",
+    "source_count": 8,
+    "richest_source": "AWB Gen 3 — 31 production .hbs prompts with paired .json schemas",
+    "second_richest": "Baku FliLaunch — 12 analysis + 4 packaging prompts in one TS file",
+    "unique_ip": "Baku FliLaunch p06 audience classification — only prompt that decides badge-vs-title placement of identity terms"
+  },
+  "categories": [
+    {
+      "id": "analysis",
+      "name": "analysis",
+      "count": 24,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "FliLaunch v2 — 12-prompt analysis bank",
+          "description": "p01 core idea, p02 key value, p03 hook angles, p04 audience hints, p05 identity keywords, p06 audience classification, p07 emotional tone, p08 topic keywords, p09 takeaways, p10 questions, p11 unique angle, p12 related signals. Has placeholders + JSON shapes + focal_note + known_audiences footer.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 19–128)",
+          "is_canonical": false
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer — 12 default analysis prompts",
+          "description": "Predecessor of Baku FliLaunch. Worth comparing for prompts the new set dropped — Memorable Quotes, Visual Themes, Controversial Claims, CTA opportunities.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (lines 205–278)",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — 11 content-analysis Handlebars prompts",
+          "description": "analyze-audience-insights, analyze-catchy-phrases, analyze-cta-phrases, analyze-emotional-triggers, analyze-key-takeaways, analyze-keywords, analyze-main-topic, analyze-overall-tone, analyze-questions-posed, analyze-search-terms, analyze-statistics, analyze-usp. Each .hbs paired with .json schema. Most polished analysis set.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/content-analysis/",
+          "is_canonical": true
+        },
+        {
+          "name": "ALS-Workflows phase2 procedure (12-dim grid)",
+          "description": "Procedure doc not extractable templates. Differs from Baku — has p10 = Call to Action (instead of Questions), p12 = Engagement Hooks (instead of Related signals).",
+          "source_path": "/Users/davidcruwys/dev/als-workflows/.claude/skills/flilaunch/references/phase2-analysis.md",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "hooks",
+      "name": "hooks",
+      "count": 4,
+      "canonical_source": "flilaunch-v2-agents",
+      "prompts": [
+        {
+          "name": "FliLaunch v2 — generating-hooks delamain agent",
+          "description": "Generates 10–20 hook angles spanning 7 hook types (x_vs_y, only_one_worked, i_tried_x, problem_solution, contrarian_take, capability_demo, qualifying_question). Ranks top-4, marks AI #1 pick. Effectively a meta-hook prompt.",
+          "source_path": "/Users/davidcruwys/dev/ad/flivideo/flilaunch/.als/modules/fli-launch/v2/delamains/launch/agents/generating-hooks.md",
+          "is_canonical": true
+        },
+        {
+          "name": "AWB Gen 3 — analyze-catchy-phrases",
+          "description": "Pulls quotable hook-able phrases from transcript.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/content-analysis/analyze-catchy-phrases.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "ALS-workflows phase2 — p03 hook angles",
+          "description": "Declares hook angles as gating output; 5 distinct framings.",
+          "source_path": "/Users/davidcruwys/dev/als-workflows/.claude/skills/flilaunch/references/phase2-analysis.md (line 25)",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "titles",
+      "name": "titles",
+      "count": 5,
+      "canonical_source": "baku-flilaunch",
+      "prompts": [
+        {
+          "name": "FliLaunch — TITLES_PER_HOOK_PROMPT",
+          "description": "Generates N titles anchored to a specific hook angle, with audience placement rules and existing-title de-duplication. Strongest title prompt — ties hooks → titles directly.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 138–166)",
+          "is_canonical": true
+        },
+        {
+          "name": "AWB Gen 3 — generate-title.hbs",
+          "description": "Three Emotions Framework (Curiosity / Desire / Fear), character-limit guidance, power words table, anti-clickbait rules.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/title-thumbnail/generate-title.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — select-title-shortlist.hbs",
+          "description": "Interactive curation prompt — present, ask clarifying questions, then shortlist (NOT auto-select).",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/title-thumbnail/select-title-shortlist.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer — titles_generate / titles_refine",
+          "description": "15-title generation with style mix; refine variant takes 'direction' feedback.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (lines 164–171)",
+          "is_canonical": false
+        },
+        {
+          "name": "ALS-Workflows phase3-titles procedure",
+          "description": "5 variants per hook (problem-led, outcome-led, numeric, curiosity-gap, audience-named).",
+          "source_path": "/Users/davidcruwys/dev/als-workflows/.claude/skills/flilaunch/references/phase3-titles.md",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "thumbnails",
+      "name": "thumbnails",
+      "count": 4,
+      "canonical_source": "baku-flilaunch",
+      "prompts": [
+        {
+          "name": "FliLaunch — THUMBNAIL_CONCEPTS_PER_HOOK_PROMPT",
+          "description": "2 concepts per hook, prose visual direction + 2 text overlay options + secondary-audience badge suggestion.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 168–185)",
+          "is_canonical": true
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer — thumbnails_generate",
+          "description": "6 unique concepts. CONCEPT/DESCRIPTION/VISUAL BRIEF format suitable for downstream image gen.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (lines 173–175)",
+          "is_canonical": false
+        },
+        {
+          "name": "ALS-Workflows phase4-thumbnails procedure",
+          "description": "Concept structure: Title/Hook/Text/Visual concept/Design style/Mood per hook.",
+          "source_path": "/Users/davidcruwys/dev/als-workflows/.claude/skills/flilaunch/references/phase4-thumbnails.md",
+          "is_canonical": false
+        },
+        {
+          "name": "AppyDave-thumbnail skill — concept generation (brand baked in)",
+          "description": "AppyDave-brand specific. Typography-first concepts, 5 composition patterns, ghost watermark, hook text composed at gen time.",
+          "source_path": "/Users/davidcruwys/.claude/plugins/cache/appydave-plugins/appydave/3.37.0/skills/appydave-thumbnail/SKILL.md (Phase 1, lines 18–69)",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "thumbnail-text",
+      "name": "thumbnail-text",
+      "count": 2,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "FliThumb — design-conversation system prompt",
+          "description": "Closest thing to an explicit thumbnail-text prompt — but it's conversational, not a one-shot generator. Defines the model: primary text (overlay) vs subliminal text (embedded in scene). Framework you want; prompt itself needs reshaping for batch generation.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-fli-thumb/supabase/functions/design-conversation/index.ts (lines 27–64, SYSTEM_PROMPT constant)",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — generate-thumbnail-text.hbs",
+          "description": "This IS the missing thumbnail-text prompt. Different framing from FliThumb (no primary/subliminal split — just punchy overlay text). Part 1 / Part 2 / Part 3 segments tied to title ideas (table format).",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/title-thumbnail/generate-thumbnail-text.hbs",
+          "is_canonical": true
+        }
+      ]
+    },
+    {
+      "id": "description",
+      "name": "description",
+      "count": 5,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "FliLaunch — DESCRIPTION_PROMPT",
+          "description": "2-3 sentence synopsis + 10–15 SEO keyword tags, hook-aligned.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 187–199)",
+          "is_canonical": false
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer — description_narrative",
+          "description": "Engaging SEO-optimised description from analysis output.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (lines 188–191)",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — yt-write-description.hbs",
+          "description": "Pure assembly prompt — full YouTube formatting rules baked in (*bold*, headings, auto-links). Best for final stage.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/youtube-metadata/yt-write-description.hbs",
+          "is_canonical": true
+        },
+        {
+          "name": "AWB Gen 3 — yt-simple-description.hbs",
+          "description": "Lighter-weight description variant.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/youtube-metadata/yt-simple-description.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "ALS-Workflows phase6-describe procedure",
+          "description": "8-slot composition structure (Synopsis, Chapters, CTA primary, Affiliate, Related, CTA fold, Social, Legal). Procedure not a prompt, but defines the slot model.",
+          "source_path": "/Users/davidcruwys/dev/als-workflows/.claude/skills/flilaunch/references/phase5-describe.md",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "chapters",
+      "name": "chapters",
+      "count": 7,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "FliLaunch — CHAPTERS_PROMPT",
+          "description": "Generates 'M:SS title' markers, anchored to SRT if provided, else inferred at 150 wpm.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 201–216)",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — identify-chapters.hbs",
+          "description": "Extracts chapter-worthy boundaries from transcript.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/chapter-processing/identify-chapters.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — refine-chapters.hbs",
+          "description": "Refines chapter titles for clarity / engagement.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/chapter-processing/refine-chapters.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — create-chapters.hbs",
+          "description": "Semantic-search match of chapter hints to edited SRT timestamps. Handles raw vs edited transcript mismatch. Best chapter-timestamping prompt in the ecosystem.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/chapter-processing/create-chapters.hbs",
+          "is_canonical": true
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer — chapters_generate / chapters_refine / chapter_editor_refine",
+          "description": "Three chapter-related variants in the predecessor optimizer.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (lines 176–186)",
+          "is_canonical": false
+        },
+        {
+          "name": "FliLaunch v2 — generating-chapters agent",
+          "description": "SRT-first extraction with fallback estimation, segment-name dedup, ≤100 char rule.",
+          "source_path": "/Users/davidcruwys/dev/ad/flivideo/flilaunch/.als/modules/fli-launch/v2/delamains/launch/agents/generating-chapters.md",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "audience-signal",
+      "name": "audience-signal",
+      "count": 3,
+      "canonical_source": "baku-flilaunch",
+      "prompts": [
+        {
+          "name": "FliLaunch — p06_audience_classification (unique IP)",
+          "description": "Classify each known audience term as primary/secondary/hidden + placement (title/badge/none). Not present elsewhere in the ecosystem. Drives the badge-vs-title decision.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 66–73)",
+          "is_canonical": true
+        },
+        {
+          "name": "AWB Gen 3 — analyze-audience-insights.hbs",
+          "description": "Extract audience signals from transcript.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/content-analysis/analyze-audience-insights.hbs",
+          "is_canonical": false
+        },
+        {
+          "name": "FliLaunch — p05_identity_keywords",
+          "description": "Extracts tribal/identity terms (BMAD, vibe coding, etc.).",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 57–64)",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "keyword-tags",
+      "name": "keyword-tags",
+      "count": 2,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "FliLaunch — DESCRIPTION_PROMPT keyword_tags portion",
+          "description": "10–15 SEO tags, search-intent only (NOT identity signals). Embedded in description prompt; consider extracting standalone.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 189–199)",
+          "is_canonical": false
+        },
+        {
+          "name": "AWB Gen 3 — analyze-keywords.hbs / analyze-search-terms.hbs",
+          "description": "Separate keyword and search-intent extraction.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/content-analysis/",
+          "is_canonical": true
+        }
+      ]
+    },
+    {
+      "id": "system-role",
+      "name": "system-role",
+      "count": 3,
+      "canonical_source": "baku-flilaunch",
+      "prompts": [
+        {
+          "name": "SYSTEM_PROMPT_ANALYST + SYSTEM_PROMPT_PACKAGER",
+          "description": "Dual-role system prompts for analysis vs packaging stages.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 130, 132)",
+          "is_canonical": true
+        },
+        {
+          "name": "FliThumb design partner system prompt",
+          "description": "JSON-output design conversation contract.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-fli-thumb/supabase/functions/design-conversation/index.ts (lines 27–64)",
+          "is_canonical": false
+        },
+        {
+          "name": "B-YouTube-Launch-Optimizer per-stage system prompts",
+          "description": "System text embedded in each stage_prompt entry.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-youtube-launch-optimizer/src/types/project.ts (DEFAULT_STAGE_PROMPTS, lines 163–192)",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "social-related",
+      "name": "social/related",
+      "count": 3,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "AWB Gen 3 — create-tweet.hbs / create-linkedin-post.hbs / add-to-video-list.hbs",
+          "description": "Social cross-post and related-video registration.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/social-media/",
+          "is_canonical": true
+        },
+        {
+          "name": "FliLaunch — p12_related_signals",
+          "description": "Prior/follow-up/companion topic detection.",
+          "source_path": "/Users/davidcruwys/dev/baku/b-flilaunch/src/lib/prompts.ts (lines 119–127)",
+          "is_canonical": false
+        }
+      ]
+    },
+    {
+      "id": "video-preparation",
+      "name": "video-preparation",
+      "count": 4,
+      "canonical_source": "awb-gen-3",
+      "prompts": [
+        {
+          "name": "AWB Gen 3 — video-preparation prompts",
+          "description": "abridge.hbs, abridge-qa.hbs, configure.hbs, summarize-video.hbs. New territory not in FliLaunch — abridging long transcripts before main pipeline.",
+          "source_path": "/Users/davidcruwys/dev/ad/apps/awb/examples/gen3/youtube/prompts/video-preparation/",
+          "is_canonical": true
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "awb-gen-3",
+      "name": "AWB Gen 3",
+      "is_canonical": true,
+      "character_description": "AWB Gen 3 is your most polished prompt set — 31 production Handlebars (.hbs) files paired with .json output schemas, organised into six sub-folders covering content-analysis, chapter-processing, title-thumbnail, youtube-metadata, social-media, and video-preparation. Every prompt is template-driven and structured-output ready, with rules baked into the prompt body itself (formatting, character limits, anti-clickbait constraints). It's the closest thing in the ecosystem to a production-ready prompt library — the strongest default starting point for any new workflow.",
+      "categories_covered": ["analysis", "hooks", "titles", "thumbnail-text", "description", "chapters", "audience-signal", "keyword-tags", "social-related", "video-preparation"],
+      "strengths": [
+        "Most polished + most prompts — covers 10 of 12 categories",
+        "Each prompt has paired JSON schema for structured output",
+        "Best chapter-timestamping prompt (create-chapters.hbs) and best description assembler (yt-write-description.hbs)"
+      ],
+      "weaknesses": [
+        "No audience-classification prompt (no badge-vs-title placement logic)",
+        "Heavier templates — more cognitive load to assemble than Baku one-liners"
+      ]
+    },
+    {
+      "id": "baku-flilaunch",
+      "name": "Baku FliLaunch",
+      "is_canonical": false,
+      "character_description": "Baku FliLaunch is the densest single-file prompt source — 12 analysis prompts plus 4 packaging prompts (titles, thumbnails, description, chapters) all living in one TypeScript file with placeholders, JSON shapes, focal_note, and a known_audiences footer. It owns the unique IP of the ecosystem: p06 audience classification — the only prompt that decides whether an identity term goes in the title, on a badge, or stays hidden. Per-hook fan-out is built in: TITLES_PER_HOOK and THUMBNAIL_CONCEPTS_PER_HOOK both anchor outputs to a chosen hook angle.",
+      "categories_covered": ["analysis", "titles", "thumbnails", "description", "chapters", "audience-signal", "keyword-tags", "system-role", "social-related"],
+      "strengths": [
+        "Only home of audience classification (p06) — unique IP",
+        "Hook-anchored title and thumbnail prompts — built for fan-out",
+        "Compact + readable — easy to lift into a new workflow"
+      ],
+      "weaknesses": [
+        "TypeScript-embedded — needs lifting out for non-TS consumers",
+        "Keyword-tags are entangled with the description prompt (no standalone)"
+      ]
+    },
+    {
+      "id": "baku-yt-optimizer",
+      "name": "Baku YT-Optimizer",
+      "is_canonical": false,
+      "character_description": "Baku YT-Optimizer is the predecessor of Baku FliLaunch — 12 default analysis prompts plus per-stage prompt definitions for titles, thumbnails, description, and chapters. Worth keeping around as a comparison artifact: it carries prompts the newer FliLaunch dropped, including Memorable Quotes, Visual Themes, Controversial Claims, and CTA opportunities. If a workflow ever needs one of those dropped dimensions, this is where it still lives.",
+      "categories_covered": ["analysis", "titles", "thumbnails", "description", "chapters", "system-role"],
+      "strengths": [
+        "Carries dropped prompts (quotes, visual themes, controversies, CTA ops)",
+        "Chapter-editor refine variant exists here only"
+      ],
+      "weaknesses": [
+        "Older — superseded for everything FliLaunch covers",
+        "Same TypeScript-embedded constraint as FliLaunch"
+      ]
+    },
+    {
+      "id": "flilaunch-v2-agents",
+      "name": "FliLaunch v2 Agents",
+      "is_canonical": false,
+      "character_description": "FliLaunch v2 agent files live under the .als/modules/fli-launch/v2/delamains/launch/agents/ tree as procedural agent contracts (markdown, not extractable templates). Two stand out: generating-hooks (10–20 hooks across 7 hook types with ranked top-4 and AI #1 pick) and generating-chapters (SRT-first extraction with fallback estimation). These read more like instruction docs than prompts, but the hook-generation logic is the canonical hook source for the ecosystem.",
+      "categories_covered": ["hooks", "chapters"],
+      "strengths": [
+        "Canonical hook generator — 7 hook types, ranked top-4, AI pick marked",
+        "Robust chapter agent with SRT-first + fallback strategy"
+      ],
+      "weaknesses": [
+        "Procedural markdown — not lift-and-shift prompt templates",
+        "Narrow coverage — only hooks and chapters"
+      ]
+    },
+    {
+      "id": "flithumb",
+      "name": "FliThumb",
+      "is_canonical": false,
+      "character_description": "FliThumb owns the thumbnail design conversation — its system prompt defines the conceptual model that nothing else in the ecosystem articulates: primary text (overlay) vs subliminal text (embedded in scene), and four contrast modes (Explain/Intrigue, Abstract/Concrete, Calm/Dramatic, Parallel). The framework is the value, not the prompt itself — the prompt is conversational and would need reshaping for batch one-shot generation.",
+      "categories_covered": ["thumbnail-text", "system-role"],
+      "strengths": [
+        "Owns the primary-vs-subliminal text framework",
+        "Defines the four contrast modes — nothing else does"
+      ],
+      "weaknesses": [
+        "Conversational, not one-shot — needs reshaping for batch",
+        "No prompt picks the right contrast mode for a given title × hook"
+      ]
+    },
+    {
+      "id": "appydave-thumbnail-skill",
+      "name": "AppyDave Thumbnail Skill",
+      "is_canonical": false,
+      "character_description": "The AppyDave Thumbnail Claude Code skill carries the brand-baked variant of thumbnail concept generation — typography-first concepts, 5 composition patterns, ghost watermark rules, and hook text composed at gen time. It's tightly bound to the AppyDave brand, so reuse outside that brand requires un-baking the brand assumptions. Best treated as a finished operator tool rather than a prompt to assemble from.",
+      "categories_covered": ["thumbnails"],
+      "strengths": [
+        "Brand-baked — works out of the box for AppyDave thumbnails",
+        "Composition patterns + ghost watermark rules already encoded"
+      ],
+      "weaknesses": [
+        "Brand-coupled — not portable to non-AppyDave workflows",
+        "Single category coverage"
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "name": "Standalone primary-vs-subliminal thumbnail-text prompt",
+      "description": "FliThumb framework exists (primary overlay vs subliminal embedded) but only inside an interactive system prompt. No one-shot version: given title + contrast mode + secondary audiences, output 3 primary + 3 subliminal text candidates."
+    },
+    {
+      "name": "Cross-video triage / health-check prompt",
+      "description": "Nothing in the ecosystem. The 'is this video missing X' pattern doesn't exist as a cross-video prompt. The whole TRIAGE workflow column has no prompt corpus to draw from."
+    },
+    {
+      "name": "Contrast-mode selector",
+      "description": "FliThumb defines 4 contrast modes (explain_intrigue, abstract_concrete, calm_dramatic, parallel) but no prompt picks the right mode for a given title × hook. Currently manual."
+    },
+    {
+      "name": "Related-video ranker",
+      "description": "Every prompt mentions related videos; none rank/pick from a candidate list."
+    },
+    {
+      "name": "North Star / channel-strategy injection",
+      "description": "Explicitly v2+ in spec; no prompt yet."
+    }
+  ],
+  "adjacent_assets": [
+    {
+      "name": "AWB Gen 1 youtube workflow .rbx files",
+      "description": "Ruby-DSL workflow definitions; prompts likely embedded inline. Worth a one-pass scan if a transcript-analyzer or storyboard need surfaces.",
+      "source_path": "~/dev/ad/agent-workflow-builder/awb-workflows/winningprompts/{transcript_analyzer,youtube_intro_outro_booster,youtube_launch_optimizer,youtube_livestream_podcast_brief,youtube_storyboard_builder,youtube_video_planner}.rbx"
+    },
+    {
+      "name": "AWB Gen 2 youtube prompts mirror",
+      "description": "Same structure as Gen 3, likely earlier versions of the same prompts. Compare for regressions.",
+      "source_path": "~/dev/ad/apps/awb/examples/gen2/youtube/prompts/"
+    },
+    {
+      "name": "AWB Gen 3 incident & supportsignal prompt sets",
+      "description": "Different domain, but same prompt-structure conventions to copy.",
+      "source_path": "~/dev/ad/apps/awb/examples/gen3/incident/prompts/ and ~/dev/ad/apps/awb/examples/supportsignal/prompts/"
+    },
+    {
+      "name": "POEM OS",
+      "description": "Empty. No prompts despite the name.",
+      "source_path": "~/dev/poem-os"
+    },
+    {
+      "name": "brand-aitldr",
+      "description": "Content strategy / philosophy / design docs. Useful as inputs to prompts, not as prompts themselves.",
+      "source_path": "~/dev/ad/brains/brand-aitldr/"
+    },
+    {
+      "name": "FliLaunch v1 vs v2 agent files",
+      "description": "Procedural agent contracts, not extractable prompt templates. v2 is current.",
+      "source_path": ".als/modules/fli-launch/v{1,2}/delamains/launch/agents/*.md"
+    }
+  ]
+};
+
+// Category → workflow id mapping (read-only here, not in workflows.json)
+const CAT_TO_WORKFLOWS = {
+  'analysis': ['core-idea', 'hooks', 'audience-classify', 'identity-cues'],
+  'hooks': ['hooks', 'title-development'],
+  'titles': ['title-development'],
+  'thumbnails': ['design-conversation', 'exploration-builds'],
+  'thumbnail-text': ['design-conversation', 'exploration-builds'],
+  'description': ['description'],
+  'chapters': ['chapter-refinement'],
+  'audience-signal': ['audience-classify', 'identity-cues'],
+  'keyword-tags': ['keyword-tags', 'description'],
+  'system-role': ['__cross_per_video_and_bulk__'],
+  'social-related': ['related-videos'],
+  'video-preparation': ['__cross_bulk__']
+};
+
+// Workflow id → display name (mirrors workflows.json names)
+const WORKFLOW_NAMES = {
+  'project-triage': 'Project Triage',
+  'missing-srt': 'Missing SRT',
+  'missing-intro-outro': 'Missing Intro / Outro',
+  'dormant-scan': 'Dormant Scan',
+  'core-idea': 'Core Idea',
+  'hooks': 'Hooks',
+  'audience-classify': 'Audience Classification',
+  'identity-cues': 'Identity Cues',
+  'title-development': 'Title Development',
+  'chapter-refinement': 'Chapter Refinement',
+  'description': 'Description Packaging',
+  'related-videos': 'Related Videos',
+  'keyword-tags': 'Keyword Tags',
+  'design-conversation': 'Design Conversation',
+  'exploration-builds': 'Exploration Builds',
+  'selection': 'Selection',
+  'final-builds': 'Final Builds'
+};
+
+const PER_VIDEO_LAUNCH = ['title-development', 'chapter-refinement', 'description', 'related-videos', 'keyword-tags'];
+const BULK_ANALYSIS = ['core-idea', 'hooks', 'audience-classify', 'identity-cues'];
+
+function expandWorkflows(catId) {
+  const raw = CAT_TO_WORKFLOWS[catId] || [];
+  const out = [];
+  raw.forEach(w => {
+    if (w === '__cross_per_video_and_bulk__') {
+      PER_VIDEO_LAUNCH.forEach(x => out.push(x));
+      BULK_ANALYSIS.forEach(x => out.push(x));
+    } else if (w === '__cross_bulk__') {
+      BULK_ANALYSIS.forEach(x => out.push(x));
+    } else {
+      out.push(w);
+    }
+  });
+  return [...new Set(out)];
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderNav() {
+  const catNav = document.getElementById('cat-nav');
+  DATA.categories.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'side-item';
+    btn.dataset.id = c.id;
+    btn.dataset.kind = 'cat';
+    btn.innerHTML = `<span><span class="star">${c.canonical_source ? '★ ' : ''}</span>${escapeHtml(c.name)}</span><span class="count">${c.count}</span>`;
+    btn.onclick = () => { location.hash = 'category-' + c.id; };
+    catNav.appendChild(btn);
+  });
+
+  const srcNav = document.getElementById('src-nav');
+  DATA.sources.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'side-item';
+    btn.dataset.id = s.id;
+    btn.dataset.kind = 'src';
+    btn.innerHTML = `<span>${s.is_canonical ? '<span class="star">★</span> ' : ''}${escapeHtml(s.name)}</span>`;
+    btn.onclick = () => { location.hash = 'source-' + s.id; };
+    srcNav.appendChild(btn);
+  });
+}
+
+function setActive(kind, id) {
+  document.querySelectorAll('.side-item').forEach(el => el.classList.remove('active'));
+  if (id) {
+    const sel = document.querySelector(`.side-item[data-kind="${kind}"][data-id="${id}"]`);
+    if (sel) sel.classList.add('active');
+  }
+}
+
+function showLanding() {
+  setActive(null, null);
+  const detail = document.getElementById('detail');
+  let html = `
+    <div class="detail-eyebrow">Working frame</div>
+    <h2>Don't aim for perfect today</h2>
+    <div class="intro-block">${escapeHtml(DATA.intro)}</div>
+
+    <div class="section-title">The 5 gaps — where there's no canonical prompt yet</div>
+    <p class="section-sub">These are the holes in the ecosystem. Don't write fresh prompts here until the workflow that needs them is shaped.</p>
+    <div class="gaps-grid">
+  `;
+  DATA.gaps.forEach((g, i) => {
+    html += `<div class="gap-card">
+      <div class="gap-num">GAP ${String(i+1).padStart(2,'0')}</div>
+      <div class="gap-name">${escapeHtml(g.name)}</div>
+      <div class="gap-desc">${escapeHtml(g.description)}</div>
+    </div>`;
+  });
+  html += `</div>
+
+    <div class="section-title">What each source is best at</div>
+    <table class="sources-table">
+      <thead><tr><th style="width:200px;">Source</th><th style="width:auto;">Character (one line)</th><th style="width:200px;">Best known for</th></tr></thead>
+      <tbody>`;
+
+  const oneLineCharacter = {
+    'awb-gen-3': 'Most polished prompt library — 31 .hbs files paired with JSON schemas',
+    'baku-flilaunch': 'Densest single-file source — owns the unique audience-classification IP',
+    'baku-yt-optimizer': 'Predecessor — carries prompts FliLaunch dropped (quotes, themes, CTA ops)',
+    'flilaunch-v2-agents': 'Procedural agents — canonical hook generator (7 hook types, ranked top-4)',
+    'flithumb': 'Owns the primary-vs-subliminal text framework + 4 contrast modes',
+    'appydave-thumbnail-skill': 'Brand-baked thumbnail concept generator — typography-first, 5 patterns'
+  };
+  const bestKnownFor = {
+    'awb-gen-3': 'analysis · chapters · description',
+    'baku-flilaunch': 'audience-signal · titles',
+    'baku-yt-optimizer': 'analysis (legacy)',
+    'flilaunch-v2-agents': 'hooks',
+    'flithumb': 'thumbnail-text framework',
+    'appydave-thumbnail-skill': 'thumbnails (AppyDave-brand)'
+  };
+
+  DATA.sources.forEach(s => {
+    html += `<tr>
+      <td><span class="source-name" onclick="location.hash='source-${s.id}'">${s.is_canonical ? '<span class="star">★</span> ' : ''}${escapeHtml(s.name)}</span></td>
+      <td>${escapeHtml(oneLineCharacter[s.id] || '')}</td>
+      <td>${escapeHtml(bestKnownFor[s.id] || '')}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>
+
+    <div class="section-title">Other prompt-adjacent assets</div>
+    <p class="section-sub">Not pulled into the categories above, but worth knowing about.</p>
+    <div class="adjacent-list">`;
+  DATA.adjacent_assets.forEach(a => {
+    html += `<div class="adjacent-item">
+      <div class="name">${escapeHtml(a.name)}</div>
+      <div class="desc">${escapeHtml(a.description)}</div>
+      <div class="path">${escapeHtml(a.source_path)}</div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  detail.innerHTML = html;
+  detail.scrollTop = 0;
+}
+
+function showCategory(id) {
+  const c = DATA.categories.find(x => x.id === id);
+  if (!c) { showLanding(); return; }
+  setActive('cat', id);
+  const detail = document.getElementById('detail');
+  const canonicalSrc = DATA.sources.find(s => s.id === c.canonical_source);
+  const canonicalPrompt = c.prompts.find(p => p.is_canonical);
+
+  let html = `
+    <div class="detail-eyebrow">Category</div>
+    <h2>${escapeHtml(c.name)}</h2>
+    <div class="detail-pills">
+      <span class="pill pill-domain">${c.count} prompts</span>
+      ${canonicalSrc ? `<span class="pill pill-link" onclick="location.hash='source-${canonicalSrc.id}'">★ Canonical: ${escapeHtml(canonicalSrc.name)} →</span>` : ''}
+    </div>
+  `;
+
+  if (canonicalPrompt && canonicalSrc) {
+    html += `<div class="canonical-callout">
+      <div class="label">★ Canonical source</div>
+      <div class="name">${escapeHtml(canonicalPrompt.name)}</div>
+      <div class="why">From <strong>${escapeHtml(canonicalSrc.name)}</strong> — ${escapeHtml(canonicalPrompt.description)}</div>
+    </div>`;
+  }
+
+  html += `<div class="section-title">All prompts in this category</div>
+    <div class="prompt-list">`;
+  c.prompts.forEach(p => {
+    html += `<div class="prompt-row${p.is_canonical ? ' canonical' : ''}">
+      <div class="prompt-name">${p.is_canonical ? '<span class="star">★</span>' : ''}${escapeHtml(p.name)}</div>
+      <div class="prompt-desc">${escapeHtml(p.description)}</div>
+      <div class="prompt-source">${escapeHtml(p.source_path)}</div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  const wfIds = expandWorkflows(c.id);
+  if (wfIds.length) {
+    html += `<div class="section-title">Workflows that use this</div>
+      <p class="section-sub">Click through to the workflow detail in 05-workflows.</p>
+      <div class="detail-pills">`;
+    wfIds.forEach(wid => {
+      const name = WORKFLOW_NAMES[wid] || wid;
+      html += `<a class="pill pill-link" href="../05-workflows/index.html#${wid}" style="text-decoration:none;">${escapeHtml(name)} →</a>`;
+    });
+    html += `</div>`;
+  }
+
+  detail.innerHTML = html;
+  detail.scrollTop = 0;
+}
+
+function showSource(id) {
+  const s = DATA.sources.find(x => x.id === id);
+  if (!s) { showLanding(); return; }
+  setActive('src', id);
+  const detail = document.getElementById('detail');
+
+  let html = `
+    <div class="detail-eyebrow">Source</div>
+    <h2>${s.is_canonical ? '★ ' : ''}${escapeHtml(s.name)}</h2>
+    <p class="source-character">${escapeHtml(s.character_description)}</p>
+
+    <div class="section-title">Categories it covers</div>
+    <div class="detail-pills">`;
+  s.categories_covered.forEach(catId => {
+    const c = DATA.categories.find(x => x.id === catId);
+    const name = c ? c.name : catId;
+    html += `<span class="pill pill-cat" onclick="location.hash='category-${catId}'">${escapeHtml(name)} →</span>`;
+  });
+  html += `</div>
+
+    <div class="sw-grid">
+      <div class="sw-card">
+        <div class="label">Strengths for assembly today</div>
+        <ul>${s.strengths.map(x => `<li>${escapeHtml(x)}</li>`).join('')}</ul>
+      </div>
+      <div class="sw-card">
+        <div class="label">Weaknesses to watch</div>
+        <ul>${s.weaknesses.map(x => `<li>${escapeHtml(x)}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `;
+
+  detail.innerHTML = html;
+  detail.scrollTop = 0;
+}
+
+function route() {
+  const h = location.hash.replace(/^#/, '');
+  if (h.startsWith('category-')) {
+    showCategory(h.substring('category-'.length));
+  } else if (h.startsWith('source-')) {
+    showSource(h.substring('source-'.length));
+  } else {
+    showLanding();
+  }
+}
+
+document.getElementById('stat-cats').textContent = DATA.categories.length;
+document.getElementById('stat-sources').textContent = DATA.sources.length;
+document.getElementById('stat-gaps').textContent = DATA.gaps.length;
+renderNav();
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>

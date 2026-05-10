@@ -21,23 +21,25 @@
   --brand-blue: #2E91FC;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; }
+html, body { height: 100%; }
+body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1 0 auto; }
 
-.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-gold); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-near-white); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
 
-header { background: var(--brand-brown); padding: 40px 48px 32px; }
-header h1 { font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 600; color: var(--brand-yellow); text-transform: uppercase; letter-spacing: 0.04em; }
-header p { font-family: 'Roboto', sans-serif; color: var(--brand-gold); margin-top: 8px; font-size: 15px; }
-.header-stats { display: flex; gap: 32px; margin-top: 20px; }
-.stat { text-align: center; }
-.stat-num { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--brand-yellow); }
-.stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-gold); margin-top: 2px; }
+header { background: var(--brand-near-white); padding: 48px 48px 28px; border-bottom: 1px solid var(--brand-border); }
+header h1 { font-family: 'Oswald', sans-serif; font-size: 40px; font-weight: 700; color: var(--brand-brown); text-transform: uppercase; letter-spacing: 0.03em; }
+header p { font-family: 'Roboto', sans-serif; color: var(--brand-muted); margin-top: 10px; font-size: 15px; line-height: 1.55; max-width: 720px; }
+.header-stats { display: flex; gap: 40px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--brand-border); }
+.stat { text-align: left; }
+.stat-num { font-family: 'Oswald', sans-serif; font-size: 32px; font-weight: 700; color: var(--brand-brown); line-height: 1; }
+.stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--brand-muted); margin-top: 6px; font-weight: 600; }
 
 .filter-bar { background: var(--brand-surface); border-bottom: 1px solid var(--brand-border); padding: 16px 48px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .filter-label { font-family: 'Oswald', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-muted); margin-right: 8px; }
 .filter-btn { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 16px; border-radius: 4px; border: 1px solid var(--brand-border); background: var(--brand-near-white); color: var(--brand-brown); cursor: pointer; transition: all 0.15s; }
 .filter-btn:hover { border-color: var(--brand-amber); color: var(--brand-amber); }
-.filter-btn.active { background: var(--brand-brown); color: var(--brand-yellow); border-color: var(--brand-brown); }
+.filter-btn.active { background: var(--brand-brown); color: var(--brand-near-white); border-color: var(--brand-brown); }
 .count-chip { background: var(--brand-linen); border-radius: 10px; padding: 2px 8px; font-size: 11px; margin-left: 4px; color: var(--brand-muted); }
 
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 32px 48px; }
@@ -65,10 +67,15 @@ header p { font-family: 'Roboto', sans-serif; color: var(--brand-gold); margin-t
 
 .card-footer { display: flex; justify-content: space-between; align-items: center; }
 
-footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: center; color: var(--brand-muted); font-size: 12px; margin-top: 40px; }
+footer { flex-shrink: 0; background: var(--brand-dark-surface); padding: 22px 48px; text-align: center; color: var(--brand-near-white); font-size: 12px; margin-top: 40px; }
 
 @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; padding: 20px; } }
 @media (max-width: 600px) { .grid { grid-template-columns: 1fr; padding: 16px; } header { padding: 24px 20px; } .filter-bar { padding: 12px 20px; } }
+
+.orient { background: var(--brand-linen); border-bottom: 1px solid var(--brand-border); padding: 18px 48px; display: grid; grid-template-columns: 110px 1fr; gap: 6px 18px; align-items: baseline; }
+.orient-label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--brand-amber); text-transform: uppercase; }
+.orient-text { font-size: 13.5px; color: var(--brand-brown); line-height: 1.5; }
+@media (max-width: 600px) { .orient { padding: 14px 22px; grid-template-columns: 1fr; gap: 2px 0; } .orient-label { margin-top: 8px; } .orient-label:first-child { margin-top: 0; } }
 </style>
 </head>
 <body>
@@ -79,6 +86,7 @@ footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: 
   <span>25 items · card-grid · AppyDave brand</span>
 </div>
 
+<main>
 <header>
   <h1>ALS Implementation Learnings</h1>
   <p>Concepts clarified, decisions made, and gaps discovered across two implementation sessions</p>
@@ -89,6 +97,17 @@ footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: 
     <div class="stat"><div class="stat-num">25</div><div class="stat-label">Total</div></div>
   </div>
 </header>
+
+<section class="orient">
+  <div class="orient-label">Purpose</div>
+  <div class="orient-text">What ALS forced you to clarify, what design calls you locked in, and what tooling gaps still need fixing — captured live across two authoring sessions.</div>
+  <div class="orient-label">Audience</div>
+  <div class="orient-text"><strong>David</strong> — a refresher on the traps you already hit. <strong>Nick</strong> — where his abstractions tripped the operator and what he might document better.</div>
+  <div class="orient-label">How to read</div>
+  <div class="orient-text">Use the filter bar first. <em>Concepts</em> = "I had this wrong." <em>Decisions</em> = "this is locked." <em>Gaps</em> = "this still hurts." Each card carries the rule extracted from the moment.</div>
+  <div class="orient-label">Takeaway</div>
+  <div class="orient-text">Skim before authoring a new ALS module. Read all <em>Gaps</em> before opening another conversation with Nick.</div>
+</section>
 
 <div class="filter-bar">
   <span class="filter-label">Filter:</span>
@@ -354,6 +373,8 @@ footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: 
   </div>
 
 </div>
+
+</main>
 
 <footer>ALS Implementation Learnings · fli-launch · 2026-04-30 · AppyDave</footer>
 

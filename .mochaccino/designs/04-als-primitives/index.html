@@ -21,13 +21,15 @@
   --brand-blue: #2E91FC;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; }
+html, body { height: 100%; }
+body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1 0 auto; }
 
-.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-gold); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-near-white); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
 
-header { background: var(--brand-brown); padding: 40px 48px 32px; }
-header h1 { font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 600; color: var(--brand-yellow); text-transform: uppercase; letter-spacing: 0.04em; }
-header p { color: var(--brand-gold); margin-top: 8px; font-size: 15px; }
+header { background: var(--brand-near-white); padding: 48px 48px 28px; border-bottom: 1px solid var(--brand-border); }
+header h1 { font-family: 'Oswald', sans-serif; font-size: 40px; font-weight: 700; color: var(--brand-brown); text-transform: uppercase; letter-spacing: 0.03em; }
+header p { color: var(--brand-muted); margin-top: 10px; font-size: 15px; line-height: 1.55; max-width: 720px; }
 
 /* Hierarchy diagram */
 .hierarchy { padding: 32px 48px 0; }
@@ -36,7 +38,7 @@ header p { color: var(--brand-gold); margin-top: 8px; font-size: 15px; }
 .h-node { display: flex; align-items: center; gap: 0; }
 .h-pill { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 7px 14px; border-radius: 4px; white-space: nowrap; cursor: pointer; transition: all 0.15s; }
 .h-pill:hover { transform: translateY(-1px); }
-.h-arrow { color: var(--brand-gold); font-size: 18px; padding: 0 8px; opacity: 0.5; }
+.h-arrow { color: var(--brand-near-white); font-size: 18px; padding: 0 8px; opacity: 0.5; }
 .h-group { display: flex; flex-direction: column; gap: 6px; }
 .h-group-label { font-family: 'Roboto Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-muted); text-align: center; }
 
@@ -75,7 +77,12 @@ header p { color: var(--brand-gold); margin-top: 8px; font-size: 15px; }
 .awb-box { grid-column: 1 / -1; background: var(--brand-linen); border-left: 3px solid var(--brand-blue); border-radius: 0 4px 4px 0; padding: 10px 14px; font-size: 12px; color: var(--brand-brown); }
 .awb-label { font-family: 'Oswald', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-blue); margin-bottom: 4px; }
 
-footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: center; color: var(--brand-muted); font-size: 12px; }
+footer { flex-shrink: 0; background: var(--brand-dark-surface); padding: 22px 48px; text-align: center; color: var(--brand-near-white); font-size: 12px; }
+
+.orient { background: var(--brand-linen); border-bottom: 1px solid var(--brand-border); padding: 18px 48px; display: grid; grid-template-columns: 110px 1fr; gap: 6px 18px; align-items: baseline; }
+.orient-label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--brand-amber); text-transform: uppercase; }
+.orient-text { font-size: 13.5px; color: var(--brand-brown); line-height: 1.5; }
+@media (max-width: 600px) { .orient { padding: 14px 22px; grid-template-columns: 1fr; gap: 2px 0; } .orient-label { margin-top: 8px; } .orient-label:first-child { margin-top: 0; } }
 </style>
 </head>
 <body>
@@ -86,10 +93,22 @@ footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: 
   <span>10 primitives · layer-stack · AppyDave brand</span>
 </div>
 
+<main>
 <header>
   <h1>ALS Primitives Reference</h1>
   <p>What you can build and how the pieces fit together — with AWB mental model mapping</p>
 </header>
+
+<section class="orient">
+  <div class="orient-label">Purpose</div>
+  <div class="orient-text">The ALS building blocks in compositional order — module → delamain → agent → record → hook — with the equivalent AWB concept beside each, so you can translate either way without losing meaning.</div>
+  <div class="orient-label">Audience</div>
+  <div class="orient-text"><strong>David</strong> — translating from AWB-thinking back into ALS-thinking. <strong>Nick</strong> — verifying his abstractions land cleanly on an operator who came in via AWB.</div>
+  <div class="orient-label">How to read</div>
+  <div class="orient-text">Top of the stack is the largest container; layers shrink in scope as you descend. The blue AWB box on each layer is the translation key — read it when a Nick conversation drifts into AWB vocabulary.</div>
+  <div class="orient-label">Takeaway</div>
+  <div class="orient-text">Use this when scoping a new ALS structure — stops you reaching for AWB shapes that have no direct ALS equivalent.</div>
+</section>
 
 <div class="hierarchy">
   <div class="hierarchy-title">Compositional Hierarchy</div>
@@ -427,6 +446,8 @@ footer { background: var(--brand-dark-surface); padding: 24px 48px; text-align: 
   </div>
 
 </div>
+
+</main>
 
 <footer>ALS Primitives Reference · fli-launch · 2026-04-30 · AppyDave</footer>
 

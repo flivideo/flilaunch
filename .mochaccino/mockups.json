@@ -41,6 +41,26 @@
       "views": ["designs/04-als-primitives/index.html"],
       "status": "active",
       "description": "ALS building blocks in compositional hierarchy with AWB mental model mapping."
+    },
+    {
+      "id": "05-workflows",
+      "title": "Workflows & BI Sources",
+      "slug": "workflows",
+      "shape": "split-pane",
+      "data": "data/workflows.json",
+      "views": ["designs/05-workflows/index.html"],
+      "status": "active",
+      "description": "17 candidate workflows across 4 domains + 5 BI sources. Click-to-drill detail panel. Workflows and BI sources are independent concept families."
+    },
+    {
+      "id": "06-prompts",
+      "title": "Prompts & Techniques",
+      "slug": "prompts",
+      "shape": "split-pane",
+      "data": "data/prompts.json",
+      "views": ["designs/06-prompts/index.html"],
+      "status": "active",
+      "description": "12 prompt categories across 6 sources, plus 5 ecosystem gaps. Cross-links to workflows for per-problem assembly."
     }
   ]
 }

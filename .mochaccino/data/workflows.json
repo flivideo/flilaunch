@@ -1,0 +1,290 @@
+{
+  "workspace": "fli-launch-workflows",
+  "created": "2026-05-10",
+  "source": "docs/workflow-surface-mapping.md (sections 1b, 1c, 2A–2G) + docs/flithumb-brief.md",
+  "intro": "Two concept families that compose without coupling. WORKFLOWS produce records (triage, analysis, launch packaging, thumbnails). BI SOURCES expose the data substrate the workflows read. Each workflow declares an ALS shape — what record it writes — so any consumer can read it later without re-deriving.",
+  "workflows": [
+    {
+      "id": "project-triage",
+      "domain": "Triage & Health",
+      "name": "Project Triage",
+      "goal": "Read every project, classify state, flag investigation needs.",
+      "signals": [
+        "Has transcript? (uses FliHub missing-transcripts=true)",
+        "Stage status (recording / editing / done) from FliHub project metadata",
+        "Has intro segment? (chapter 01 with label matching intro|opening|hook)",
+        "Has outro segment? (final chapter with label matching outro|wrap|cta)",
+        "Mentions a CTA? (lightweight transcript scan)",
+        "Dormant? (no edits in N days)"
+      ],
+      "als_framing": "Each project gets a triage-record.md with frontmatter for the signals (booleans + enums) and prose body for notes. Bulk run iterates the project list, writes one record per project. Missing-thing signals route to operator-gated sub-workflows (generate / investigate / manual) — operator decisions, not agent decisions.",
+      "sub_workflows": ["missing-srt", "missing-intro-outro", "dormant-scan"],
+      "related_bi_sources": ["flihub", "recording-fs"]
+    },
+    {
+      "id": "missing-srt",
+      "domain": "Triage & Health",
+      "name": "Missing SRT",
+      "goal": "When a recording has no transcript: branch to auto-generate, investigate, or accept manual.",
+      "signals": [
+        "FliHub missing-transcripts=true flag on a recording",
+        "Recording file present but no .srt/.txt sibling"
+      ],
+      "als_framing": "Operator-gate branch off the triage record. Three advance transitions: generate (Whisper), investigate (why missing), manual (accept as-is). Branch outcome appended to triage record body section.",
+      "related_bi_sources": ["flihub", "recording-fs"]
+    },
+    {
+      "id": "missing-intro-outro",
+      "domain": "Triage & Health",
+      "name": "Missing Intro / Outro",
+      "goal": "When a project lacks bookend segments: insert from template, re-record, or mark as fragment.",
+      "signals": [
+        "No chapter 01 segment with intro/opening/hook label",
+        "No final chapter with outro/wrap/cta label"
+      ],
+      "als_framing": "Operator-gate branch off the triage record. Three advance transitions: template-insert, re-record-required, accept-as-fragment. Outcome recorded against the project's triage record.",
+      "related_bi_sources": ["recording-fs", "flihub"]
+    },
+    {
+      "id": "dormant-scan",
+      "domain": "Triage & Health",
+      "name": "Dormant Scan",
+      "goal": "Flag any project with no edits in N days for review.",
+      "signals": [
+        "No mtime on recordings/ or edit-1st/ within N days",
+        "No FliHub activity within N days"
+      ],
+      "als_framing": "Per-project boolean field on the triage record (dormant: true/false) plus last_activity timestamp. Bulk-run output, no per-record gate.",
+      "related_bi_sources": ["recording-fs", "flihub"]
+    },
+    {
+      "id": "core-idea",
+      "domain": "Bulk Analysis",
+      "name": "Core Idea",
+      "goal": "Extract the essence, key value, and promise of every video — independently of any launch run.",
+      "signals": [
+        "Transcript content from FliHub /projects/:code/transcripts",
+        "Chapter labels and boundaries (filename-derived)"
+      ],
+      "als_framing": "core_idea field on the per-project analysis-record.md. Persists at one path per project regardless of how it was produced. Distinct from launch state — analysis can be regenerated, batch-overwritten, or read by triage / launch / visualisation without touching launch state.",
+      "related_bi_sources": ["flihub", "recording-fs"]
+    },
+    {
+      "id": "hooks",
+      "domain": "Bulk Analysis",
+      "name": "Hooks",
+      "goal": "Generate 3–5 hook angles per project — the framing surface for both title and thumbnail.",
+      "signals": [
+        "Core idea (already extracted)",
+        "Kickoff segment transcript (the -1- segment of each chapter)"
+      ],
+      "als_framing": "hooks[] array field on analysis-record.md. Each hook is a candidate framing — title and thumbnail derive from the same hook independently (hook-centric fan-out, not title→thumbnail).",
+      "related_bi_sources": ["flihub", "recording-fs"]
+    },
+    {
+      "id": "audience-classify",
+      "domain": "Bulk Analysis",
+      "name": "Audience Classification",
+      "goal": "Per known audience term, classify whether it's primary, secondary, or hidden in the video.",
+      "signals": [
+        "Transcript content",
+        "Static config audiences[] list"
+      ],
+      "als_framing": "audience[] structured field on analysis-record.md, each entry with term + tier (primary/secondary/hidden). Drives subliminal text-layer choice in thumbnail workflow.",
+      "related_bi_sources": ["flihub", "static-config"]
+    },
+    {
+      "id": "identity-cues",
+      "domain": "Bulk Analysis",
+      "name": "Identity Cues",
+      "goal": "Surface tribal terms and identity markers (BMAD-style language) the video already speaks to.",
+      "signals": [
+        "Transcript scan for known identity vocabulary",
+        "Brand-voice markers from DESIGN.md"
+      ],
+      "als_framing": "identity[] field on analysis-record.md. Feeds related-video suggestions and can subtly inform thumbnail subliminal text.",
+      "related_bi_sources": ["flihub", "brand-docs"]
+    },
+    {
+      "id": "title-development",
+      "domain": "Per-Video Launch",
+      "name": "Title Development",
+      "goal": "Generate ten title candidates per video; operator selects a shortlist.",
+      "signals": [
+        "Hook list from analysis-record",
+        "Core idea + audience signals"
+      ],
+      "als_framing": "titles-record.md with frontmatter list of 10 candidates and a body section for selection rationale. Operator-gate state: awaiting-title-shortlist. Sub-record of the per-video launch session.",
+      "sub_workflows": ["operator-gate: awaiting-title-shortlist"],
+      "related_bi_sources": ["flihub"]
+    },
+    {
+      "id": "chapter-refinement",
+      "domain": "Per-Video Launch",
+      "name": "Chapter Refinement",
+      "goal": "Promote recording-time chapter labels to publish-quality YouTube chapter titles.",
+      "signals": [
+        "Filename labels (the BI is in the convention — chapter labels already set at record time)",
+        "Per-segment SRT timing for chapter timestamps"
+      ],
+      "als_framing": "Inline states on the launch Delamain (not a separate Delamain — chapters are part of the main flow). AI suggests cleaner labels, operator approves at awaiting-chapter-review gate. Timing adjustment is a tool call, not a workflow state.",
+      "sub_workflows": ["operator-gate: awaiting-chapter-review"],
+      "related_bi_sources": ["recording-fs", "flihub"]
+    },
+    {
+      "id": "description",
+      "domain": "Per-Video Launch",
+      "name": "Description Packaging",
+      "goal": "Assemble synopsis + chapters + slots (affiliate / legal / CTA / branding).",
+      "signals": [
+        "Selected title (drives synopsis voice)",
+        "Refined chapter list with timestamps",
+        "Static config slot content (affiliate links, legal boilerplate, CTA)"
+      ],
+      "als_framing": "description-record.md with named body sections per slot. Operator-gate at awaiting-review for final approval. Maps cleanly to spec §9 declared slots.",
+      "sub_workflows": ["operator-gate: awaiting-review"],
+      "related_bi_sources": ["flihub", "static-config", "brand-docs"]
+    },
+    {
+      "id": "related-videos",
+      "domain": "Per-Video Launch",
+      "name": "Related Videos",
+      "goal": "Lightweight related-video suggestions to slot into the description.",
+      "signals": [
+        "Identity cues (overlapping tribal terms)",
+        "Static config related-videos list"
+      ],
+      "als_framing": "related[] field on description-record.md. Lightweight by design — v1 is not a cross-video pattern tracker.",
+      "related_bi_sources": ["static-config", "flihub"]
+    },
+    {
+      "id": "keyword-tags",
+      "domain": "Per-Video Launch",
+      "name": "Keyword Tags",
+      "goal": "Generate 10–15 tags for the YouTube tags field.",
+      "signals": [
+        "Core idea + hooks",
+        "Audience and identity cues"
+      ],
+      "als_framing": "tags[] field on the launch session record. Pure agent output, no operator gate.",
+      "related_bi_sources": ["flihub"]
+    },
+    {
+      "id": "design-conversation",
+      "domain": "Thumbnail (FliThumb)",
+      "name": "Design Conversation",
+      "goal": "Establish concept, contrast mode (Explain/Intrigue, Abstract/Concrete, Calm/Dramatic, Parallel) and text layer plan (none / primary / subliminal).",
+      "signals": [
+        "Selected title",
+        "Hook the title derives from",
+        "Audience tier from analysis"
+      ],
+      "als_framing": "Separate ALS module (FliThumb is a composable, not a sub-Delamain). thumbnail-concept-record.md with contrast-mode field, text-layer enum, and prose body for the design rationale. Operator-driven conversation.",
+      "sub_workflows": ["operator-gate: design-conversation"],
+      "related_bi_sources": ["brand-docs", "third-party-brand"]
+    },
+    {
+      "id": "exploration-builds",
+      "domain": "Thumbnail (FliThumb)",
+      "name": "Exploration Builds",
+      "goal": "Generate 10–20 cheap candidate thumbnails to widen the design space before committing.",
+      "signals": [
+        "Concept + contrast mode from the design conversation",
+        "Brand palette + typography from DESIGN.md"
+      ],
+      "als_framing": "exploration[] array on the thumbnail record. Cheap renders, not production assets. Output is the candidate pool for the next gate.",
+      "related_bi_sources": ["brand-docs", "third-party-brand"]
+    },
+    {
+      "id": "selection",
+      "domain": "Thumbnail (FliThumb)",
+      "name": "Selection",
+      "goal": "Lock 5–8 pairs from the exploration set as the shortlist.",
+      "signals": [
+        "Exploration set",
+        "Operator preference signals"
+      ],
+      "als_framing": "selected[] field on the thumbnail record. Operator-gate at awaiting-thumbnail-shortlist. Pairs (not single thumbnails) so A/B testing is built in.",
+      "sub_workflows": ["operator-gate: awaiting-thumbnail-shortlist"],
+      "related_bi_sources": ["brand-docs"]
+    },
+    {
+      "id": "final-builds",
+      "domain": "Thumbnail (FliThumb)",
+      "name": "Final Builds",
+      "goal": "Render 3 production finals + 1–2 backups from the locked shortlist.",
+      "signals": [
+        "Shortlisted pairs",
+        "Title text (for overlay composition)"
+      ],
+      "als_framing": "finals[] field with paths to rendered assets. Marks the thumbnail record complete and signals the launch Delamain it can transition to awaiting-review.",
+      "related_bi_sources": ["brand-docs", "third-party-brand"]
+    }
+  ],
+  "bi_sources": [
+    {
+      "id": "flihub",
+      "name": "FliHub",
+      "description": "FliHub is BI, not just an API. It already encodes intelligence in its data shape — chapter/segment naming, recording metadata, missing-transcript detection — so workflows should consume that intelligence rather than re-derive it. Runs on port 5101 from ~/dev/ad/flivideo/flihub/.",
+      "answers": "Questions like: which projects exist? what's missing transcripts? what chapters does this video have and at what timestamps? what's the LLM-ready bundle for this project? Where do I write outputs back?",
+      "provides": [
+        "GET /projects — the project list, driver for any bulk workflow",
+        "GET /projects/:code/transcripts?include=content — full transcript content per recording",
+        "GET /projects/:code/chapters?format=text — YouTube-ready chapter list with timestamps",
+        "GET /projects/:code/recordings?missing-transcripts=true — direct missing-thing signal",
+        "GET /projects/:code/recordings?chapter=N — per-chapter recording group",
+        "GET /projects/:code/export?format=text — LLM-ready bundle for ingestion",
+        "POST /projects/:code/inbox/write — where ALS writes outputs back"
+      ]
+    },
+    {
+      "id": "recording-fs",
+      "name": "Recording Filesystem",
+      "description": "The on-disk layout under ~/dev/video-projects/v-appydave/<code>/ where the naming convention <chapter>-<segment>-<label> IS the BI. Chapter boundaries, chapter labels, kickoff segments, and per-chapter effort signal are all encoded for free at recording time — before any AI runs.",
+      "answers": "Questions like: where do chapters break? what's the kickoff segment of a chapter? how dense is each chapter (segment count as effort proxy)? how do I concatenate transcripts at chapter level?",
+      "provides": [
+        "recording-transcripts/<chapter>-<segment>-<label>.{srt,txt,json}",
+        "recordings/<chapter>-<segment>-<label>.mov",
+        "Chapter boundaries — derived from chapter-number changes in filenames",
+        "Chapter labels — set by hand at record time, candidate YouTube chapter titles",
+        "Kickoff segments — the -1- segment of each chapter sets narrative tone",
+        "Effort signal — segment count per chapter (1 = brief, 21 = deep)",
+        ".awb.json — legacy workflow state on ~6 projects (read-only artifact)"
+      ]
+    },
+    {
+      "id": "brand-docs",
+      "name": "Brand Docs (DESIGN.md)",
+      "description": "The AppyDave brand source — palette, voice, design language, typography. Owned by the operator and version-controlled with the brand. Read by any workflow that produces visible output (thumbnails, descriptions, on-screen text).",
+      "answers": "Questions like: what's the AppyDave palette? what's the brand voice? which typefaces are sanctioned? what design language applies to this surface?",
+      "provides": [
+        "AppyDave brand palette (cream / linen / brown / amber / yellow accents)",
+        "Brand voice and tone guidelines",
+        "Sanctioned typography (Oswald / Roboto / Roboto Mono)",
+        "Design language patterns for visible surfaces"
+      ]
+    },
+    {
+      "id": "third-party-brand",
+      "name": "Third-Party Brand Repo",
+      "description": "External brand assets the workflows reference but don't own — Anthropic / Claude / Gemini logos and colour systems. Used wherever the video discusses third-party products and the thumbnail or description needs accurate brand representation.",
+      "answers": "Questions like: what's the official Claude logo? what colour is Anthropic's brand? how do I represent Gemini in a thumbnail without violating brand guidelines?",
+      "provides": [
+        "Anthropic / Claude logos and brand colours",
+        "Gemini logos and brand palette",
+        "Third-party brand usage rules (where documented)"
+      ]
+    },
+    {
+      "id": "static-config",
+      "name": "Static Config",
+      "description": "Hand-curated configuration that doesn't belong in any other system — the canonical audiences[] list and the related-videos pool. Lightweight by design; v1 explicitly avoids analytics dashboards or cross-video pattern tracking.",
+      "answers": "Questions like: what audiences am I classifying against? what's the pool of related videos to suggest from? what slot content (affiliate / legal / CTA) gets stamped into descriptions?",
+      "provides": [
+        "audiences[] — known audience terms for classification",
+        "related-videos[] — pool for description suggestions",
+        "Description slot content (affiliate links, legal, CTA boilerplate)"
+      ]
+    }
+  ]
+}

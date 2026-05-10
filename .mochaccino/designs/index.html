@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FliLaunch Mochaccino — Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Roboto+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand-brown: #342d2d;
+  --brand-gold: #ccba9d;
+  --brand-yellow: #ffde59;
+  --brand-amber: #c8841a;
+  --brand-muted: #7a6e5e;
+  --brand-near-white: #faf5ec;
+  --brand-surface: #f0ebe4;
+  --brand-linen: #e8e0d4;
+  --brand-border: #d4cdc4;
+  --brand-chrome: #1a1515;
+  --brand-dark-surface: #25201e;
+  --brand-blue: #2E91FC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { background: var(--brand-near-white); color: var(--brand-brown); font-family: 'Roboto', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1 0 auto; }
+
+.mocha-banner { background: var(--brand-dark-surface); color: var(--brand-near-white); font-family: 'Roboto Mono', monospace; font-size: 11px; padding: 6px 20px; letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+
+header { background: var(--brand-near-white); padding: 56px 48px 32px; border-bottom: 1px solid var(--brand-border); }
+header .eyebrow { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brand-amber); margin-bottom: 14px; }
+header h1 { font-family: 'Oswald', sans-serif; font-size: 48px; font-weight: 700; color: var(--brand-brown); text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.05; }
+header h1 .accent { color: var(--brand-amber); }
+header .subtitle { font-family: 'Roboto', sans-serif; color: var(--brand-muted); margin-top: 14px; font-size: 16px; max-width: 720px; line-height: 1.55; }
+
+.header-meta { font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--brand-muted); margin-top: 18px; letter-spacing: 0.04em; display: flex; gap: 18px; flex-wrap: wrap; }
+.header-meta .meta-key { color: var(--brand-brown); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-right: 4px; }
+
+.header-stats { display: flex; gap: 48px; margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--brand-border); }
+.stat { text-align: left; }
+.stat-num { font-family: 'Oswald', sans-serif; font-size: 38px; font-weight: 700; color: var(--brand-brown); line-height: 1; }
+.stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--brand-muted); margin-top: 8px; font-weight: 600; }
+
+.workspace-bar { background: var(--brand-surface); border-bottom: 1px solid var(--brand-border); padding: 14px 48px; font-size: 12px; color: var(--brand-muted); display: flex; gap: 24px; flex-wrap: wrap; }
+.workspace-bar strong { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-brown); margin-right: 6px; font-size: 11px; }
+
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 36px 48px 48px; }
+
+.card { border: 1px solid var(--brand-border); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 14px; transition: box-shadow 0.18s, transform 0.18s; text-decoration: none; color: inherit; min-height: 240px; position: relative; overflow: hidden; }
+.card:hover { box-shadow: 0 8px 28px rgba(52,45,45,0.16); transform: translateY(-2px); }
+.card.shelved { opacity: 0.45; }
+
+.card-tone-1 { background: var(--brand-surface); }
+.card-tone-2 { background: var(--brand-linen); }
+.card-tone-3 { background: var(--brand-near-white); }
+.card-tone-dark { background: var(--brand-dark-surface); color: var(--brand-near-white); border-color: var(--brand-chrome); }
+.card-tone-dark .card-num { color: var(--brand-near-white); font-size: 13px; border: 1px solid var(--brand-near-white); padding: 4px 10px; border-radius: 999px; align-self: flex-start; letter-spacing: 0.16em; }
+.card-tone-dark .card-title { color: var(--brand-near-white); }
+.card-tone-dark .card-desc { color: var(--brand-near-white); opacity: 0.82; }
+.card-tone-dark .card-meta { color: var(--brand-near-white); opacity: 0.85; }
+.card-tone-dark .shape-pill { background: transparent; color: var(--brand-near-white); border-color: var(--brand-near-white); }
+.card-tone-dark .go { color: var(--brand-yellow); }
+
+.card-num { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; color: var(--brand-amber); }
+.card-title { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; color: var(--brand-brown); line-height: 1.2; }
+.card-desc { font-size: 14px; color: var(--brand-muted); line-height: 1.55; flex: 1; }
+
+.card-meta { display: flex; justify-content: space-between; align-items: center; font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--brand-muted); padding-top: 12px; border-top: 1px solid var(--brand-border); }
+.card-tone-dark .card-meta { border-top-color: var(--brand-chrome); }
+.shape-pill { font-family: 'Oswald', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--brand-border); background: var(--brand-near-white); color: var(--brand-brown); }
+.go { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand-amber); }
+.shelved-pill { position: absolute; top: 12px; right: 12px; background: var(--brand-muted); color: var(--brand-near-white); font-family: 'Oswald', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; padding: 3px 10px; border-radius: 3px; }
+
+footer { flex-shrink: 0; background: var(--brand-dark-surface); padding: 22px 48px; text-align: center; color: var(--brand-near-white); font-size: 12px; margin-top: 0; }
+footer code { font-family: 'Roboto Mono', monospace; color: var(--brand-yellow); }
+
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; padding: 24px; } }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; padding: 18px; } header { padding: 28px 22px; } header h1 { font-size: 32px; } .workspace-bar { padding: 12px 22px; } }
+</style>
+</head>
+<body>
+<!-- Mochaccino citation — data: mockups.json — source: .mochaccino workspace manifest — rendered: 2026-05-10 -->
+
+<div class="mocha-banner">
+  <span>Mocha — Gallery — 2026-05-10</span>
+  <span>6 designs · card-grid · AppyDave brand</span>
+</div>
+
+<main>
+<header>
+  <div class="eyebrow">FliLaunch · Mochaccino Gallery</div>
+  <h1>Visualisations for the <span class="accent">fli-launch</span> ALS module</h1>
+  <p class="subtitle">Concepts clarified, decisions made, gaps surfaced, and the operator runbook for shipping the fli-launch module.</p>
+  <div class="header-meta">
+    <span><span class="meta-key">Created</span> 2026-04-30</span>
+    <span><span class="meta-key">Workspace</span> single</span>
+  </div>
+  <div class="header-stats">
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Active</div></div>
+    <div class="stat"><div class="stat-num">0</div><div class="stat-label">Shelved</div></div>
+  </div>
+</header>
+
+<div class="workspace-bar">
+  <span><strong>Workspace</strong> als-implementation-learnings</span>
+  <span><strong>Audience</strong> David (operator) · Nick (creator)</span>
+  <span><strong>Source</strong> docs/als-learnings/</span>
+</div>
+
+<div class="grid">
+
+  <a class="card card-tone-1" href="01-als-learnings/index.html">
+    <div class="card-num">01 — Catalog</div>
+    <div class="card-title">ALS Learnings Catalog</div>
+    <div class="card-desc">25 items: 10 conceptual corrections, 9 design decisions, 6 tooling gaps. Filterable by type — the working memory of two ALS authoring sessions.</div>
+    <div class="card-meta">
+      <span class="shape-pill">card-grid</span>
+      <span class="go">Open →</span>
+    </div>
+  </a>
+
+  <a class="card card-tone-2" href="02-als-runbook/index.html">
+    <div class="card-num">02 — Runbook</div>
+    <div class="card-title">ALS Operator Runbook</div>
+    <div class="card-desc">6-phase operator flow from scaffold to running Delamain. The path an operator walks to ship an ALS module — sequenced, with gates and checks.</div>
+    <div class="card-meta">
+      <span class="shape-pill">layer-stack</span>
+      <span class="go">Open →</span>
+    </div>
+  </a>
+
+  <a class="card card-tone-dark" href="03-als-module-state/index.html">
+    <div class="card-num">03 — Status</div>
+    <div class="card-title">fli-launch Module State</div>
+    <div class="card-desc">Current state of the fli-launch module — what's done, what's open, what's deferred. Live status board for the v1→v2 transition.</div>
+    <div class="card-meta">
+      <span class="shape-pill">kanban</span>
+      <span class="go">Open →</span>
+    </div>
+  </a>
+
+  <a class="card card-tone-3" href="04-als-primitives/index.html">
+    <div class="card-num">04 — Reference</div>
+    <div class="card-title">ALS Primitives Reference</div>
+    <div class="card-desc">ALS building blocks in a compositional hierarchy — modules, delamains, agents, records, hooks — mapped to the AWB mental model for cross-translation.</div>
+    <div class="card-meta">
+      <span class="shape-pill">layer-stack</span>
+      <span class="go">Open →</span>
+    </div>
+  </a>
+
+  <a class="card card-tone-1" href="05-workflows/index.html">
+    <div class="card-num">05 — Surface</div>
+    <div class="card-title">Workflows &amp; BI Sources</div>
+    <div class="card-desc">17 candidate workflows across 4 domains, plus 5 BI sources the workflows read. Click-to-drill detail panel — workflows and BI sources stay independent so they can compose.</div>
+    <div class="card-meta">
+      <span class="shape-pill">split-pane</span>
+      <span class="go">Open →</span>
+    </div>
+  </a>
+
+  <a class="card card-tone-2" href="06-prompts/index.html">
+    <div class="card-num">06 — Inventory</div>
+    <div class="card-title">Prompts &amp; Techniques</div>
+    <div class="card-desc">12 prompt categories across 6 sources, plus 5 ecosystem gaps. Source-of-truth pointers for the YouTube launch surface — cross-linked to workflows for per-problem assembly.</div>
+    <div class="card-meta">
+      <span class="shape-pill">split-pane</span>
+      <span class="go">Open →</span>
+    </div>
+  </a>
+
+</div>
+</main>
+
+<footer>
+  Generated from <code>mockups.json</code> · Mochaccino workspace at <code>.mochaccino/</code> · Re-run <code>gallery</code> after manifest changes.
+</footer>
+</body>
+</html>
