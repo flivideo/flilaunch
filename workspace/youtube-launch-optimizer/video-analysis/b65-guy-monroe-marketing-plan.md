@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p09
+state: p10
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -123,7 +123,11 @@ The video carries a tone of **practical enthusiasm** — a grounded, confident "
 
 ## P09_TAKEAWAYS
 
-null
+- You can build a 150-prospect research pipeline in Claude Code without writing a single line of code — just prompts, a CSV, and folder conventions.
+- A gap-analysis feedback loop lets your AI prompts self-improve with every run, so the 150th report is more complete than the first.
+- Context engineering isn't just prompt writing — keeping CLAUDE.md as your single source of truth is what makes the automation repeatable and scalable.
+- A solo coach can produce 150 personalised outreach dossiers from a CSV prospect list without hiring a VA or doing manual research one-by-one.
+- Always validate your pipeline on neutral test prospects before running it at scale — one real dry run surfaces more gaps than ten planning sessions.
 
 ## P10_QUESTIONS
 
