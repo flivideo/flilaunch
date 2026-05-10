@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p08
+state: p09
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -110,7 +110,16 @@ The video carries a tone of **practical enthusiasm** — a grounded, confident "
 
 ## P08_TOPIC_KEYWORDS
 
-null
+- AI prospect research automation
+- Claude Code workflow automation
+- automated lead generation AI
+- context engineering tutorial
+- prompt engineering for sales outreach
+- B2B lead research tool
+- AI marketing pipeline
+- gap analysis prompt optimization
+- CSV to outreach automation
+- web search AI agent
 
 ## P09_TAKEAWAYS
 
