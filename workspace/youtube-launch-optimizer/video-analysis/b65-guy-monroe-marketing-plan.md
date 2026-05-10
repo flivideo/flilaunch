@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p12
+state: complete
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -163,4 +163,27 @@ Unlike most Claude Code tutorials that use synthetic demos or developer-centric 
 
 ## P12_RELATED_SIGNALS
 
-null
+**Prior topics** — videos a viewer likely watched before arriving here, or foundational knowledge this content builds on:
+- Introduction to Claude Code for non-developers / first-time setup
+- CLAUDE.md as a project system prompt — what it is and how to structure it
+- Prompt engineering fundamentals (moving beyond ChatGPT automation limits)
+- Web search in Claude Code — how to query live public data from within a project
+- Building your first Claude Code project from scratch (folder conventions, CSV handling)
+- B2B prospect research done manually — the before-state this video replaces
+
+**Follow-up topics** — natural sequels or continuations a viewer would want next:
+- Running the full 150-surgeon pipeline live: results reveal and iteration recap
+- Personalising outreach emails from AI-generated presence reports (Claude Code email drafting)
+- Building a prospect scoring and prioritisation layer on top of the dossiers (charisma index / scorecard automation)
+- Automating cold outreach campaigns using the dossiers as input (Claude Code + email tool integration)
+- Scaling the gap-analysis loop to other niches: real estate, financial advisors, executive coaches
+- How to keep CLAUDE.md lean as a project grows — avoiding context bloat
+- Turning Claude Code pipeline outputs into a lightweight CRM or second brain
+
+**Companion topics** — parallel videos covering adjacent ground a viewer interested in this topic would also watch:
+- Claude Code for coaches and consultants — non-developer business use cases
+- Context engineering vs. prompt engineering: a practical explainer
+- AI tools for solopreneur sales pipelines (not just developer productivity)
+- How to validate any AI automation pipeline before running it at scale
+- Using web search agents inside Claude Code for competitive or market research
+- Building a per-client engagement workflow in Claude Code (the AppyDave client-work series)
