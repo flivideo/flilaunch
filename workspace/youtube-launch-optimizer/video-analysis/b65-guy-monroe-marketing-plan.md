@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p06
+state: p07
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -82,7 +82,22 @@ Viewers learn how to build an automated prospect research pipeline using Claude 
 
 ## P06_AUDIENCE_CLASSIFICATION
 
-null
+| Term | Strength | Placement | Reasoning |
+|------|----------|-----------|-----------|
+| Claude Code | primary | title | Named in the intro as the primary tool and used throughout every chapter — the entire pipeline is driven through Claude Code. Drives title and thumbnail directly. |
+| context engineering | primary | title | Explicitly called out in the intro sentence ("Today we're going to use Claude Code and Context Engineering") as the distinguishing methodology — not just prompt writing. Strong identity signal for advanced LLM practitioners. |
+| gap analysis loop | secondary | badge | The iterative prompt-improvement feedback loop is the core technical innovation shown across chapters 8–9, but it supports the Claude Code / context engineering story rather than leading it. Badge-level signal for the "self-improving AI workflow" sub-community. |
+| prompt engineering | secondary | badge | Referenced as what Guy had already done in ChatGPT — positions the viewer who's outgrown basic prompting. Present throughout but not the main subject; useful as a discovery/search badge. |
+| CLAUDE.md | secondary | badge | Referred to explicitly as "the system prompt" and "the source of truth" kept in sync throughout the workflow. Strong insider tribal signal for Claude Code power users; too niche for the title. |
+| dangerous permission | secondary | badge | The `--dangerously-skip-permissions` flag is mentioned by name as the way AppyDave normally runs Claude Code. Pure insider shorthand — tribal signal for Claude Code power users, not title material. |
+| second brain | secondary | badge | Mentioned once as the destination for Guy's decision-point documentation. Signals the PKM / Tiago Forte productivity community. Too peripheral for title or thumbnail. |
+| charisma coach | secondary | badge | Guy introduces himself as "the charisma coach" on camera. Signals the executive-performance / public-speaking coaching community as a use-case audience. The video is not primarily about coaching — it uses coaching as the worked example. |
+| solopreneur | secondary | badge | Never spoken aloud but implied throughout (solo coach doing 150-prospect outreach without a VA). Signals the indie-operator / one-person-business community. Worth surfacing as a badge. |
+| scorecard | secondary | badge | Part of Guy's evaluation workflow — mentioned in the scenario and workflow steps. Signals B2B sales-methodology and coaching-assessment communities but too embedded in the specific client workflow to drive placement beyond badge. |
+| ChatGPT | secondary | badge | Positioned as the tool Guy had outgrown — mentioned as prior state. Signals the audience who've hit the ceiling of ChatGPT automation and are looking for the next level. Discovery value as badge. |
+| hot leads | secondary | none | Used once ("150 really hot leads") as an aspirational output descriptor. Sales-pipeline language that signals the B2B outreach community, but too colloquial and vague for a title or structured badge. |
+| charisma index | hidden | none | Guy's proprietary scoring concept. Mentioned in passing as part of his existing framework but never explained or demonstrated on-screen. No audience would search for or identify with this term from this video alone. |
+| plastic surgeons | hidden | none | The specific niche of Guy's prospect list — not an audience identity term. Viewers are attracted by the automation method, not by an interest in plastic surgery. Niche detail useful in description but not placement. |
 
 ## P07_EMOTIONAL_TONE
 
