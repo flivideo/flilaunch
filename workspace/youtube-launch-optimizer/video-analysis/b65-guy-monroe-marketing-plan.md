@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p02
+state: p03
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -19,7 +19,13 @@ AppyDave walks through building an automated marketing outreach pipeline — usi
 
 ## P02_KEY_VALUE
 
-null
+Viewers learn how to build an automated prospect research pipeline using Claude Code — turning a 150-person CSV of plastic surgeons into individual structured presence reports by designing iterative web-search prompts, organizing per-prospect output folders, and running a gap-analysis feedback loop that progressively refines prompt quality with each run, so a solo coach can produce 150 personalised outreach-ready dossiers without doing manual research one-by-one.
+
+- Set up a per-prospect folder and file naming convention from a CSV source list inside Claude Code
+- Build a web-search research prompt that extracts each prospect's public-facing data (YouTube, LinkedIn, media appearances, credentials)
+- Use a gap-analysis feedback loop to identify missing data fields and automatically improve the prompt after each run
+- Generate a combined presence report per prospect (contact details + online presence + coaching opportunity gaps) ready for personalised outreach
+- Validate the full pipeline on neutral test prospects before running it across 150 real targets
 
 ## P03_HOOK_ANGLES
 
