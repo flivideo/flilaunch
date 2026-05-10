@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p10
+state: p11
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -131,7 +131,25 @@ The video carries a tone of **practical enthusiasm** — a grounded, confident "
 
 ## P10_QUESTIONS
 
-null
+**Questions posed (rhetorical / framing):**
+
+- Are you an expert who can watch someone for 15 minutes and know exactly what to tweak or advice to give — but can't scale that expertise to 150 people? (opening hook framing the expert-coach problem)
+- Could we have filled the gaps in the research ourselves by improving our prompts? (reflective question posed mid-workflow to frame the gap-analysis loop)
+- Should the output be a separate fact sheet and presence report, or should they be combined into one document? (design-decision question posed to frame the consolidation choice)
+- Does this doctor have useful digital presence, or should we mark them as insufficient and move on? (framing question surfaced during gap-analysis for the "no video content" scenario)
+- Would the target client benefit from help with TikTok, social media, or online presence? (implied outreach-opportunity question surfaced from gaps in each doctor's presence report)
+
+**Questions answered:**
+
+- How do you automate prospect research for 150 people without hiring a VA or doing it manually one-by-one? (answered: build a Claude Code pipeline driven by a CSV, per-prospect folders, and a research prompt)
+- How do you set up a consistent folder and file naming convention for a large prospect list? (answered: prefix each folder with a zero-padded index number, then the prospect's name in lowercase)
+- How do you build a research prompt that extracts a prospect's public-facing data from the web? (answered: design an iterative prompt referencing the CSV fields, web search, and a fact-sheet/presence-report output schema)
+- How do you improve a research prompt when it produces incomplete results? (answered: use a gap-analysis feedback loop — identify missing fields after each run, ask Claude to rewrite its own prompt to fill those gaps, then re-run)
+- Should the AI output use a rigid template or a flexible guideline for formatting? (answered: guidelines only — templates constrain LLM output; use formatting conventions like section separators rather than fixed structures)
+- How do you keep CLAUDE.md useful as a project scales without letting it bloat? (answered: keep it as the indexed system prompt and source of truth, updating it as folders and conventions change, but avoid embedding full prompt text inside it)
+- How do you validate the pipeline before running it against 150 real prospects? (answered: test on neutral publicly available data — plastic surgeons from different countries not in the target list — then iterate before going live)
+- What should a combined presence report contain? (answered: contact details from CSV + public online presence + recognition and credentials + identified gaps in digital footprint, all in one document)
+
 
 ## P11_UNIQUE_ANGLE
 
