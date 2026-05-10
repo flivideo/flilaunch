@@ -2,7 +2,7 @@
 id: b66-context-engineered-html-art
 project_code: b66-context-engineered-html-art
 title: Context Engineered Html Art
-state: p05
+state: p06
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b66-context-engineered-html-art/export?format=text
@@ -72,7 +72,21 @@ By using context engineering — not generative AI image tools like Sora or VO3 
 
 ## P05_IDENTITY_KEYWORDS
 
-null
+- context engineering
+- Claude Code
+- multi-agent pipeline
+- BMAD method
+- HTML Canvas / Canvas API
+- programmatic art
+- projection mapping
+- system prompt
+- requirements documents
+- specialist agents
+- style guides
+- A/B variations
+- LLM
+- Sora
+- VO3
 
 ## P06_AUDIENCE_CLASSIFICATION
 
