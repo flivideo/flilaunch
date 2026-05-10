@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p07
+state: p08
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -101,7 +101,12 @@ Viewers learn how to build an automated prospect research pipeline using Claude 
 
 ## P07_EMOTIONAL_TONE
 
-null
+The video carries a tone of **practical enthusiasm** — a grounded, confident "look what this can do" energy rooted in a genuine client scenario rather than hype or aspiration. AppyDave is solving a real problem for a real person on screen, which gives the content warmth and credibility. The viewer finishes feeling **capable and motivated**: the real-world framing (an actual coach, an actual 150-person list, an actual gap-analysis loop running live) makes the automation feel attainable rather than distant, and the methodical pacing signals that this is something they could build themselves.
+
+- **Collegial warmth** — working with Guy Monroe as a genuine collaboration rather than treating him as a props-and-use-case, which humanises the tutorial
+- **Methodical confidence** — step-by-step without hand-holding; the pacing respects the viewer's intelligence and signals competence rather than performance
+- **Quiet excitement** — the gap-analysis feedback loop self-improving with each run is presented matter-of-factly, but the novelty lands as a genuine "aha" moment
+- **Pragmatic optimism** — there is no fluff or grand promises; the closing sentiment is that this is a working system you can replicate, not a vision you should aspire to
 
 ## P08_TOPIC_KEYWORDS
 
