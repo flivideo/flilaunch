@@ -29,6 +29,26 @@ Read this before making structural decisions. Key constraints:
 
 ---
 
+## Data sources (READ FIRST when any workflow needs video data)
+
+Index: **`docs/data-sources/README.md`** — co-located reference for the three sources of truth.
+
+| Source | Purpose | Index |
+|---|---|---|
+| FliHub (live API on :5101) | Project list, transcripts, chapters, missing-X queries — BI-enriched | `docs/data-sources/flihub.md` |
+| v-appydave (local files) | Raw recording filesystem at `~/dev/video-projects/v-appydave/` | `docs/data-sources/v-appydave.md` |
+| published (YouTube archive) | Post-publication truth at `~/dev/video-projects/published/` (3 brands, ~556 videos) | `docs/data-sources/published.md` |
+
+**Health check before using FliHub**: `curl -sS --max-time 3 http://localhost:5101/api/projects/stats | head -1` — JSON = up, anything else = run `cd ~/dev/ad/flivideo/flihub && npm run dev`.
+
+---
+
+## Prompts (READ FIRST when any workflow needs a prompt)
+
+Index: **`docs/prompts-index.md`** — ~75 prompt assets across 8 source systems, grouped by category, with canonical sources marked. Use this to assemble per-workflow bundles in minutes. Don't aim for perfect prompts pre-workflow — they evolve once workflows run for real.
+
+---
+
 ## Core Workflow (domain model)
 
 ```
