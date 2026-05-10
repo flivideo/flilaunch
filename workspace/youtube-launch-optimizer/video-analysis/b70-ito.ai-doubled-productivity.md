@@ -2,7 +2,7 @@
 id: b70-ito.ai-doubled-productivity
 project_code: b70-ito.ai-doubled-productivity
 title: Ito.ai Doubled Productivity
-state: p01
+state: p02
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b70-ito.ai-doubled-productivity/export?format=text
@@ -15,7 +15,7 @@ transcript_attached_at: 2026-05-10
 
 ## P01_CORE_IDEA
 
-null
+After testing Mac Dictation, Voice Ink, and Aqua, David (AppyDave) explains why Ito.ai — a free, open-source voice tool — doubled his productivity, demonstrating both its accurate voice-to-text dictation (including custom brand names) and a unique "intelligence mode" that pipes spoken input through an LLM before typing it into any app.
 
 ## P02_KEY_VALUE
 

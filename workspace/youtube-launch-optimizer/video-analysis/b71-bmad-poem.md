@@ -2,7 +2,7 @@
 id: b71-bmad-poem
 project_code: b71-bmad-poem
 title: Bmad Poem
-state: p01
+state: p02
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b71-bmad-poem/export?format=text
@@ -15,7 +15,7 @@ transcript_attached_at: 2026-05-10
 
 ## P01_CORE_IDEA
 
-null
+This video walks through the complete BMAD method multi-agent workflow—running the Analyst (Mary), Product Manager (John), and Architect (Winston) personas sequentially inside Claude Code—to plan and architect a new software project called POM (Prompt Orchestration and Engineering Method), a prompt-engineering operating system designed for composing, testing, refining, and deploying AI prompt templates in enterprise applications.
 
 ## P02_KEY_VALUE
 

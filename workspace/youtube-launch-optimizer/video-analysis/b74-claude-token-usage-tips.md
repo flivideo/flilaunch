@@ -2,7 +2,7 @@
 id: b74-claude-token-usage-tips
 project_code: b74-claude-token-usage-tips
 title: Claude Token Usage Tips
-state: p01
+state: p02
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b74-claude-token-usage-tips/export?format=text
@@ -15,7 +15,7 @@ transcript_attached_at: 2026-05-10
 
 ## P01_CORE_IDEA
 
-null
+This video shows Claude Code users on Pro and Max plans how to stop burning tokens prematurely by adopting five practical habits: starting fresh conversations, using the /compact command proactively, keeping CLAUDE.md lean with index pointers rather than raw content, referencing specific files as context instead of pasting them, and using Claude skills to fetch live data without expensive file reads.
 
 ## P02_KEY_VALUE
 

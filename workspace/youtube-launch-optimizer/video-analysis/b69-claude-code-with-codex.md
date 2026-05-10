@@ -2,7 +2,7 @@
 id: b69-claude-code-with-codex
 project_code: b69-claude-code-with-codex
 title: Claude Code With Codex
-state: p01
+state: p02
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b69-claude-code-with-codex/export?format=text
@@ -15,7 +15,7 @@ transcript_attached_at: 2026-05-10
 
 ## P01_CORE_IDEA
 
-null
+This video shows how to use Claude Code and OpenAI Codex together in a complementary workflow — Claude Code as the primary coder and Codex as a background quality reviewer — to improve code quality through cross-AI critique while also stretching your AI subscription budget.
 
 ## P02_KEY_VALUE
 

@@ -2,7 +2,7 @@
 id: b73-vibe-code-ecamm-line-opus-4.5
 project_code: b73-vibe-code-ecamm-line-opus-4.5
 title: Vibe Code Ecamm Line Opus 4.5
-state: p02
+state: p03
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b73-vibe-code-ecamm-line-opus-4.5/export?format=text
@@ -19,7 +19,15 @@ David demonstrates a custom YouTube recording management app he vibe-coded using
 
 ## P02_KEY_VALUE
 
-null
+YouTube creators using Ecamm Live can eliminate the manual, error-prone workflow of renaming date-stamped recordings by vibe-coding a custom app with Claude Opus 4.5 — one that automatically routes recordings into named chapter folders, manages B-roll images with chapter/sequence labels, handles thumbnail assets, and supports switching between multiple video projects mid-session, all without touching a file explorer.
+
+- Build a real, working productivity tool using Claude Opus 4.5 and vibe coding in a single session
+- Auto-rename Ecamm Live date-stamped recordings into structured chapter folders (e.g. `02-1-scenaro.mov`) using a web UI
+- Assign and label B-roll images to specific recording chapters and sequences, with variation support (A/B)
+- Manage thumbnail assets inside the same app alongside recordings
+- Switch between active video projects from a single interface without manual folder navigation
+- Extend the app live mid-recording using Claude Code to add new features (e.g. displaying video duration in seconds)
+- Preserve discarded takes in trash as a safety net while keeping the active project folder clean
 
 ## P03_HOOK_ANGLES
 

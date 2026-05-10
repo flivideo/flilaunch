@@ -2,7 +2,7 @@
 id: b68-claude-code-web
 project_code: b68-claude-code-web
 title: Claude Code Web
-state: p01
+state: p02
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b68-claude-code-web/export?format=text
@@ -15,7 +15,7 @@ transcript_attached_at: 2026-05-10
 
 ## P01_CORE_IDEA
 
-null
+This video demonstrates Claude Code's new web interface (claude.ai/code), which lets developers trigger AI agents against GitHub repositories directly from a browser or mobile phone, shown through a live walkthrough of using it to audit and clean up five months of accumulated BMAD documentation across a complex multi-server application — including handling a mistaken file deletion mid-session via a corrective prompt pasted from the terminal.
 
 ## P02_KEY_VALUE
 

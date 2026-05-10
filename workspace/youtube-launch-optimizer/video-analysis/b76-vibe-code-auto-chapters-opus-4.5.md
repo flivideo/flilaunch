@@ -2,7 +2,7 @@
 id: b76-vibe-code-auto-chapters-opus-4.5
 project_code: b76-vibe-code-auto-chapters-opus-4.5
 title: Vibe Code Auto Chapters Opus 4.5
-state: p02
+state: p03
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b76-vibe-code-auto-chapters-opus-4.5/export?format=text
@@ -19,7 +19,13 @@ David demonstrates a live vibe coding session using Claude Opus 4.5 to iterative
 
 ## P02_KEY_VALUE
 
-null
+Viewers get a complete, real-world demonstration of how to use Claude Opus 4.5 with multi-agent Claude Code conversations to build and iteratively improve an automatic YouTube chapter timestamp generator — covering the full arc from a working MVP at 80% accuracy through UX overhaul and algorithm replacement using third-party libraries to reach 90–95% accuracy, with no hand-crafted algorithms required.
+
+- Know how to structure a product-owner / developer multi-agent workflow in Claude Code to translate verbal requirements into shipped features
+- Understand how to reverse-engineer a Claude-generated algorithm, identify its accuracy ceiling, and prompt a pivot to open-source libraries instead of continuing to hand-craft code
+- See the concrete approach to matching raw recording transcripts against an edited video SRT file to auto-generate accurate YouTube chapter timestamps
+- Learn how to run parallel Claude Code developer agents on independent features simultaneously without code conflicts
+- Walk away with a repeatable vibe-coding pattern: assess spec → identify improvements → hand off to developer agent → verify visually — applicable to any iterative build
 
 ## P03_HOOK_ANGLES
 

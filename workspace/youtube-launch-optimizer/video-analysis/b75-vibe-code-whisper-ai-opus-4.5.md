@@ -2,7 +2,7 @@
 id: b75-vibe-code-whisper-ai-opus-4.5
 project_code: b75-vibe-code-whisper-ai-opus-4.5
 title: Vibe Code Whisper Ai Opus 4.5
-state: p02
+state: p03
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b75-vibe-code-whisper-ai-opus-4.5/export?format=text
@@ -19,7 +19,12 @@ In episode three of his vibe-coding series, AppyDave adds automatic Whisper AI t
 
 ## P02_KEY_VALUE
 
-null
+Viewers see exactly how to extend a working app with a new AI-powered feature — automatic Whisper transcription — by orchestrating two Claude Opus 4.5 agents: a Product Owner that writes handover requirements and a Developer that implements them. No manual code reading required.
+
+- Know how to structure a multi-agent vibe-coding session (PO → Dev handover) to add a complex feature to an existing app
+- Understand how to implement a background transcription queue using Whisper AI inside a custom video management tool
+- See how chapter-level transcript bundling and a combine-to-clipboard workflow emerge from agent-driven development
+- Gain confidence that Claude Opus 4.5 can handle real feature implementation without the developer needing to read or understand every line of code
 
 ## P03_HOOK_ANGLES
 

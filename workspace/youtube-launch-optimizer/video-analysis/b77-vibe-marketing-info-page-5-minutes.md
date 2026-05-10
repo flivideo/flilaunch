@@ -2,7 +2,7 @@
 id: b77-vibe-marketing-info-page-5-minutes
 project_code: b77-vibe-marketing-info-page-5-minutes
 title: Vibe Marketing Info Page 5 Minutes
-state: p01
+state: failed-p01
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b77-vibe-marketing-info-page-5-minutes/export?format=text
