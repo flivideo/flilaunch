@@ -2,7 +2,7 @@
 id: b66-context-engineered-html-art
 project_code: b66-context-engineered-html-art
 title: Context Engineered Html Art
-state: p04
+state: p05
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b66-context-engineered-html-art/export?format=text
@@ -54,7 +54,21 @@ By using context engineering — not generative AI image tools like Sora or VO3 
 
 ## P04_AUDIENCE_HINTS
 
-null
+**Technical level**: intermediate — Viewers are expected to run Claude Code from the CLI, navigate VS Code, understand HTML/JavaScript/Canvas concepts, and have working familiarity with LLMs (Claude, Codex, Gemini). The walkthrough is step-by-step but never explains foundational tools like terminals or system prompts.
+
+**Explicit audience** (speaker directly addresses):
+- People interested in AI art who don't want to use generative image tools like Sora or VO3
+- Developers who prefer programming/game-dev style techniques over prompt-to-image generation
+- Anyone wanting to project animated graphics onto buildings, shop fronts, or walls
+- YouTube content creators seeking custom, programmatic channel visuals
+- Community members who want the actual prompts, style guides, and agent documents
+
+**Implicit audience** (assumed prior knowledge and vocabulary):
+- Claude Code users comfortable with CLI workflows and VS Code terminal
+- Developers or technical creators with working knowledge of HTML, JavaScript, and Canvas API
+- AI enthusiasts familiar with context engineering, system prompts, and multi-agent architectures
+- Makers and builders drawn to structured AI development frameworks (e.g., BMAD method)
+- Small business owners or artists exploring projection-based advertising and arts installations
 
 ## P05_IDENTITY_KEYWORDS
 
