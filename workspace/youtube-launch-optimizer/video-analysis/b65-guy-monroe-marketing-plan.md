@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p11
+state: p12
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -153,7 +153,13 @@ The video carries a tone of **practical enthusiasm** — a grounded, confident "
 
 ## P11_UNIQUE_ANGLE
 
-null
+Unlike most Claude Code tutorials that use synthetic demos or developer-centric use cases, this video documents a live client engagement — AppyDave building a real automated research pipeline on-screen for a real paying client (charisma coach Guy Monroe) against an actual 150-person prospect list. The core technical innovation is a gap-analysis feedback loop in which Claude Code identifies its own output gaps after each research run and rewrites the underlying prompt to fill them, making every subsequent report more complete than the last. Crucially, the entire pipeline requires zero custom code — just natural language prompts, a CSV, and a folder-naming convention — positioning Claude Code as a business automation tool for non-developer solopreneurs rather than a developer productivity aid.
+
+- Real client collaboration on-screen: Guy Monroe is present and the system is built for his live coaching business, not a hypothetical scenario — giving the tutorial genuine stakes and transferable credibility
+- Self-improving prompt loop: Claude Code runs a gap-analysis pass after each prospect, identifies missing fields, and rewrites its own research prompt before the next run — a meta-prompt engineering technique rarely demonstrated at scale
+- No code required: the full 150-prospect pipeline runs entirely through natural-language prompts and folder conventions, making it accessible to coaches and solopreneurs who have never written code
+- Non-developer use case in Claude Code: most Claude Code content targets developers; this applies the same tooling to B2B sales pipeline and outreach for a service-based solopreneur — a meaningfully different audience and application
+- Neutral-prospect validation methodology: the video explicitly tests the pipeline on unrelated publicly available prospects before going live, surfacing a quality-control discipline that most automation tutorials skip entirely
 
 ## P12_RELATED_SIGNALS
 
