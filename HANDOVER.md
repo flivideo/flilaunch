@@ -1,81 +1,60 @@
 ---
-purpose: Resume the FliLaunch / ALS prep conversation on a different machine
-session_origin: Roamy (MacBook Pro M4 Pro)
+purpose: Open the FliLaunch ALS co-design session with Nick Frith
 session_date: 2026-05-10
-next_machine: M4 Mini (Tailscale 100.82.235.39)
-next_event: ALS workflow design conversation with Nick Frith (today)
+session_phase: live (David + Nick co-driving, in person/screen-share)
+prior_session: morning prep on M4 Mini, post-Roamy
 ---
 
-# Handover — Continue ALS Prep on M4 Mini
+# Handover — Live ALS Co-Design with Nick
 
 ## How to use this file
 
-On the next machine, after `git pull`, paste **exactly the prompt below** as your opening message to Claude. Everything Claude needs is in this repo.
+After `/clear`, paste **the prompt below** as the opening message. Everything Claude needs to land oriented is in `docs/INDEX.md`.
 
 ---
 
 ## Startup prompt to paste
 
-> Pick up where I left off on Roamy. We just spent a session preparing for an ALS workflow design conversation with Nick Frith today (2026-05-10). The output of that prep is `docs/workflow-surface-mapping.md` — read it first. Treat this as continuation, not introduction.
+> I'm in a live co-design session with Nick Frith (ALS creator) right now, building 3–4 ALS workflows from scratch in this repo. Read `docs/INDEX.md` first — it's the single landing page that orients you. Don't read everything it points at; load on demand as the conversation goes.
 >
-> Context to hold while we work:
+> **North Star for the session**: 3–4 workflows actually working today via ALS. Nick designs the Delamains; my job is to keep the substrate clean, surface gaps, fetch facts, and stop drift. We're not aiming for completeness or perfect prompts — once workflows run for real, prompts evolve. Today is the apprenticeship: I learn how to direct my team to build more workflows after.
 >
-> - **Scope today is AppyDave only.** v-aitldr, v-shared, Clauding Lab, and other brands are explicitly out. Don't propose generalising across channels.
-> - **We're working in ALS** — filesystem-backed structured records via `defineModule()`. **Not Baku.** Don't propose Supabase JSONB schemas, React UI, or any web-app architecture. Where the existing Baku impls use a database column, ALS uses a record file or a structured-prose section in a record body.
-> - **The Baku impls are reference, not target.** `~/dev/baku/b-youtube-launch-optimizer/` (8 stages, title-centric) and `~/dev/baku/b-flilaunch/` (7 stages, hook-centric) are read-only references for what was tried. Extract intelligence — prompt content, output shapes, failure modes — not architecture.
-> - **FliHub is BI, not just an API.** The `<chapter>-<segment>-<label>.srt` filename pattern in `recording-transcripts/` already encodes chapter labels and boundaries. The `?missing-transcripts=true` filter is a first-class signal-detection primitive. Workflows should consume that intelligence, not re-derive it. Skill at `~/.claude/skills/flihub/SKILL.md`. Server: `cd ~/dev/ad/flivideo/flihub && npm run dev` (port 5101).
-> - **ALS scaffold already exists** in `.als/` from the 2026-04-29/30 sessions — 3 operator gates, hook-centric fan-out. `docs/als-learnings/` captures what was learned authoring it.
-> - **I'm not asking you to design Delamains.** Nick does that with me. Your job: keep the substrate clean, surface gaps, refine open questions, fetch facts from FliHub or filesystem when I ask, and stop me if I drift back into Baku/database framing.
-> - **Memory doesn't travel between machines.** This repo is the source of truth. If something matters, it lives in git.
+> **Hard constraints**:
+> - **AppyDave only.** v-aitldr / v-shared / Clauding Lab / other brands out of scope.
+> - **ALS, not Baku.** Filesystem-backed structured data via `defineModule()`. No Supabase/JSONB/React.
+> - **Stay in this repo** (`~/dev/ad/flivideo/flilaunch`). It's the canonical FliLaunch home.
+> - **Source of truth for video data**: `~/dev/video-projects/v-appydave/` (live work-in-progress, ~80 projects) and `~/dev/video-projects/published/` (post-publication archive, ~556 videos across 3 brands). FliHub on `:5101` serves v-appydave with BI on top — health-check it before use.
+> - **Memory doesn't travel.** This repo is the source of truth. If something matters, it lives in git.
 >
-> Read these in order before responding:
-> 1. `HANDOVER.md` (this file)
-> 2. `docs/workflow-surface-mapping.md` — the prep brief, primary artefact
-> 3. `docs/CONTEXT.md` — knowledge map and source-of-truth hierarchy
-> 4. `docs/youtube-launch-optimizer-spec-v1.md` (skim §1–6, §11; the rest as needed)
-> 5. `docs/flithumb-brief.md` — thumbnail design rules (separate composable app)
->
-> Then confirm in two sentences: what we're doing, and the constraint frame. Wait for me before doing anything else.
+> Then confirm in two sentences: what we're doing and the constraint frame. Wait for me to drive.
 
 ---
 
-## What was done in the Roamy session (so the next Claude doesn't re-discover)
+## What was done in the prep session today (so you don't re-discover)
 
-1. Surveyed every FliLaunch variant across Roamy and M4 Mini — `b-youtube-launch-optimizer`, `b-flilaunch`, `flivideo/flilaunch` (this repo), `.als/` scaffold, app-ideas screentours, als-workflows skill. Confirmed evolution: spec → 8-stage Baku build → ALS Delamain redesign (hook-centric) → 7-stage Baku rebuild.
+All committed in this repo this morning. Don't re-do; reference and build on:
 
-2. Confirmed substrate: 81 AppyDave projects, ~64 with transcripts; `<chapter>-<segment>-<label>` naming convention encodes chapter labels and boundaries before any AI runs (verified against `c27-angeleye`).
+1. **Resolved repo divergence with `als-workflows`** — that repo had two stale narratives plus 168 uncommitted FliLaunch experiment files (May 3 Skills+Subagents attempt). Preserved on branch `archive/2026-05-03-flilaunch-skills-attempt` in `~/dev/als-workflows`. `als-workflows/main/CLAUDE.md` now correctly says "generic ALS sandbox, FliLaunch lives elsewhere." Don't re-investigate this — it's done.
 
-3. Confirmed FliHub as the BI layer — including the `missing-transcripts=true` primitive and `chapter` filtering, which directly serves "is something missing" workflow signals.
+2. **Built `docs/prompts-index.md`** — ~75 prompt assets across 8 source systems, grouped by 12 categories with ⭐ canonical sources marked. Richest source: AWB Gen 3 at `~/dev/ad/apps/awb/examples/gen3/youtube/prompts/` (31 Handlebars + JSON schemas). 5 explicit gaps listed.
 
-4. Mapped 7 workflow categories David described (triage, bulk-analysis, titles, thumbnails, thumbnail-text, chapters, description) to ALS-native framing — what records, what shapes, what's already structured vs net-new.
+3. **Built `docs/data-sources/`** — co-located indexes for FliHub (`:5101`, live API), v-appydave (local recording filesystem), published (YouTube archive). v-appydave and published describe different worlds — don't try to join them.
 
-5. Held open: missing-thing sub-workflows (no SRT → generate / investigate / manual), prompt centralisation as future ALS module, Mochaccino as visualisation seam.
+4. **Built 6 Mochaccino visual designs** at `.mochaccino/designs/`:
+   - `index.html` — gallery
+   - `01-als-learnings`, `02-als-runbook`, `03-als-module-state`, `04-als-primitives` — ALS comprehension visualisations from the Apr 29/30 sessions
+   - `05-workflows` — interactive workflow + BI source map (the workshop surface for Nick)
+   - `06-prompts` — interactive prompt index by category and source, cross-linked with workflows
+   - All re-rendered with brand v1.10.0 (light hero default, dark accent only).
 
-6. Wrote `docs/workflow-surface-mapping.md` (commit `8feba10` on `main`) as the primary artefact for the Nick conversation.
+5. **Apr 30 ALS module at `.als/modules/fli-launch/v1` and `v2`** is from a solo session (David teaching himself the day after the Apr 29 Nick session). Nick has not reviewed it. Open to Nick reshaping or scrapping — everything is preserved in git history regardless.
 
 ## Source-of-truth references (all in this repo, all travel)
 
-| What | Path |
-|---|---|
-| **Primary prep brief** | `docs/workflow-surface-mapping.md` |
-| Spec (design source of truth) | `docs/youtube-launch-optimizer-spec-v1.md` |
-| Knowledge map | `docs/CONTEXT.md` |
-| Thumbnail rules (FliThumb) | `docs/flithumb-brief.md` |
-| ALS implementation learnings | `docs/als-learnings/` |
-| Workflow diagrams | `docs/workflows/` |
-| Deferred requirements | `docs/requirements/` |
-| Decisions log | `docs/decisions/audit-log.md` |
-| Existing ALS scaffold | `.als/` |
-| Prior session handover (M4) | `SESSION.md` (on M4 Mini only) |
+See `docs/INDEX.md` — it's the index of indexes. Don't re-list here.
 
-## External references (not in repo)
+## What this handover is NOT for
 
-| What | Where |
-|---|---|
-| Baku impl A — 8-stage, title-centric | `~/dev/baku/b-youtube-launch-optimizer/` (M4 only) |
-| Baku impl B — 7-stage, hook-centric | `~/dev/baku/b-flilaunch/` (M4 only) |
-| AppyDave video projects | `~/dev/video-projects/v-appydave/` (M4 has full set) |
-| FliHub server + skill | `~/dev/ad/flivideo/flihub/`, `~/.claude/skills/flihub/SKILL.md` |
-| ALS brain docs | `~/dev/ad/brains/als/` |
-| AppySentinel (data-collection parallel) | `~/dev/ad/apps/appysentinal/` |
-| Mochaccino skill (visualisation seam) | `~/.claude/plugins/cache/appydave-plugins/appydave/*/skills/mochaccino/` |
+- Re-doing the audit. It's done. Read `als-workflows` CLAUDE.md if you need the boundary.
+- Resolving the Apr 30 vs May 3 question. Both preserved. Decisions defer to the live session with Nick.
+- Cleaning up the `.claude/scripts/.cache/pulse/sessionend.log` modification noise. Pulse cache, ignored intentionally.
