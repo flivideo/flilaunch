@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p03
+state: p04
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -29,7 +29,26 @@ Viewers learn how to build an automated prospect research pipeline using Claude 
 
 ## P03_HOOK_ANGLES
 
-null
+| # | Hook | Type |
+|---|------|------|
+| 1 | Automated 150 prospect research reports with Claude Code | Outcome promise |
+| 2 | CSV list + context engineering = 150 personalised sales dossiers | Capability demo |
+| 3 | Stop researching leads manually — let AI build 150 dossiers at once | Pain to solution |
+| 4 | A charisma coach needed 150 custom outreach reports. Here's how. | Curiosity gap |
+| 5 | Context engineering turns a prospect list into a full sales pipeline | Capability demo |
+| 6 | Most coaches research leads one by one. This builds 150 at once. | Contrarian take |
+| 7 | Are you still manually researching every prospect on your list? | Qualifying question |
+| 8 | Built a full AI research pipeline for 150 plastic surgeon prospects | Scope statement |
+| 9 | The gap-analysis loop that makes your AI prompts smarter every run | Process reveal |
+| 10 | Solo coach → 150 warm leads in days using Claude Code | Outcome promise |
+| 11 | If you have a niche prospect list, Claude Code can do the research for you | Identity callout |
+| 12 | Why I use AI for prospect research instead of hiring a VA | Contrarian take |
+| 13 | From spreadsheet to personalised outreach dossier — fully automated | Process reveal |
+| 14 | Claude Code + web search = a tireless prospect research machine | Capability demo |
+| 15 | The prompt feedback loop that self-improves as it runs 150 times | Curiosity gap |
+| 16 | Expert coaches know who needs help. Now they can find 150 leads fast. | Identity callout |
+| 17 | Building an automated lead qualification machine for a niche market | Problem-desire |
+| 18 | Your cold outreach pipeline shouldn't be built by hand | Contrarian take |
 
 ## P04_AUDIENCE_HINTS
 
