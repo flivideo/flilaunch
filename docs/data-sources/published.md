@@ -76,7 +76,7 @@ grep -l "marketing-plan" ~/dev/video-projects/published/appydave/videos/*/metada
 
 ## What this archive does NOT have
 
-- **Linkage to v-appydave project codes** — there's no field connecting `b65-guy-monroe-marketing-plan` to a YouTube video ID. The mapping has to be inferred (by title match) or built fresh.
+- **Linkage to v-appydave project codes** — no field connects `b65-guy-monroe-marketing-plan` to a YouTube ID. **Don't treat this as a gap to close.** Most v-appydave projects haven't been published, and the published set largely predates this filesystem. The two folders describe different worlds: v-appydave = pre-publication WIP, published = what actually shipped. Use one or the other for a given workflow; don't try to join them.
 - **Original recording files** — only the YouTube-baked output (downscaled video lives upstream on YouTube; only transcript + thumbnail + metadata are pulled).
 - **Pre-publication state** — once a video is on YouTube, its evolution is captured in `videoEtags` snapshots, but earlier draft versions are not here.
 

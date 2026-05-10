@@ -22,5 +22,5 @@ Three sources of truth for video data. Co-located here so any workflow can find 
 ## Cross-source relationships
 
 - `v-appydave/<code>/` is the **same data** FliHub serves from `/api/projects/<code>/...` — FliHub is a thin wrapper over the filesystem
-- `published/<brand>/videos/<youtube-id>/` is **derived from** YouTube directly — no FliHub involvement, no v-appydave linkage. A v-appydave project might have been published, but the link between `b65-guy-monroe-marketing-plan` and a YouTube video ID is not currently captured anywhere
+- `published/<brand>/videos/<youtube-id>/` is **derived from** YouTube directly — no FliHub involvement, no v-appydave linkage. The two folders describe different worlds: v-appydave is mostly pre-publication work-in-progress; published is the smaller set that actually shipped (and predates this filesystem). Don't expect them to overlap much, and don't treat the missing linkage as a TODO.
 - The `archived/` subfolder under v-appydave is for projects no longer in active rotation — usually safe to skip in workflows
