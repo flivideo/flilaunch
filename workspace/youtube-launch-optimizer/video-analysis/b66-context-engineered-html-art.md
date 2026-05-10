@@ -2,7 +2,7 @@
 id: b66-context-engineered-html-art
 project_code: b66-context-engineered-html-art
 title: Context Engineered Html Art
-state: p02
+state: p03
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b66-context-engineered-html-art/export?format=text
@@ -19,7 +19,15 @@ David demonstrates how to use context engineering with Claude Code — rather th
 
 ## P02_KEY_VALUE
 
-null
+By using context engineering — not generative AI image tools like Sora or VO3 — viewers learn to build a structured multi-agent pipeline in Claude Code that produces 15 projection-ready animated HTML/Canvas artworks across five graphic styles, ready for building projections, shop advertising, and YouTube channel visuals. The pipeline is reusable and extensible: new styles can be designed by the Iris agent, turned into technical requirements by Maya, and built into self-contained HTML files by Kai.
+
+- Understand why context engineering produces better creative output than leaving the AI to decide its own tech stack up front
+- Build a flexible Claude MD system prompt that stays open and experimental rather than locking in architecture early
+- Create style guides for five programmatic art styles (Geometric Morphing, Kinetic Typography, Fluid Gradients, Particle Systems, Anamorphic 3D)
+- Stand up three specialist AI agents — Maya (requirements architect), Kai (HTML/Canvas developer), Iris (design ideator) — each with focused roles and constraints
+- Generate multiple A/B variation animations from a single requirements document to maximise design variety
+- Produce self-contained, single-file HTML animations with no screen edges so they look clean when projected onto physical walls
+- Apply the same requirements documents across different LLMs (Claude, Codex, Gemini) to get stylistically different outputs from identical inputs
 
 ## P03_HOOK_ANGLES
 
