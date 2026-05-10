@@ -2,7 +2,7 @@
 id: b72-opus-4.5-awesome
 project_code: b72-opus-4.5-awesome
 title: Opus 4.5 Awesome
-state: p01
+state: p02
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b72-opus-4.5-awesome/export?format=text
@@ -15,7 +15,7 @@ transcript_attached_at: 2026-05-10
 
 ## P01_CORE_IDEA
 
-null
+David demonstrates how Claude Opus 4.5 built a complete "Recording Namer" web app from a year-old requirements doc in roughly 10 minutes — a tool that auto-routes ecamm live recording files into correctly named chapter/segment folders inside a video project — then live-tests it, fixes bugs, and adds new features entirely through natural language prompts without ever reading the code himself.
 
 ## P02_KEY_VALUE
 

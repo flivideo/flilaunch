@@ -2,7 +2,7 @@
 id: b73-vibe-code-ecamm-line-opus-4.5
 project_code: b73-vibe-code-ecamm-line-opus-4.5
 title: Vibe Code Ecamm Line Opus 4.5
-state: p01
+state: p02
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b73-vibe-code-ecamm-line-opus-4.5/export?format=text
@@ -15,7 +15,7 @@ transcript_attached_at: 2026-05-10
 
 ## P01_CORE_IDEA
 
-null
+David demonstrates a custom YouTube recording management app he vibe-coded using Claude Opus 4.5, which integrates with Ecamm Live to automatically rename and organize recordings into named chapter folders, manage B-roll assets and thumbnails, and streamline the end-to-end production workflow — while also doing live vibe coding mid-video to add a new feature (displaying video duration in seconds).
 
 ## P02_KEY_VALUE
 

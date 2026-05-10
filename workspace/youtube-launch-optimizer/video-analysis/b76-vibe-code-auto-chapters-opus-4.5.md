@@ -2,7 +2,7 @@
 id: b76-vibe-code-auto-chapters-opus-4.5
 project_code: b76-vibe-code-auto-chapters-opus-4.5
 title: Vibe Code Auto Chapters Opus 4.5
-state: p01
+state: p02
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b76-vibe-code-auto-chapters-opus-4.5/export?format=text
@@ -15,7 +15,7 @@ transcript_attached_at: 2026-05-10
 
 ## P01_CORE_IDEA
 
-null
+David demonstrates a live vibe coding session using Claude Opus 4.5 to iteratively build and improve an automatic YouTube chapter timestamp generator — a tool that matches raw recording transcripts against a final edited video's SRT file to extract accurate chapter timings — covering the full arc from MVP through UX overhaul and algorithm upgrades using third-party libraries, all orchestrated via multi-agent Claude Code conversations.
 
 ## P02_KEY_VALUE
 
