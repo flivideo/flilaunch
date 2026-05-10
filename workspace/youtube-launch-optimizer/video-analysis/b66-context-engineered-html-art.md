@@ -2,7 +2,7 @@
 id: b66-context-engineered-html-art
 project_code: b66-context-engineered-html-art
 title: Context Engineered Html Art
-state: p06
+state: p07
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b66-context-engineered-html-art/export?format=text
@@ -90,7 +90,22 @@ By using context engineering — not generative AI image tools like Sora or VO3 
 
 ## P06_AUDIENCE_CLASSIFICATION
 
-null
+| Term | Strength | Placement | Reasoning |
+|------|----------|-----------|-----------|
+| context engineering | primary | title | The entire video is framed as a context engineering demonstration — it's named in P01, drives the contrarian hooks ("not Sora/VO3"), and is the methodology being taught. Strong title signal. |
+| Claude Code | primary | title | The pipeline runs entirely inside Claude Code; every chapter references it. This is a Claude Code tutorial at its core. Suitable for title alongside context engineering. |
+| programmatic art | primary | badge | Core output category that defines who this video is for — developers who prefer code over image-gen tools. Too niche for title but a strong identity badge. |
+| multi-agent pipeline | primary | badge | Building the Maya/Kai/Iris trio is the central demonstration. "Multi-agent" is the structural claim of the video, but as jargon it works better as a badge than in the title. |
+| AI art | secondary | badge | Broad identity term for the audience segment avoiding Sora/VO3. Present as framing ("AI art without image generators") but too generic to carry the title alone. |
+| BMAD method | secondary | badge | Referenced as David's agent architecture framework; implicit in how Maya/Kai/Iris roles are structured. Relevant to existing BMAD community members but not the main teaching. |
+| HTML Canvas / Canvas API | secondary | badge | The technical output format. Signals the dev-level audience, but the video isn't a Canvas tutorial — it's about the pipeline that produces Canvas files. |
+| projection mapping | secondary | badge | Named use case (buildings, shop fronts, wall art). A secondary audience segment — makers/artists — but not the primary frame for the video. |
+| YouTube content creators | secondary | badge | One of three named use cases for the output (alongside projections and shop advertising). Relevant sub-audience but not the primary identity signal. |
+| system prompt | secondary | none | Technical concept used throughout but descriptive of the method, not an audience identity term. Better surfaced in description than as a badge. |
+| specialist agents | secondary | none | The Maya/Kai/Iris trio are process detail within the pipeline. Interesting for thumbnails/hooks but not an audience identity term. |
+| LLM switching | secondary | none | Cross-LLM A/B capability mentioned at the outro. Interesting differentiator but too peripheral to warrant a badge in packaging. |
+| Sora | hidden | none | Used as a contrast foil ("not Sora"). Appears in hooks for contrast value but is not an audience identity term — classifying it drives no placement decision. |
+| VO3 | hidden | none | Same role as Sora — contrast/foil only. No placement value. |
 
 ## P07_EMOTIONAL_TONE
 
