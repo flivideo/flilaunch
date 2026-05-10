@@ -2,7 +2,7 @@
 id: b67-vam-s3-staging
 project_code: b67-vam-s3-staging
 title: Vam S3 Staging
-state: p01
+state: failed-p01
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b67-vam-s3-staging/export?format=text
