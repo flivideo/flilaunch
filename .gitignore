@@ -1,3 +1,9 @@
 .playwright-mcp/
 *.png
 node_modules/
+
+# ALS dispatcher runtime artefacts (regenerated every bootup)
+.claude/delamains/*/runtime/
+.claude/delamains/*/status.json
+.claude/delamains/*/telemetry/
+.claude/scripts/.cache/
