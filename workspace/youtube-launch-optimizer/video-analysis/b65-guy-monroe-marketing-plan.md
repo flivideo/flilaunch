@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p01
+state: p02
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
