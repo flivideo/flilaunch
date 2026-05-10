@@ -2,7 +2,7 @@
 id: b65-guy-monroe-marketing-plan
 project_code: b65-guy-monroe-marketing-plan
 title: Guy Monroe Marketing Plan
-state: p05
+state: p06
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b65-guy-monroe-marketing-plan/export?format=text
@@ -67,7 +67,18 @@ Viewers learn how to build an automated prospect research pipeline using Claude 
 
 ## P05_IDENTITY_KEYWORDS
 
-null
+- **Claude Code** — the primary tool throughout; strong signal for the Claude Code early-adopter community
+- **context engineering** — explicitly named in the intro and used to distinguish the approach from generic prompt writing; signals advanced LLM practitioner identity
+- **prompt engineering** — referenced as what Guy had already done in ChatGPT; marks membership in the broader AI-for-business community
+- **second brain** — mentioned as the destination for Guy's decision-point documentation; signals PKM / Tiago Forte productivity community
+- **CLAUDE.md** — referred to as "the system prompt" and "the source of truth" for the workflow; signals Claude Code power-user identity
+- **charisma coach** — Guy's specific niche and identity label; signals the executive-performance / public-speaking coaching community
+- **charisma index** — Guy's proprietary scoring concept; tribal shorthand within his coaching methodology
+- **scorecard** — the evaluation framework used to assess prospects; signals B2B sales-methodology and coaching-assessment communities
+- **AppyDave** — the creator's brand; signals membership in the AppyDave subscriber community
+- **dangerous permission** — Claude Code's `--dangerously-skip-permissions` flag; insider shorthand that signals Claude Code power users
+- **solopreneur** — implied throughout (solo coach automating work without a VA); signals the indie-operator / one-person-business community
+- **hot leads** — sales-pipeline language used to describe the 150-report output; signals B2B outreach and growth-hacking communities
 
 ## P06_AUDIENCE_CLASSIFICATION
 
