@@ -2,7 +2,7 @@
 id: b66-context-engineered-html-art
 project_code: b66-context-engineered-html-art
 title: Context Engineered Html Art
-state: p07
+state: p08
 created_at: 2026-05-10
 updated_at: 2026-05-10
 transcript_source: http://localhost:5101/api/query/projects/b66-context-engineered-html-art/export?format=text
@@ -109,7 +109,12 @@ By using context engineering — not generative AI image tools like Sora or VO3 
 
 ## P07_EMOTIONAL_TONE
 
-null
+The primary tone is **enthusiastic and exploratory** — a live builder's energy where David is genuinely discovering outcomes alongside the viewer rather than presenting a polished post-mortem. The video carries the feeling of real-time experimentation: he goes for coffee while the pipeline runs, sees the animations "for the first time right here," and iterates on the system prompt mid-session. This is not hype; it is grounded excitement rooted in watching a structured system actually work. The viewer feels like a collaborator in an ongoing discovery session.
+
+Secondary tones:
+- **Pragmatic and methodical** — the pipeline is built incrementally with documentation discipline: style guides before agents, requirements before generation, audits before bulk runs. Structure is respected even when the content is creative.
+- **Contrarian confidence** — the deliberate rejection of Sora and VO3 is stated early and returned to throughout. It is a principled creative stance ("you want to go back to old-school techniques like programming, games development") rather than dismissiveness, and it gives the video a quiet conviction that anchors the whole walkthrough.
+- **Generative and generous** — community links, prompt sharing, and repeated "it's all available for members" signals make the tone warm and open-handed rather than gatekeeping.
 
 ## P08_TOPIC_KEYWORDS
 
